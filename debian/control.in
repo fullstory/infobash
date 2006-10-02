@@ -1,0 +1,20 @@
+Source: infobash
+Section: games
+Priority: extra
+Maintainer: Stefan Lippers-Hollmann <s.l-h@gmx.de>
+Build-Depends-Indep: @cdbs@
+Standards-Version: 3.6.2
+
+Package: infobash
+Architecture: all
+Depends: ${shlibs:Depends}, bash (>= 2.05), coreutils, procps, pciutils, gawk
+Suggests: xbase-clients
+Recommends: irssi, xchat, konversation
+Description: System info script for irc
+ Infobash is a system information script for IRC (Internet Relay Chat) clients.
+ A system information script can display all kinds of things about your 
+ hardware and software to users in a chatroom,  so they can help you diagnose 
+ problems, ... or just marvel at your system specs and kernel version ;)
+ It was created to serve the need for a infoscript that isn't dependent on a 
+ particular irc client. Because most irc clients support the /exec command, a 
+ script that runs with /exec would be most portable.

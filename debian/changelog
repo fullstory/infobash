@@ -1,0 +1,131 @@
+infobash (2.49+2.50rc21) unstable; urgency=low
+
+  * new upstream version.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon,  2 Oct 2006 15:26:39 +0200
+
+infobash (2.49+2.50rc20) unstable; urgency=low
+
+  * new upstream version.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Thu, 28 Sep 2006 03:32:03 +0200
+
+infobash (2.49+2.50rc17) unstable; urgency=low
+
+  * new upstream version.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Tue, 19 Sep 2006 22:09:00 +0200
+
+infobash (2.49+2.50rc16) unstable; urgency=low
+
+  * new upstream version.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Fri,  1 Sep 2006 01:45:18 +0200
+
+infobash (2.49+2.50rc14) unstable; urgency=low
+
+  * new upstream version.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Tue,  1 Aug 2006 01:26:31 +0200
+
+infobash (2.49+2.50rc12) unstable; urgency=low
+
+  * new upstream version.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Tue,  6 Jun 2006 17:15:39 +0200
+
+infobash (2.49+2.50rc10) unstable; urgency=low
+
+  * finally upgrade to the latest upstream version.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Thu, 16 Feb 2006 19:14:40 +0100
+
+infobash (2.49+2.50rc8) unstable; urgency=low
+
+  * new upstream version:
+    - fixes X.org 6.9 detection.
+    - adds special treatment for ATi r300.new upstream version:
+      - fixes X.org 6.9 detection.
+      - adds special treatment for ATi r300.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sat, 31 Dec 2005 01:56:43 +0100
+
+infobash (2.49+2.50rc7) unstable; urgency=low
+
+  * new upstream snapshot.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 10 Oct 2005 14:17:40 +0200
+
+infobash (2.49+2.50rc4) unstable; urgency=low
+
+  * new upstream snapshot.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Tue,  6 Sep 2005 22:45:32 +0200
+
+infobash (2.12) unstable; urgency=low
+
+  * new upstream version.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Wed, 17 Aug 2005 02:23:24 +0200
+
+infobash (2.11) unstable; urgency=low
+
+  * new upstream version.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Wed,  3 Aug 2005 03:39:37 +0200
+
+infobash (2.10) unstable; urgency=low
+
+  * new upstream version.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Fri, 29 Jul 2005 10:45:25 +0200
+
+infobash (2.04) unstable; urgency=low
+
+  * new upstream version.
+  * fix packaging.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sat, 23 Jul 2005 23:02:13 +0200
+
+infobash (2.03) unstable; urgency=low
+
+  * new upstream version.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Fri, 22 Jul 2005 02:12:15 +0200
+
+infobash (2.01) unstable; urgency=low
+
+  * new upstream version.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Tue, 19 Jul 2005 03:40:34 +0200
+
+infobash (2.00b21) unstable; urgency=low
+
+  * new upstream version.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Thu, 18 Jul 2005 14:37:10 +0200
+
+infobash (2.00b20) unstable; urgency=low
+
+  * new upstream version.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Thu, 14 Jul 2005 01:54:43 +0200
+
+infobash (2.00b18-1) unstable; urgency=low
+
+  * new upstream version.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Thu, 30 Jun 2005 12:38:20 +0200
+
+infobash (2.00b15-1) unstable; urgency=low
+
+  * update to current version. 
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Wed,  9 Mar 2005 00:33:23 +0100
+
+infobash (2.00b11-1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Wed,  2 Feb 2005 16:40:46 +0100
+

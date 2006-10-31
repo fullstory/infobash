@@ -2,8 +2,8 @@ Source: infobash
 Section: games
 Priority: extra
 Maintainer: Stefan Lippers-Hollmann <s.l-h@gmx.de>
-Build-Depends-Indep: cdbs (>= 0.4.23-1.1), debhelper (>= 4.2.0)
-Standards-Version: 3.6.2
+Build-Depends: cdbs (>= 0.4.23-1.1), debhelper (>= 4.2.0)
+Standards-Version: 3.7.2
 
 Package: infobash
 Architecture: all

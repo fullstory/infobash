@@ -403,7 +403,7 @@ ISSUE=$(echo $(gawk '{ gsub(/\\[a-zA-Z]/, ""); print }' /etc/issue))
 ##say "ISSUE='$ISSUE'"
 case $(echo "$ISSUE" | tr [:upper:] [:lower:]) in
   *debian*)
-    for I in /etc/kanotix-version /etc/knoppix-version; do
+    for I in /etc/kanotix-version /etc/knoppix-version /etc/sidux-version; do
       [[ -s $I ]] && DISTRO=$(eat $I) && break
     done
     if [[ -z $DISTRO ]]; then 

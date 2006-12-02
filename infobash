@@ -32,11 +32,12 @@ DEBUG=0
 #######################  UNCALCULATED VARIABLES  ################################
 #################################################################################
 
-MYVERSION="Infobash v2.50rc21"
+MYVERSION="Infobash v2.51"
 LC_ALL="C"	# Make sure every program speaks English.
 export LC_ALL 
 OIFS="$IFS"	# Backup the current Internal Field Seperator
 TIMEOUT="6"	# The timeout value in seconds for --update. You should override this in the rc-files if you experience problems.
+unset EMPTY	# A more elegant way to have a scheme that doesn't print color codes (neither ANSI nor mIRC) at all. See below.
 # COLORS
 #         DGREY    BLACK    RED      DRED     GREEN    DGREEN   YELLOW   DYELLOW
 ANSICL="[1;30m [0;30m [1;31m [0;31m [1;32m [0;32m [1;33m [0;33m"
@@ -46,8 +47,9 @@ ANSICL="$ANSICL [1;34m [0;34m [1;35m [0;35m [1;36m [0;36m [1;37m [0;37m 
 IRCCL=" $IRCCL    \x0312   \x0302   \x0313   \x0306   \x0311   \x0310   \x0300   \x0315   \x03"
 #ANSICL=($ANSICL); IRCCL=($IRCCL)
 COLORS=(DGREY BLACK RED DRED GREEN DGREEN YELLOW DYELLOW BLUE DBLUE MAGENTA DMAGENTA CYAN DCYAN WHITE GREY NORMAL)
-SCHEMES=(-- NORMAL,NORMAL,NORMAL BLUE,NORMAL,NORMAL GREEN,YELLOW,NORMAL DYELLOW,NORMAL,NORMAL CYAN,BLUE,NORMAL RED,NORMAL,NORMAL GREEN,NORMAL,NORMAL YELLOW,NORMAL,NORMAL GREEN,DGREEN,NORMAL BLUE,RED,NORMAL BLUE,NORMAL,RED YELLOW,WHITE,GREEN BLUE,NORMAL,GREEN DCYAN,NORMAL,DMAGENTA)
-DEFSCHEME=2	# Defaults to 2, make this 1 for no colors. Set to any other valid scheme if you like. (Same number as when you run it) 
+# See above for notes on EMPTY
+SCHEMES=(EMPTY,EMPTY,EMPTY NORMAL,NORMAL,NORMAL BLUE,NORMAL,NORMAL GREEN,YELLOW,NORMAL DYELLOW,NORMAL,NORMAL CYAN,BLUE,NORMAL RED,NORMAL,NORMAL GREEN,NORMAL,NORMAL YELLOW,NORMAL,NORMAL GREEN,DGREEN,NORMAL BLUE,RED,NORMAL BLUE,NORMAL,RED YELLOW,WHITE,GREEN BLUE,NORMAL,GREEN DCYAN,NORMAL,DMAGENTA)
+DEFSCHEME=2	# Defaults to 2, make this 1 for normal, 0 for no colorcodes at all. Set to any other valid scheme you like. Same as runtime parameter.
 SHOWHOST=1	# Set this to 0 to avoid printing the hostname 
 SHOWIRC=2	# SHOWIRC=1 to avoid showing the irc client version number, or SHOWIRC=0 to disable client information completely.
 INDENT=14	# Default indentation level
@@ -108,7 +110,7 @@ error () {
 }
 
 eat () {
-	gawk 'BEGIN { RS="" } { gsub(/\n$/,""); gsub(/\n/," "); printf $0 }' "$1"
+	gawk 'BEGIN { RS="" } { gsub(/\n$/,""); gsub(/\n/," "); gsub(/^ *| *$/, ""); gsub(/  +/, " "); printf $0 }' "$1"
 }
 
 # Determine if any of the absolutely necessary tools are absent 
@@ -146,18 +148,18 @@ mkbans () {
 # Set the colorscheme 
 # $1 = <scheme number>|<"none">
 cscheme () {
-  local I SCOLORS CLCODES
-  [[ $1 = none ]] && { unset C1; unset C2; unset CN; }
-  [[ $1 -ge ${#SCHEMES[@]} ]] && set -- 1 
-  ((IBSHELL)) && CLCODES=($ANSICL) || CLCODES=($IRCCL)
-  for ((I=0;I<${#COLORS[@]};I++)); do
-    eval "${COLORS[I]}=\"${CLCODES[I]}\""
-  done
-  IFS="," ; SCOLORS=(${SCHEMES[$1]}) ; IFS="$OIFS"
-  C1="${!SCOLORS[0]}"
-  C2="${!SCOLORS[1]}"
-  CN="${!SCOLORS[2]}"
-  ((CSCHEME++))
+	local I SCOLORS CLCODES
+	[[ $1 -ge ${#SCHEMES[@]} ]] && set -- 1 
+	SCHEME="$1" # Set a global variable to allow checking for chosen scheme later
+	((IBSHELL)) && CLCODES=($ANSICL) || CLCODES=($IRCCL)
+	for ((I=0;I<${#COLORS[@]};I++)); do
+		eval "${COLORS[I]}=\"${CLCODES[I]}\""
+	done
+	IFS="," ; SCOLORS=(${SCHEMES[$1]}) ; IFS="$OIFS"
+	C1="${!SCOLORS[0]}"
+	C2="${!SCOLORS[1]}"
+	CN="${!SCOLORS[2]}"
+	((CSCHEME++))
 }
 
 # Parse the null separated commandline under /proc/<pid passed in $1>/cmdline
@@ -225,7 +227,11 @@ roots () {
 	*gaim*)			IRCV=" $($IRC -v | gawk 'NR == 1 { print $2 }')"
 				IRC="Gaim" ;;				
 	*weechat-curses*)	IRCV=" $($IRC -v)" 
-				IRC="Weechat" ;;			
+				IRC="Weechat" ;;
+	*kvirc*)		IRCV=" $($IRC -v 2>&1 | gawk '{ for (i=2;i<=NF;i++) { if (i==NF) print $i; else printf $i" " }; exit }')"
+				IRC="KVIrc" ;;
+	*kopete*)		IRCV=" $(kopete -v | gawk '/Kopete:/ { print $2; exit }')"
+				IRC="Kopete" ;;
 	*perl*)			unset IRCV	# KSirc is one of the possibilities now. KSirc is a wrapper around dsirc, a perl client
 				getcmdline $PPID
 			        for ((I=0; I<=$CMDLMAX; I++)); do
@@ -318,7 +324,7 @@ getparams () {
       --crap)
         CRAP=1 ;;
       *)
-        echo "$1" | grep -q '^[1-9][0-9]\?$' || error 3 "$1"
+        echo "$1" | grep -q '^[0-9][0-9]\?$' || error 3 "$1"
         ((CSCHEME)) || cscheme "$1"
     esac
   shift
@@ -398,54 +404,34 @@ getparams $@
 HN=$(hostname)
 
 unset DISTRO
-ISSUE=$(eat /etc/issue)
-ISSUE=$(echo $(gawk '{ gsub(/\\[a-zA-Z]/, ""); print }' /etc/issue))
-##say "ISSUE='$ISSUE'"
-case $(echo "$ISSUE" | tr [:upper:] [:lower:]) in
-  *debian*)
-    for I in /etc/kanotix-version /etc/knoppix-version; do
-      [[ -s $I ]] && DISTRO=$(eat $I) && break
-    done
-    if [[ -z $DISTRO ]]; then 
-      [[ -s /etc/debian_version ]] && DISTRO="Debian $(eat /etc/debian_version)" || DISTRO="Unknown Debian-based"
-    fi
-    ;; 
-  *SuSE*)  DISTRO=$(gawk '/SuSE/ { printf $0; exit }' /etc/SuSE-release) ;;
-  *turbolinux*) DISTRO="Turbolinux" ;;
-  *slackware*) DISTRO="Slackware" ;;
-  *redhat*) DISTRO="Redhat" ;;
-  *ubuntu*) DISTRO="$ISSUE" ;;
-  *) unset DISTRO 
-  #$(gawk 'BEGIN { RS="" } { gsub(/\\[a-z]/,""); gsub(/ [ ]+/," "); gsub(/^ +| +$/,""); print }' /etc/issue);;
-esac
-
 ##say "1:DISTRO='$DISTRO'"
-
-if [[ -z $DISTRO ]]; then
-  if [[ -f /etc/gentoo-release ]]; then
-    DISTRO=$(eat /etc/gentoo-release)
-  elif [[ -f /etc/mandrake-release ]]; then
-    DISTRO=$(eat /etc/mandrake-release)
-  elif [[ -f /etc/slackware-release ]]; then
-    DISTRO="Slackware"
-  elif [[ -f /etc/turbolinux-release ]]; then
-    DISTRO="Turbolinux"
-  elif [[ -f /etc/redhat-release ]]; then
-    DISTRO="Redhat"
-  elif [[ -f /etc/zenwalk-version ]]; then
-    DISTRO=$(eat /etc/zenwalk-version)
-  else DISTRO="Unknown distro o_O"
-  fi
-fi
-
-##say "2:DISTRO='$DISTRO'" 
-
+DISTROS="kanotix-version sidux-version knoppix-version SuSE-release gentoo-release redhat-release mandrake-release slackware-version turbolinux-release zenwalk-version"
 #for I in $DISTROS 
 #do
 #  [[ -f /etc/$I ]] && DISTRO=$(gawk 'BEGIN { RS="" } { gsub(/\\[a-z]/,""); gsub(/ [ ]+/," "); gsub(/^ +| +$/,""); print }' "/etc/$I")
 #  [[ -n $DISTRO ]] && break 
 #done
-#: ${DISTRO=Unknown release o_O}
+for I in $DISTROS; do
+  [[ -s /etc/$I ]] && DISTRO=$(eat /etc/$I) && break
+done
+
+if [[ -z $DISTRO ]]; then
+	ISSUE=$(eat /etc/issue)
+	ISSUE=$(echo $(gawk '{ gsub(/\\[a-zA-Z]/, ""); print }' /etc/issue))
+	##say "ISSUE='$ISSUE'"
+	case $(echo "$ISSUE" | tr [:upper:] [:lower:]) in
+	  *debian*) [[ -s /etc/debian_version ]] && DISTRO="Debian $(eat /etc/debian_version)" || DISTRO="Unknown Debian-based" ;; 
+	  *suse*)  DISTRO="SuSE" ;;
+	  *turbolinux*) DISTRO="Turbolinux" ;;
+	  *slackware*) DISTRO="Slackware" ;;
+	  *redhat*) DISTRO="Redhat" ;;
+	  *ubuntu*) DISTRO="$ISSUE" ;;
+	  *) unset DISTRO 
+	  #$(gawk 'BEGIN { RS="" } { gsub(/\\[a-z]/,""); gsub(/ [ ]+/," "); gsub(/^ +| +$/,""); print }' /etc/issue);;
+	esac
+fi
+: ${DISTRO:=Unknown distro o_O}
+##say "2:DISTRO='$DISTRO'" 
 
 OSKERN=$(uname -a | gawk '{print $1,$3,$(NF-1)}')
 
@@ -746,7 +732,8 @@ if ((VBL)); then  # (IF VBL > 1)
     ((CRAP)) && LNLAST="$LNLAST$(echo -ne " | ${C1}Direct rendering${C2} $GLXDR${CN}")"
   fi
   ((SHOWIRC)) && LNLAST="$LNLAST$(echo -ne " | ${C1}Client${C2} $IRC$IRCV${CN}")"
-  LNLAST="$LNLAST$(echo -ne " | ${C1}$MYVERSION${NORMAL}")"
+  LNLAST="$LNLAST$(echo -ne " | ${C1}$MYVERSION")"
+  ((SCHEME)) && LNLAST="$LNLAST$(echo -ne "${NORMAL}")"
   say "$LNLAST"
 else # (IF VBL > 1 ... ELSE)
   #cscheme 12
@@ -757,9 +744,9 @@ else # (IF VBL > 1 ... ELSE)
   fi
   LNSHORT=$(echo -ne "${C1}CPU${CN}[${C2}$CPU2 clocked at $CPU3${CN}]  ${C1}Kernel${CN}[${C2}$OSKERN${CN}]  ${C1}Up${CN}[${C2}${FL2}${FL1}$UPT${FL1}${CN}]  ${C1}Mem${CN}[${C2}${FL2}${FL1}${MEM}${FL1}${CN}]  ${C1}HDD${CN}[${C2}${FL2}${FL1}${HDD}($HDDUSG)${FL1}${CN}]  ${C1}Procs${CN}[${C2}${FL2}${FL1}${PROC}${FL1}${CN}]")
   ((SHOWIRC)) && LNSHORT="$LNSHORT$(echo -ne "  ${C1}Client${CN}[${C2}${IRC}${IRCV}${CN}]")"
-  LNSHORT="$LNSHORT$(echo -ne "$NORMAL")"
+  ((SCHEME)) && LNSHORT="$LNSHORT$(echo -ne "$NORMAL")"
   say "$LNSHORT"
 fi # (IF VBL > 1)
-((IBSHELL)) && echo -n "[0m"
+((IBSHELL && SCHEME)) && echo -n "[0m"
 exit 0  # weechat's executor plugin forced me to do this, and rightfully so, because else the exit code from the last command is taken..
 

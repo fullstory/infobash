@@ -278,7 +278,7 @@ getparams () {
     case $1 in
       --update)
         type -p wget >/dev/null || error 5 "wget"
-	TF="$(mktemp -p /tmp/ infobash-XXXXXXXXXX)" || error 7 "mktemp failed"
+        TF="$(mktemp -p /tmp/ infobash-XXXXXXXXXX)" || error 7 "mktemp failed"
         if wget -q -T$TIMEOUT -t1 -O"$TF" 'http://rebelhomicide.demon.nl/scripts/infobash'
         then
           if [[ -s $TF ]] # if exists and is not empty ... 

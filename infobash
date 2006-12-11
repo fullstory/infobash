@@ -32,7 +32,7 @@ DEBUG=0
 #######################  UNCALCULATED VARIABLES  ################################
 #################################################################################
 
-MYVERSION="Infobash v2.51"
+MYVERSION="Infobash v2.52"
 LC_ALL="C"	# Make sure every program speaks English.
 export LC_ALL 
 OIFS="$IFS"	# Backup the current Internal Field Seperator
@@ -124,7 +124,7 @@ checkdepend () {
     done
   fi
 
-  for I in gawk tr wget hostname lspci uname df wc free ps uptime grep; do
+  for I in gawk tr hostname lspci uname df wc free ps uptime grep; do
     type -p $I >/dev/null || error 5 "$I"
   done
 }
@@ -276,8 +276,9 @@ getparams () {
   [[ -z $1 ]] && return 1
   while [[ -n $1 ]]; do
     case $1 in
-      --update)  
-        TF="/tmp/tmp.$RANDOM"
+      --update)
+        type -p wget >/dev/null || error 5 "wget"
+	TF="$(mktemp -p /tmp/ infobash-XXXXXXXXXX)" || error 7 "mktemp failed"
         if wget -q -T$TIMEOUT -t1 -O"$TF" 'http://rebelhomicide.demon.nl/scripts/infobash'
         then
           if [[ -s $TF ]] # if exists and is not empty ... 
@@ -295,6 +296,7 @@ getparams () {
 	
       --live) 
         shift  # get other options to pass to live infobash
+        type -p wget >/dev/null || error 5 "wget"
         wget -q -T4 -t1 -O- 'http://rebelhomicide.demon.nl/scripts/infobash' | cat | bash -s $@ 
 	    
 # using cat was a trick solution to get the "broken pipe" error away from the wget exit code and into cat's exit code.

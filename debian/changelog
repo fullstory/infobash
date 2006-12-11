@@ -1,9 +1,10 @@
-infobash (2.51.2) UNRELEASED; urgency=low
+infobash (2.52) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * new upstream version.
+  * patches applied upstream.
   * fix Recommends/ Suggests.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 11 Dec 2006 17:21:59 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 11 Dec 2006 17:30:07 +0100
 
 infobash (2.51.1) unstable; urgency=low
 
@@ -18,26 +19,14 @@ infobash (2.51) unstable; urgency=low
 
  -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sat,  2 Dec 2006 01:13:40 +0100
 
-infobash (2.49+2.50rc22.2) UNRELEASED; urgency=low
-
-  * NOT RELEASED YET
-
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Wed, 29 Nov 2006 18:44:56 +0100
-
 infobash (2.49+2.50rc22.1) unstable; urgency=low
 
   * Non-maintainer upload.
+  * fix lintian errors.
   * add sidux detection.
   * bump compat level.
 
  -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Wed, 29 Nov 2006 18:41:35 +0100
-
-infobash (2.49+2.50rc22) UNRELEASED; urgency=low
-
-  * NOT RELEASED YET
-  * fix lintian errors.
-
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Tue, 31 Oct 2006 23:59:33 +0100
 
 infobash (2.49+2.50rc21) unstable; urgency=low
 

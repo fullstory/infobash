@@ -1,0 +1,30 @@
+diff -Nur trunk/infobash trunk.new/infobash
+--- trunk/infobash	2006-12-05 22:17:54.000000000 +0100
++++ trunk.new/infobash	2006-12-11 16:33:26.000000000 +0100
+@@ -124,7 +124,7 @@
+     done
+   fi
+ 
+-  for I in gawk tr wget hostname lspci uname df wc free ps uptime grep; do
++  for I in gawk tr hostname lspci uname df wc free ps uptime grep; do
+     type -p $I >/dev/null || error 5 "$I"
+   done
+ }
+@@ -276,7 +276,8 @@
+   [[ -z $1 ]] && return 1
+   while [[ -n $1 ]]; do
+     case $1 in
+-      --update)  
++      --update)
++        type -p wget >/dev/null || error 5 "wget"
+         TF="/tmp/tmp.$RANDOM"
+         if wget -q -T$TIMEOUT -t1 -O"$TF" 'http://rebelhomicide.demon.nl/scripts/infobash'
+         then
+@@ -295,6 +296,7 @@
+ 	
+       --live) 
+         shift  # get other options to pass to live infobash
++        type -p wget >/dev/null || error 5 "wget"
+         wget -q -T4 -t1 -O- 'http://rebelhomicide.demon.nl/scripts/infobash' | cat | bash -s $@ 
+ 	    
+ # using cat was a trick solution to get the "broken pipe" error away from the wget exit code and into cat's exit code.

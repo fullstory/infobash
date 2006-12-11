@@ -1,0 +1,12 @@
+diff -Nur trunk/infobash trunk.new/infobash
+--- trunk/infobash	2006-12-11 16:36:01.000000000 +0100
++++ trunk.new/infobash	2006-12-11 16:36:56.000000000 +0100
+@@ -278,7 +278,7 @@
+     case $1 in
+       --update)
+         type -p wget >/dev/null || error 5 "wget"
+-        TF="/tmp/tmp.$RANDOM"
++	TF="$(mktemp -p /tmp/ infobash-XXXXXXXXXX)"
+         if wget -q -T$TIMEOUT -t1 -O"$TF" 'http://rebelhomicide.demon.nl/scripts/infobash'
+         then
+           if [[ -s $TF ]] # if exists and is not empty ... 

@@ -1,8 +1,9 @@
-infobash (2.52) UNRELEASED; urgency=low
+infobash (2.51.1) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * wget is not essential.
+  * fix insecure tempfile handling.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sat,  2 Dec 2006 01:15:56 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 11 Dec 2006 16:37:16 +0100
 
 infobash (2.51) unstable; urgency=low
 

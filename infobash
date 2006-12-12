@@ -32,11 +32,11 @@ DEBUG=0
 #######################  UNCALCULATED VARIABLES  ################################
 #################################################################################
 
-MYVERSION="Infobash v2.52"
+SELF="Infobash"
+MYVERSION="$SELF v2.53"
 LC_ALL="C"	# Make sure every program speaks English.
 export LC_ALL 
 OIFS="$IFS"	# Backup the current Internal Field Seperator
-TIMEOUT="6"	# The timeout value in seconds for --update. You should override this in the rc-files if you experience problems.
 unset EMPTY	# A more elegant way to have a scheme that doesn't print color codes (neither ANSI nor mIRC) at all. See below.
 # COLORS
 #         DGREY    BLACK    RED      DRED     GREEN    DGREEN   YELLOW   DYELLOW
@@ -56,8 +56,7 @@ INDENT=14	# Default indentation level
 VBL=0		# Verbosity level defaults to 0, this can also be set with -v, -v2, -v3, etc as a parameter.
 IBSHELL=0	# Running in a shell? Defaults to false, and is determined later.
 NOCPUCOUNT=0	# Wether or not the string "dual" or similar is found in cpuinfo output. If so, avoid dups.
-#DISTROS="kanotix-version knoppix-version debian_version mandrake-release SuSE-release turbolinux-release slackware-release gentoo_release"
-#DISTROS="$DISTROS redhat-release issue" # Make sure that "issue" is last!
+DISTROS="kanotix-version sidux-version knoppix-version SuSE-release gentoo-release redhat-release mandrake-release slackware-version turbolinux-release zenwalk-version"
 FL1='-'		# These two determine seperators in single line output, to force irc clients not to break off sections
 FL2=''
 # Precede a banword with $'\2' to prevent it from being subject to automated escaping by the mkbans routine
@@ -70,11 +69,11 @@ XPATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin" # Extra pat
 PARAMLIMIT=30	# This is a variable that controls how many parameters infobash will parse in a /proc/<pid>/cmdline file before stopping.
 CRAP=0		# New parameter
 FLAG=0		# A throw-away 'flag' variable intended to be used throughout infobash
-KONVICFG="konversation/scripts/infobash.conf" # relative path to $(kde-config --path data)
+KONVICFG="konversation/scripts/$SELF.conf" # relative path to $(kde-config --path data)
 DCOPOBJ="default"
 
-[[ -s /etc/infobash.conf ]] && source /etc/infobash.conf	# Source global config overrides
-[[ -s $HOME/.infobash ]] && source $HOME/.infobash 		# Source user config overrides
+[[ -s /etc/$SELF.conf ]] && source /etc/$SELF.conf	# Source global config overrides
+[[ -s $HOME/.$SELF ]] && source $HOME/.$SELF 		# Source user config overrides
 # WARNING: In the main part below (search for 'KONVI') 
 # there's a check for Konversation-specific config files.
 # Any one of these can override the above if infobash is run 
@@ -97,13 +96,11 @@ say () {
 # Error handling
 error () {
   case $1 in
-    1) say "Infobash: Update failed!" ;;
-    2) say "Infobash: Live execution failed, error $2!" ;;
-    3) say "Infobash: Error in colorscheme, or unknown parameter: $2" ;;
-    4) say "Infobash: Unknown verbosity level $2" ;;
-    5) say "Infobash: Dependency not met: $2 not found in path" ;;
-    6) say "Infobash: /proc not found! Quitting..." ;;
-    *) say "Infobash: Error unknown: $@"
+    3) say "$SELF: Error in colorscheme, or unknown parameter: $2" ;;
+    4) say "$SELF: Unknown verbosity level $2" ;;
+    5) say "$SELF: Dependency not met: $2 not found in path" ;;
+    6) say "$SELF: /proc not found! Quitting..." ;;
+    *) say "$SELF: Error unknown: $@"
        set -- 99
   esac
   exit $1
@@ -192,7 +189,7 @@ roots () {
       # I've decided to make readlink(coreutils) a dependency.
       #IRC=$(ls -l /proc/$PPID/exe | gawk '{ sub(/.* -> /,"",$0; print }')
       ##say "\$IRC=\"$IRC\""
-      case $(echo $IRC | tr [:upper:] [:lower:]) in
+      case $(echo $IRC | tr '[:upper:]' '[:lower:]') in
         *irssi-text*|*irssi*)	IRCV=" $($IRC -v | gawk 'NR == 1 { print $2 }')"
 				IRC="Irssi" ;;
         *konversation*) 	KONVI=1
@@ -251,15 +248,7 @@ roots () {
                                 done 
 				[[ -z $IRCV ]] && IRC="Unknown Perl client" ;;
 	*bash*|*sh*)		unset IRCV
-				getcmdline $PPID
-				for ((I=0; I<=$CMDLMAX; I++)); do
-				  case ${CMDL[I]} in
-                                    *infobash*) IRC="Infobash Live" 
-	                                        unset IRCV
-						break ;;
-				  esac 
-				done
-				[[ -z $IRCV ]] && IRC="Shell wrapper" ;;
+				IRC="Shell wrapper" ;;
 	*)			IRC="Unknown : ${IRC##*/}" 
 				unset IRCV
       esac
@@ -276,41 +265,6 @@ getparams () {
   [[ -z $1 ]] && return 1
   while [[ -n $1 ]]; do
     case $1 in
-      --update)
-        type -p wget >/dev/null || error 5 "wget"
-        TF="$(mktemp -p /tmp/ infobash-XXXXXXXXXX)" || error 7 "mktemp failed"
-        if wget -q -T$TIMEOUT -t1 -O"$TF" 'http://rebelhomicide.demon.nl/scripts/infobash'
-        then
-          if [[ -s $TF ]] # if exists and is not empty ... 
-	  then 
-	    cp -f "$TF" "$0" || error 1
-	  else
-	    error 1
-	  fi
-          say "Infobash: Updated to $(gawk '/^MYVERSION=/{print(gensub(/MYVERSION="[^ ]+ (.*)"/,"\\1","g",$0))}' $0)!"
-        else
-          error 1
-        fi
-        rm -f "$TF"
-        exit 0 ;;
-	
-      --live) 
-        shift  # get other options to pass to live infobash
-        type -p wget >/dev/null || error 5 "wget"
-        wget -q -T4 -t1 -O- 'http://rebelhomicide.demon.nl/scripts/infobash' | cat | bash -s $@ 
-	    
-# using cat was a trick solution to get the "broken pipe" error away from the wget exit code and into cat's exit code.
-# another possibility :
-# wget -O- 127.0.0.1/scripts/infobash 2> >(if grep -q 'Broken pipe'; then say "Found broken pipe" >&2; fi) | bash -s x
-# a broken pipe occurs when the script is ended before the physical end of the scriptfile (example : if ...; then exit; fi), 
-# which makes bash stop reading stdin because it is no longer needed. 
-# however the left side of the pipe still wants to write...thus it errors, making my exit code detection code think
-# the download failed, since wget only knows one error exit code, namely "1". :(
-
-	PSTAT=(${PIPESTATUS[@]})
-	[[ ${PSTAT[1]} -eq 0 && ${PSTAT[0]} -gt 0 ]] && error 2 "${PSTAT[@]}" 
-	exit 0 ;;
-	
       -v|-v[1-9]|--verbose) 
         if [[ ${#1} -eq 3 ]]; then
 	  VBL="${1:2}"
@@ -335,14 +289,17 @@ getparams () {
 
 # Enforce boilerplate and buzzword filters
 sanitize () {
-  #cannot use strong quotes to unquote a string with pipes in it! bash will interpret the |'s as usual and try to run a subshell!
-  #using weak quotes instead, or use '"..."'
+  # Cannot use strong quotes to unquote a string with pipes in it! bash will interpret the |'s as usual and try to run a subshell!
+  # Using weak quotes instead, or use '"..."'
   echo "$2" | gawk "BEGIN { IGNORECASE=1 } { gsub(/${!1}/,\"\"); gsub(/ [ ]+/,\" \"); gsub(/^ +| +$/,\"\"); print }"
 }
 
 #################################################################################
 ##########################  CALCULATED VARIABLES  ###############################
 #################################################################################
+
+# Detect X and set variable "X" accordingly
+[[ $DISPLAY ]] && X=1 
 
 # Fallback paths put into $XPATH; This might, among others, help on gentoo.
 # Now, create a difference of $PATH and $XPATH and add that to $PATH:
@@ -362,9 +319,6 @@ PATH="${PATH}${TPATH}"
 
 # Check for dependencies before running any commands in this script! So yes, here!!
 checkdepend
-
-# Detect X and set variable "X" accordingly
-[[ $DISPLAY ]] && X=1 
 
 #PATH=$(echo -n "${XPATH}:${PATH}" | gawk ' 
 #BEGIN { RS=":" } 
@@ -406,13 +360,6 @@ getparams $@
 HN=$(hostname)
 
 unset DISTRO
-##say "1:DISTRO='$DISTRO'"
-DISTROS="kanotix-version sidux-version knoppix-version SuSE-release gentoo-release redhat-release mandrake-release slackware-version turbolinux-release zenwalk-version"
-#for I in $DISTROS 
-#do
-#  [[ -f /etc/$I ]] && DISTRO=$(gawk 'BEGIN { RS="" } { gsub(/\\[a-z]/,""); gsub(/ [ ]+/," "); gsub(/^ +| +$/,""); print }' "/etc/$I")
-#  [[ -n $DISTRO ]] && break 
-#done
 for I in $DISTROS; do
   [[ -s /etc/$I ]] && DISTRO=$(eat /etc/$I) && break
 done
@@ -421,7 +368,7 @@ if [[ -z $DISTRO ]]; then
 	ISSUE=$(eat /etc/issue)
 	ISSUE=$(echo $(gawk '{ gsub(/\\[a-zA-Z]/, ""); print }' /etc/issue))
 	##say "ISSUE='$ISSUE'"
-	case $(echo "$ISSUE" | tr [:upper:] [:lower:]) in
+	case $(echo "$ISSUE" | tr '[:upper:]' '[:lower:]') in
 	  *debian*) [[ -s /etc/debian_version ]] && DISTRO="Debian $(eat /etc/debian_version)" || DISTRO="Unknown Debian-based" ;; 
 	  *suse*)  DISTRO="SuSE" ;;
 	  *turbolinux*) DISTRO="Turbolinux" ;;

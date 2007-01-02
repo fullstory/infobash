@@ -24,15 +24,19 @@
 # xrandr;xdpyinfo;glxinfo(xbase-clients), grep(grep), gawk(gawk)
 # Also the proc filesystem should be present and mounted
 
-exec 2>/dev/null # Reroute all error messages to the bitbucket
-DEBUG=0
-((DEBUG)) && exec 2>&1 # This is for debugging konversation
+ALLUP=0         # Infobash hasn't been 'booted' yet.
+DEBUG=0         # Set levels from 1-10
+DEBUG_FLOOD=0   # Debug flood override: toggle on to allow long debug output
+DBI=0           # Debug Buffer Index, index into a debug buffer storing debug messages until infobash is 'all up'
+((DEBUG)) || exec 2>/dev/null # Reroute all error messages to the bitbucket (if not debugging)
+#((DEBUG)) && exec 2>&1 # This is for debugging konversation
 
 #################################################################################
 #######################  UNCALCULATED VARIABLES  ################################
 #################################################################################
 
 SELF="Infobash"
+SELF_LC=$(echo "$SELF" | tr '[A-Z]' '[a-z]')
 MYVERSION="$SELF v2.53"
 LC_ALL="C"	# Make sure every program speaks English.
 export LC_ALL 
@@ -72,8 +76,8 @@ FLAG=0		# A throw-away 'flag' variable intended to be used throughout infobash
 KONVICFG="konversation/scripts/$SELF.conf" # relative path to $(kde-config --path data)
 DCOPOBJ="default"
 
-[[ -s /etc/$SELF.conf ]] && source /etc/$SELF.conf	# Source global config overrides
-[[ -s $HOME/.$SELF ]] && source $HOME/.$SELF 		# Source user config overrides
+[[ -s /etc/$SELF_LC.conf ]] && source /etc/$SELF_LC.conf	# Source global config overrides
+[[ -s $HOME/.$SELF_LC ]] && source $HOME/.$SELF_LC 		# Source user config overrides
 # WARNING: In the main part below (search for 'KONVI') 
 # there's a check for Konversation-specific config files.
 # Any one of these can override the above if infobash is run 
@@ -85,7 +89,7 @@ DCOPOBJ="default"
 
 # Infobash speaks through here. When run by Konversation, use DCOP
 say () {
-  if ((DEBUG)); then
+  if ((DEBUG > 5)); then
     ((KONVI)) && dcop "$DCPORT" "$DCOPOBJ" say "$DCSERVER" "$DCTARGET" "konvi='$konvi'  saying : '$@'"\
     || echo "konvi='$konvi'  saying : '$@'"
   fi
@@ -96,14 +100,31 @@ say () {
 # Error handling
 error () {
   case $1 in
-    3) say "$SELF: Error in colorscheme, or unknown parameter: $2" ;;
-    4) say "$SELF: Unknown verbosity level $2" ;;
-    5) say "$SELF: Dependency not met: $2 not found in path" ;;
+    2) say "$SELF: large flood danger, debug buffer full!" ;;
+    3) say "$SELF: error in colorscheme, or unknown parameter: $2" ;;
+    4) say "$SELF: unknown verbosity level $2" ;;
+    5) say "$SELF: dependency not met: $2 not found in path" ;;
     6) say "$SELF: /proc not found! Quitting..." ;;
-    *) say "$SELF: Error unknown: $@"
+    *) say "$SELF: error unknown: $@"
        set -- 99
   esac
   exit $1
+}
+
+dbg () {
+	if ((ALLUP)); then
+		((DEBUG)) || return
+		if ((DBI)); then
+			for ((DBI=0;DBI<${#DBGBUF[@]};DBI++)); do
+				say "${DBGBUF[DBI]}"
+			done
+			DBI=0
+		fi
+		say "$@"
+	else
+		((!DEBUG_FLOOD && DBI>10)) && error 2
+		DBGBUF[DBI++]="$@"
+	fi
 }
 
 eat () {
@@ -117,7 +138,7 @@ checkdepend () {
 
   if ((X)); then
     for I in xrandr xdpyinfo glxinfo; do
-      type -p $I >/dev/null || { echo "Infobash: Resuming in non X mode: $I not found in path"; X=0; }
+      type -p $I >/dev/null || { dbg "Infobash: Resuming in non X mode: $I not found in path"; X=0; break; }
     done
   fi
 
@@ -279,6 +300,8 @@ getparams () {
 	echo "$VBL" | grep -q '^[1-3]$' || error 4 "$VBL" ;;
       --crap)
         CRAP=1 ;;
+      -d|--debug)
+        DEBUG=1 ;;
       *)
         echo "$1" | grep -q '^[0-9][0-9]\?$' || error 3 "$1"
         ((CSCHEME)) || cscheme "$1"
@@ -352,10 +375,14 @@ if ((KONVI)); then
   IFS="$OIFS"
 fi
 
-getparams $@
+# "$@" passes every parameter seperately quoted, "$*" passes all parameters as one quoted parameter.
+getparams "$@"
 
 # If no colorscheme was set in the parameter handling routine, then set the default scheme
 ((CSCHEME)) || cscheme "$DEFSCHEME"
+
+ALLUP=1
+dbg "ALLUP=1 : Infobash up and running.."
 
 HN=$(hostname)
 

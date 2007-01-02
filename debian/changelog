@@ -1,8 +1,8 @@
-infobash (2.54) UNRELEASED; urgency=low
+infobash (2.54) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * new upstream version.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Wed, 13 Dec 2006 01:48:40 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Tue,  2 Jan 2007 16:36:12 +0100
 
 infobash (2.53) unstable; urgency=low
 

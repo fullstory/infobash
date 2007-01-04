@@ -2,10 +2,10 @@
 
 include /usr/share/cdbs/1/rules/debhelper.mk
 
-#build/infobash::
-#	docbook-to-man infobash.xml > infobash.1
-#	test -s infobash.1
-#
-#clean::
-#	-rm -f infobash.1
+build/infobash::
+	xsltproc -o infobash.1 /usr/share/xml/docbook/stylesheet/nwalsh/manpages/docbook.xsl infobash.sgml
+	test -s infobash.1
+
+clean::
+	-rm -f infobash.1
 

@@ -8,7 +8,7 @@ Standards-Version: 3.7.2
 Package: infobash
 Architecture: all
 Depends: ${shlibs:Depends}, bash (>= 2.05), coreutils, procps, pciutils, gawk
-Recommends: xbase-clients, wget
+Recommends: xbase-clients, mesa-utils, wget
 Suggests: irssi | xchat | konversation
 Description: System info script for irc
  Infobash is a system information script for IRC (Internet Relay Chat) clients.

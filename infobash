@@ -37,7 +37,7 @@ DBI=0           # Debug Buffer Index, index into a debug buffer storing debug me
 
 SELF="Infobash"
 SELF_LC=$(echo "$SELF" | tr '[A-Z]' '[a-z]')
-MYVERSION="$SELF v2.54"
+MYVERSION="$SELF v2.55"
 LC_ALL="C"	# Make sure every program speaks English.
 export LC_ALL 
 OIFS="$IFS"	# Backup the current Internal Field Seperator
@@ -73,7 +73,7 @@ XPATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin" # Extra pat
 PARAMLIMIT=30	# This is a variable that controls how many parameters infobash will parse in a /proc/<pid>/cmdline file before stopping.
 CRAP=0		# New parameter
 FLAG=0		# A throw-away 'flag' variable intended to be used throughout infobash
-KONVICFG="konversation/scripts/$SELF.conf" # relative path to $(kde-config --path data)
+KONVICFG="konversation/scripts/$SELF_LC.conf" # relative path to $(kde-config --path data)
 DCOPOBJ="default"
 
 [[ -s /etc/$SELF_LC.conf ]] && source /etc/$SELF_LC.conf	# Source global config overrides
@@ -301,7 +301,8 @@ getparams () {
       --crap)
         CRAP=1 ;;
       -d|--debug)
-        DEBUG=1 ;;
+        DEBUG=1
+	exec 2>&1 ;;
       *)
         echo "$1" | grep -q '^[0-9][0-9]\?$' || error 3 "$1"
         ((CSCHEME)) || cscheme "$1"
@@ -541,7 +542,7 @@ PROC="$(($(ps aux | wc -l)-1))"
 UPT=$(uptime | gawk '{a=gensub(/^.*up *([^,]*).*$/,"\\1","g",$0);gsub(/ /,"",a);print a}')
 IFS=$'\n'; GFX=($(echo "$LSPCI" | gawk -F': ' '/VGA compatible controller/ { print $NF }')); IFS="$OIFS"
 for ((I=0;I<${#GFX[@]};I++)); do GFX[I]=$(sanitize NORMALBANS "${GFX[I]}"); done
-  
+
 #GFXMEM="size=[$(echo "$LSPCI" | gawk '/VGA/{while (!/^$/) {getline;if (/size=[0-9][0-9]*M/) {size2=gensub(/.*\[size=([0-9]+)M\].*/,"\\1","g",$0);if (size<size2){size=size2}}}}END{print size2}')M]"
 # GFXMEM is UNUSED at the moment, because it shows AGP aperture size, which is not necessarily equal to GFX memory..
 if ((X)); then

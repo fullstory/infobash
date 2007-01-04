@@ -1,0 +1,589 @@
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<refentry id="infobash">
+	<refmeta>
+		<refentrytitle>infobash</refentrytitle>
+		<manvolnum>1</manvolnum>
+	</refmeta>
+	
+	<refnamediv>
+		<refname>infobash</refname>
+		<refpurpose>print system information in an irc-client or terminal session</refpurpose>
+	</refnamediv>
+	
+	<refsynopsisdiv>
+		<cmdsynopsis>
+			<command>infobash</command>
+			<arg choice="opt">
+				<option>-v|-v2|-v3</option>
+			</arg>
+			<arg>
+				<option>-d|--debug</option>
+			</arg>
+			<arg choice="opt">
+				<option>--crap</option>
+			</arg>
+			<arg choice="opt">
+				<option>colour scheme</option>
+			</arg>
+		</cmdsynopsis>
+	</refsynopsisdiv>
+
+  	<refsection>
+		<title>Description</title>
+		<para>
+		<command>infobash</command> is a system information script for IRC (Internet Relay Chat) clients. A system information script can display all kinds
+		of things about your hardware and software to users in a chatroom, so they can help you diagnose problems, ... or just marvel at your system specs
+		and kernel version ;)
+		</para>
+		
+		<para>
+		It was created to serve the need for a infoscript that isn't dependent on a particular irc-client.  Because most irc-clients support the /exec
+		command, a script that runs with /exec would be most portable.  On top of all that, infobash also works fine in the 'CLI', also known as 'Command
+		Line Interface'.
+		</para>
+		
+		<para>
+		That means you can run infobash in a shell, completely outside of any irc environment. Infobash will then switch to ansi colouring. You can use
+		this to just check quickly what kind of hardware a system has, either locally or remotely.
+		</para>
+
+		<para>
+	        Currently, infobash has been found to work on Irssi, Xchat, Konversation, BitchX, KSirc, ircII, Gaim, Weechat, KVIrc and Kopete. Client specific
+		quirks and tweaks are discussed in the IRC-CLIENTS section below.
+		</para>
+	</refsection>
+
+	<refsection>
+		<title>Options</title>
+		<variablelist>
+		<varlistentry>
+		<term>-v</term>
+		<term>-v2</term>
+		<term>-v3</term>
+		<listitem>
+		<para>
+		This option controls the verbosity. Presently, there are four levels:
+		</para>
+		<itemizedlist>
+		<listitem>
+		<para>
+		level 0: -v is not specified. This prints out a oneliner, perhaps suitable in channels that don't explicitly allow infobash, or to quickly get a
+		current clock frequency or kernel version.
+		</para>
+		</listitem>
+
+		<listitem>
+		<para>
+		level 1: -v or -v1 is specified. This prints out a multiliner, without network and harddisk model name information. If X is detected, the X version
+		is printed, as well as the resolution and the refresh frequency(provided the RANDR X extension is installed and working: use -d to debug if needed.)
+		</para>
+		</listitem>
+			
+		<listitem>
+		<para>
+		level 2: -v2 is specified. This prints out a multiliner with network and harddisk model name information.
+		</para>
+		</listitem>
+		
+		<listitem>
+		<para>
+		level 3: -v3 is specified. A multiliner showing processor cache, processor flags such as nx(buffer overflow protection), lm(64bit extensions) and
+		sse2/3(gfx accelleration), networks cards and harddisk models is printed.
+		</para>
+		</listitem>
+
+		</itemizedlist>
+
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term>-d</term>
+		<term>--debug</term>
+		<listitem>
+		<para>
+		This option enables debug messages from infobash to be emitted to stdout. It also redirects stderr to stdout, so we won't miss that either.
+		If you don't want to miss stderr messages even in the very beginning, set DEBUG to 1 manually in the source temporarily. You can find DEBUG
+		near the top.
+		</para>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term>--crap</term>
+		<listitem>
+		<para>
+		Anything that is considered to be redundant information, or information that only serves a 'fun' purpose, such as Bogomips or wether or 
+		not direct rendering is active, is enabled with this option. Example: for direct rendering, you'd normally be able to conclude from the
+		glxinfo section if it's active or not. However, if you still want to see something like: ".. | Direct Rendering: yes | .." in your output,
+		then use --crap.
+		</para>
+		</listitem>
+		</varlistentry>
+		</variablelist>
+	</refsection>
+
+	<refsection>
+		<title>Irc-clients</title>
+		<para>
+		Several irc-clients need some additional steps to make infobash work. Infobash leans on the presence of the good old /exec command, which,
+		in my opinion should be a builtin feature in every decent irc-client, without additional wrappers. Below is a list of clients. Behind each
+		client there is an example how to start infobash from inside that client. If applicable, additional steps to setup or configure infobash
+		are mentioned.
+		</para>
+
+		<itemizedlist>
+
+		<listitem>
+		<para><emphasis>BitchX</emphasis> - <command>/exec -o infobash</command></para>
+		</listitem>
+
+		<listitem>
+		<para><emphasis>Gaim</emphasis> - <command>/exec -o infobash</command></para>
+		<para>
+		Sadly, Gaim doesn't support /exec out of the box. Therefore you need to download and install <emphasis>slashexec</emphasis>:
+		<link>http://gaim.guifications.org/trac/wiki/slashexec</link>. After installing <emphasis>slashexec</emphasis> infobash will not only run,
+		but also properly detect the version of Gaim used to /exec infobash.
+		</para>
+		</listitem>
+		
+		<listitem>
+		<para><emphasis>IrcII</emphasis> - <command>/exec -o infobash</command></para>
+		</listitem>
+
+		<listitem>
+		<para><emphasis>Irssi</emphasis> - <command>/exec -o infobash</command></para>
+		</listitem>
+
+		<listitem>
+		<para><emphasis>Konversation</emphasis> - <command>/exec infobash</command> (Kanotix/Sidux users should use: <command>/infobash</command>)</para>
+		<para>
+		Infobash was originally written for Konversation, although that was a few years ago. Infobash has support for Konversations' DCOP functions
+		built in, to be able to actually 'speak' into a channel or query. Sadly, Konversation doesn't have an /exec command built in that resembles
+		true /exec functionality.
+		</para>
+		<para>
+			The only scripts that are allowed to run directly via /exec must be present in either
+			<emphasis>~/.kde/share/apps/konversation/scripts/</emphasis> or in <emphasis>/usr/share/apps/konversation/scripts/</emphasis>. 
+			If you want to run any command outside of that jail, you must invoke /cmd &lt;program&gt;. Cmd is a wrapper written in Perl, 
+			residing in <emphasis>/usr/share/apps/konversation/scripts/</emphasis> and it does some checks on the program being run. It will
+			refuse to run the 'yes' command for example.
+		</para>
+		<para>		
+		DO NOT RUN INFOBASH WITH THIS WRAPPER! Instead, unless the Debian package has already set this up, you can do the following as normal user
+		in a terminal window:
+		</para>
+		
+		<procedure>
+			<step><para>T="/usr/share/apps/konversation/scripts"</para></step>
+			<step><para>mkdir -p "$T"</para></step>
+			<step><para>ln -sf /usr/bin/infobash "$T/infobash"</para></step>
+			<step><para>unset T</para></step>
+		</procedure>
+		</listitem>
+
+		<listitem>
+		<para><emphasis>Kopete</emphasis> - <command>/exec -o infobash</command></para>
+		<para>
+		Run /exec -o infobash [options] and it will work. It looks chaotic to you inside Kopete if you use colours, but it will look good to 
+		others that see it. That's because Kopete doesn't convert the mIRC style colour codes on its own display like other clients do, so 
+		only others see it properly, not you.
+		</para>
+		<para>
+		To get rid of this problem, you may consider switching off all colour use in infobash with a config setting. For user specific settings,
+		use <emphasis>~/.infobash</emphasis>, for system wide settings, use <emphasis>/etc/infobash.conf</emphasis>. Add the following line:
+		</para>
+		<para><envar>DEFSCHEME=0</envar></para>
+		<para><note>User specific settings override system wide settings!</note></para>
+		</listitem>
+		
+		<listitem>
+		<para><emphasis>KSirc</emphasis> - <command>/exec -out infobash</command></para>
+		</listitem>	
+
+		<listitem>
+		<para><emphasis>KVIrc</emphasis> - <command>/infobash (see below)</command></para>
+		<para>First off, the best way to get infobash going is to make an alias:</para>
+		<para><command>/alias (infobash) { exec ("infobash "$0-) { say $1; } }</command></para>
+		<para>
+		Make sure that the alias is stored: go to Scripting->Edit Aliases in the pulldown-menu to confirm.
+		After that, you can start infobash like so:
+		</para>
+		<para><command>/infobash</command></para>	
+		<para>
+		However, if you want to pass options starting with a dash(-), such as the verbosity level,
+		you need to escape them like so:
+		</para>
+		<para><command>/infobash \-v3 13</command></para>
+		<para>	
+		You need only escape the first dash. (so use \-v3 -d and not \-v3 \-d)
+		</para>
+		<para><note>I found most of this out by pure chance, (the docs for this irc-client were malfunctioning here and there and were also a little vague) so don't rely on it too much. Good luck!</note></para>
+		
+		</listitem>
+
+		<listitem>
+		<para><emphasis>Weechat</emphasis> - <command>/exec -o infobash</command></para>
+		<para>
+		First install weechat-plugins: <command>apt-get update &amp;&amp; apt-get install weechat-plugins</command>
+		</para>
+		<para>
+		Then get a hold of the <emphasis>executor.py</emphasis> plugin because weechat doesn't have /exec by default.
+		You can download it from me because I found it hard to find on the web. <link>http://rebelhomicide.demon.nl/scripts/executor.py</link>
+		<warning>I love Perl, but don't use the Perl /exec plugin in weechat-scripts instead! It sucks!</warning>
+		</para>
+		<para>
+		Put that into ~/.weechat/python/autoload. Change to that directory and do:
+		</para>
+		<para><command>chmod 755 executor.py</command></para>
+		<para>Then either restart weechat or do:</para>
+		<para><command>/python load executor.py</command></para>
+		<para>to activate it. After that you can run infobash just as in any other client.</para>
+		</listitem>
+
+		<listitem>
+		<para><emphasis>Xchat</emphasis> - <command>/exec -o infobash</command></para>
+		</listitem>
+
+		</itemizedlist>
+
+	</refsection>
+
+	<refsection>
+		<title>Colour schemes</title>
+		<para>
+	Currently, the following colour schemes have been implemented:
+		</para>
+		<table rules="none">
+		<title>Colour schemes</title>
+		<tgroup cols="4">
+			<thead>
+				<row>
+					<entry>Number</entry>
+					<entry>Colour #1</entry>
+					<entry>Colour #2</entry>
+					<entry>Normal colour</entry>
+				</row>
+			</thead>
+
+			<tbody>
+				<row>
+					<entry>0</entry>
+					<entry>empty</entry>
+					<entry>empty</entry>
+					<entry>empty</entry>
+				</row>
+
+				<row>
+					<entry>1</entry>
+					<entry>normal</entry>
+					<entry>normal</entry>
+					<entry>normal</entry>
+				</row>
+
+				<row>
+					<entry>2</entry>
+					<entry>blue</entry>
+					<entry>normal</entry>
+					<entry>normal</entry>
+				</row>
+
+				<row>
+					<entry>3</entry>
+					<entry>green</entry>
+					<entry>yellow</entry>
+					<entry>normal</entry>
+				</row>
+
+				<row>
+					<entry>4</entry>
+					<entry>dark yellow</entry>
+					<entry>normal</entry>
+					<entry>normal</entry>
+				</row>
+
+				<row>
+					<entry>5</entry>
+					<entry>cyan</entry>
+					<entry>blue</entry>
+					<entry>normal</entry>
+				</row>
+
+				<row>
+					<entry>6</entry>
+					<entry>red</entry>
+					<entry>normal</entry>
+					<entry>normal</entry>
+				</row>
+
+				<row>
+					<entry>7</entry>
+					<entry>green</entry>
+					<entry>normal</entry>
+					<entry>normal</entry>
+				</row>
+
+				<row>
+					<entry>8</entry>
+					<entry>yellow</entry>
+					<entry>normal</entry>
+					<entry>normal</entry>
+				</row>
+
+				<row>
+					<entry>9</entry>
+					<entry>green</entry>
+					<entry>dark green</entry>
+					<entry>normal</entry>
+				</row>
+
+				<row>
+					<entry>10</entry>
+					<entry>blue</entry>
+					<entry>red</entry>
+					<entry>normal</entry>
+				</row>
+
+				<row>
+					<entry>11</entry>
+					<entry>blue</entry>
+					<entry>normal</entry>
+					<entry>red</entry>
+				</row>
+
+				<row>
+					<entry>12</entry>
+					<entry>yellow</entry>
+					<entry>white</entry>
+					<entry>green</entry>
+				</row>
+
+				<row>
+					<entry>13</entry>
+					<entry>blue</entry>
+					<entry>normal</entry>
+					<entry>green</entry>
+				</row>
+
+				<row>
+					<entry>14</entry>
+					<entry>dark cyan</entry>
+					<entry>normal</entry>
+					<entry>dark magenta</entry>
+				</row>
+			</tbody>
+		</tgroup>
+		</table>
+	</refsection>
+
+	<refsection>
+		<title>Customizing infobash</title>
+		<para>
+		After invocation, infobash will attempt to read overrides of internal variables from two locations, in the order shown:
+		</para>
+		<para><emphasis>/etc/infobash.conf</emphasis> (global)</para><para><emphasis>~/.infobash</emphasis> (local to user)</para>
+	
+		<para>
+		After that, if Konversation is detected, infobash will proceed to search for "konversation/scripts/infobash.conf" in
+		the paths emitted by: 
+		</para>
+		<para><command>kde-config --path data</command></para>
+		<para>
+			This will probably include: <emphasis>/usr/share/apps/konversation/scripts/infobash.conf</emphasis> and
+			<emphasis>~/.kde/share/apps/konversation/scripts/infobash.conf</emphasis>
+		</para>
+		
+		<para>
+		This means ~/.infobash overrides /etc/infobash.conf, so that users can override global config, but for konversation users any infobash
+		settings in the konversation-specific configfile will in turn override both. Interesting (and somewhat dangerous ;) things can be done
+		with these override files: we'll discuss some below.
+		</para>
+		<para><note>Any variables not mentioned are documented in the source.</note></para>
+		<para>
+		Variables in config files look like this:
+		</para>
+		
+		<programlisting>
+		SHOWHOST=1
+		# Comment goes here
+		DEFSCHEME=13
+		# Another comment
+		</programlisting>
+		
+		<para>To <emphasis>add</emphasis> something to a default stored in infobash such as DISTROS, do *not* set DISTROS like this:</para>
+		<programlisting>
+		DISTROS="mydistro-release"
+		</programlisting>
+		<para>Instead, do it this way: (spaces between elements are mandatory)</para>
+		<programlisting>
+		DISTROS="${DISTROS} mydistro-release myotherdistro-version"
+		</programlisting>
+		<para>Now your distro version files will be added to the ones infobash alread knows about.</para>
+		
+		<para>
+		Besides normal space seperated scalar variables such as DISTROS, infobash also has array variables such as SCHEMES.
+		To add something to an array such as SCHEMES, use the following method:
+		</para>
+		<programlisting>
+		SCHEMES=(${SCHEMES[@]} GREEN,YELLOW,RED DRED,NORMAL,DMAGENTA)
+		</programlisting>
+		
+		<para>
+			<emphasis>List of customizable variables:</emphasis>
+		</para>
+				
+		<para>
+		<variablelist>
+			<varlistentry>
+				<term><envar>DISTROS</envar> (scalar)</term>
+				<listitem>
+					<para>
+					This scalar variable holds a space seperated list of files to look for under /etc/.
+					When found, such a file can tell infobash on what kind of distro it is running.
+					The list includes, for example, <emphasis>knoppix-version</emphasis> and <emphasis>slackware-version.</emphasis>
+					If your own distro is not detected, or for example if you are creating your own distro and the filename you are using
+					that describes the version isn't quite static yet, then this variable can help. You can also mail me a copy of a such
+					a version file to have it included in the next version of infobash.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><envar>SCHEMES</envar> (array)</term>
+				<listitem>
+					<para>
+					This variable contains the colour schemes infobash knows about; consult the table of in the colour schemes
+					section of this manual for a list. You can add your own schema, such as GREEN,NORMAL,MAGENTA. This schema will then be
+					available as number 15, because infobash currently counts from 0 up to scheme 14. The colors infobash knows about are: 
+					</para>
+					<para>
+					DGREY BLACK RED DRED GREEN DGREEN YELLOW DYELLOW BLUE DBLUE MAGENTA DMAGENTA CYAN DCYAN WHITE GREY NORMAL EMPTY
+					</para>
+					<para>
+					EMPTY is a special variable containing no ANSI escape sequences or IRC color codes.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><envar>DEFSCHEME</envar> (integer)</term>
+				<listitem>
+					<para>
+					Add a line such as DEFSCHEME=8 to an infobash config file and infobash will automatically choose that colour scheme
+					from now on.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><envar>SHOWHOST</envar> (integer boolean)</term>
+				<listitem>
+					<para>
+					SHOWHOST=0 stops infobash from printing the hostname
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><envar>SHOWIRC</envar> (integer)</term>
+				<listitem>
+					<para>
+					SHOWIRC=1 to avoid showing the irc-client version number, or SHOWIRC=0 to disable client information completely.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><envar>NORMALBANS</envar> (array)</term>
+				<listitem>
+					<para>
+					This array contains a list of 'buzzwords' or useless boilerplate text that infobash filters out of device names
+					it detects. For example: 'Supertech communications technology group inc. ASX8134-X Gigabit Ethernet" will be reduced
+					to: 'Supertech ASX8134-X Gigabit Ethernet'. You can add your own filter words to this array, if you want to.
+					</para>
+					<para>
+					An element of this array starting with the sequence $'\2' is treated as a GNU awk regex, any other element is treated
+					as a literal string. For example: $'\2'"\(rev ..\)" would remove (rev 89) from a device name, but it would also remove
+					(rev XF) or (rev a7).
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><envar>CPUBANS</envar> (array)</term>
+				<listitem>
+					<para>
+					This array is the same as NORMALBANS, except specifically geared towards intercepting boilerplate text in CPUID strings.
+					See NORMALBANS for further reference.
+					</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+		</para>
+	</refsection>
+	
+	<refsection>
+		<title>Examples</title>
+		<para>
+		<variablelist>
+		
+		<varlistentry>
+			<term>Running infobash in the shell with verbosity level 2 and colour scheme 13 (Blue, Normal, Green)</term>
+			<listitem><para><command>infobash -v2 13</command></para></listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term>Piping the output of infobash with verbosity level 3 to a file (properly)</term>
+			<listitem><para><command>infobash -v3 0 >/path/to/file</command></para></listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term>Run infobash inside KVirc with verbosity level 1 and debugging enabled</term>
+			<listitem><para><command>/infobash \-v -d</command></para></listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term>Run infobash from Xchat with verbosity level 3, showing crap</term>
+			<listitem><para><command>/exec -o infobash -v3 --crap</command></para></listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term>Run infobash inside Konversation showing a oneliner</term>
+			<listitem><para><command>/exec infobash</command></para></listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term>Showing an infobash oneliner in Irssi (1) with output to the channel, and (2) without output to the channel, but with debugging</term>
+			<listitem><para><command>/exec -o infobash</command></para>
+			<para><command>/exec infobash --debug</command></para></listitem>
+		</varlistentry>
+
+		</variablelist>
+		</para>
+	</refsection>
+	
+	<refsection>
+		<title>Author</title>
+		<para>Infobash was written by Michiel de Boer &lt;infobash&lt;@&gt;rebelhomicide.demon.nl&gt;</para>
+	</refsection>
+	
+	<refsection>
+		<title>Acknowledgements</title>
+		<para>
+		slh (packaging, patches)
+		</para>
+		<para>
+		Special thanks to the developers and users of Kanotix and Sidux for their love and participation
+		in this program. 
+		</para>
+	</refsection>
+	
+	<refsection>
+		<title>Bugs</title>	
+		<para>Probably. Infobash is a mix of Bash and Gawk. Send them to infobash&lt;@&gt;rebelhomicide.demon.nl</para>
+		<para>
+		If your nvidia driver is broken (for example after an upgrade), GL is also broken and you can sometimes crash it by running glxinfo(mesa-utils).
+		Ergo Infobash will also crash X as soon as it starts glxinfo to gather OpenGL information. The solution for the problem (which is *not* caused
+		by infobash!) is to reinstall the nvidia driver. Pity that it's so hard to debug closed source kernel drivers.
+		</para>
+	</refsection>
+	
+	<refsection>
+		<title>See also</title>
+		<para>http://rebelhomicide.demon.nl/projects.cgi#infobash</para>
+	</refsection>
+</refentry>

@@ -1,0 +1,547 @@
+.\"     Title: infobash
+.\"    Author: 
+.\" Generator: DocBook XSL Stylesheets v1.71.0 <http://docbook.sf.net/>
+.\"      Date: 01/04/2007
+.\"    Manual: 
+.\"    Source: 
+.\"
+.TH "INFOBASH" "1" "01/04/2007" "" ""
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.SH "NAME"
+infobash \- print system information in an irc\-client or terminal session
+.SH "SYNOPSIS"
+.HP 9
+\fBinfobash\fR [\fB\-v|\-v2|\-v3\fR] [\fB\-d|\-\-debug\fR] [\fB\-\-crap\fR] [\fBcolour\ scheme\fR]
+.SH "DESCRIPTION"
+.PP
+
+\fBinfobash\fR
+is a system information script for IRC (Internet Relay Chat) clients. A system information script can display all kinds of things about your hardware and software to users in a chatroom, so they can help you diagnose problems, ... or just marvel at your system specs and kernel version ;)
+.PP
+It was created to serve the need for a infoscript that isn't dependent on a particular irc\-client. Because most irc\-clients support the /exec command, a script that runs with /exec would be most portable. On top of all that, infobash also works fine in the 'CLI', also known as 'Command Line Interface'.
+.PP
+That means you can run infobash in a shell, completely outside of any irc environment. Infobash will then switch to ansi colouring. You can use this to just check quickly what kind of hardware a system has, either locally or remotely.
+.PP
+Currently, infobash has been found to work on Irssi, Xchat, Konversation, BitchX, KSirc, ircII, Gaim, Weechat, KVIrc and Kopete. Client specific quirks and tweaks are discussed in the IRC\-CLIENTS section below.
+.SH "OPTIONS"
+.PP
+\-v, \-v2, \-v3
+.RS 3n
+This option controls the verbosity. Presently, there are four levels:
+.RS 3n
+.TP 3n
+\(bu
+level 0: \-v is not specified. This prints out a oneliner, perhaps suitable in channels that don't explicitly allow infobash, or to quickly get a current clock frequency or kernel version.
+.TP 3n
+\(bu
+level 1: \-v or \-v1 is specified. This prints out a multiliner, without network and harddisk model name information. If X is detected, the X version is printed, as well as the resolution and the refresh frequency(provided the RANDR X extension is installed and working: use \-d to debug if needed.)
+.TP 3n
+\(bu
+level 2: \-v2 is specified. This prints out a multiliner with network and harddisk model name information.
+.TP 3n
+\(bu
+level 3: \-v3 is specified. A multiliner showing processor cache, processor flags such as nx(buffer overflow protection), lm(64bit extensions) and sse2/3(gfx accelleration), networks cards and harddisk models is printed.
+.RE
+.RE
+.PP
+\-d, \-\-debug
+.RS 3n
+This option enables debug messages from infobash to be emitted to stdout. It also redirects stderr to stdout, so we won't miss that either. If you don't want to miss stderr messages even in the very beginning, set DEBUG to 1 manually in the source temporarily. You can find DEBUG near the top.
+.RE
+.PP
+\-\-crap
+.RS 3n
+Anything that is considered to be redundant information, or information that only serves a 'fun' purpose, such as Bogomips or wether or not direct rendering is active, is enabled with this option. Example: for direct rendering, you'd normally be able to conclude from the glxinfo section if it's active or not. However, if you still want to see something like: ".. | Direct Rendering: yes | .." in your output, then use \-\-crap.
+.RE
+.SH "IRC\-CLIENTS"
+.PP
+Several irc\-clients need some additional steps to make infobash work. Infobash leans on the presence of the good old /exec command, which, in my opinion should be a builtin feature in every decent irc\-client, without additional wrappers. Below is a list of clients. Behind each client there is an example how to start infobash from inside that client. If applicable, additional steps to setup or configure infobash are mentioned.
+.TP 3n
+\(bu
+\fIBitchX\fR
+\-
+\fB/exec \-o infobash\fR
+.TP 3n
+\(bu
+\fIGaim\fR
+\-
+\fB/exec \-o infobash\fR
+.sp
+Sadly, Gaim doesn't support /exec out of the box. Therefore you need to download and install
+\fIslashexec\fR:
+http://gaim.guifications.org/trac/wiki/slashexec. After installing
+\fIslashexec\fR
+infobash will not only run, but also properly detect the version of Gaim used to /exec infobash.
+.TP 3n
+\(bu
+\fIIrcII\fR
+\-
+\fB/exec \-o infobash\fR
+.TP 3n
+\(bu
+\fIIrssi\fR
+\-
+\fB/exec \-o infobash\fR
+.TP 3n
+\(bu
+\fIKonversation\fR
+\-
+\fB/exec infobash\fR
+(Kanotix/Sidux users should use:
+\fB/infobash\fR)
+.sp
+Infobash was originally written for Konversation, although that was a few years ago. Infobash has support for Konversations' DCOP functions built in, to be able to actually 'speak' into a channel or query. Sadly, Konversation doesn't have an /exec command built in that resembles true /exec functionality.
+.sp
+The only scripts that are allowed to run directly via /exec must be present in either
+\fI~/.kde/share/apps/konversation/scripts/\fR
+or in
+\fI/usr/share/apps/konversation/scripts/\fR. If you want to run any command outside of that jail, you must invoke /cmd <program>. Cmd is a wrapper written in Perl, residing in
+\fI/usr/share/apps/konversation/scripts/\fR
+and it does some checks on the program being run. It will refuse to run the 'yes' command for example.
+.sp
+DO NOT RUN INFOBASH WITH THIS WRAPPER! Instead, unless the Debian package has already set this up, you can do the following as normal user in a terminal window:
+.RS 3n
+.TP 3n
+1.
+T="/usr/share/apps/konversation/scripts"
+.TP 3n
+2.
+mkdir \-p "$T"
+.TP 3n
+3.
+ln \-sf /usr/bin/infobash "$T/infobash"
+.TP 3n
+4.
+unset T
+.RE
+.TP 3n
+\(bu
+\fIKopete\fR
+\-
+\fB/exec \-o infobash\fR
+.sp
+Run /exec \-o infobash [options] and it will work. It looks chaotic to you inside Kopete if you use colours, but it will look good to others that see it. That's because Kopete doesn't convert the mIRC style colour codes on its own display like other clients do, so only others see it properly, not you.
+.sp
+To get rid of this problem, you may consider switching off all colour use in infobash with a config setting. For user specific settings, use
+\fI~/.infobash\fR, for system wide settings, use
+\fI/etc/infobash.conf\fR. Add the following line:
+.sp
+\fBDEFSCHEME=0\fR
+.sp
+.sp
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.br
+\fBNote\fR
+User specific settings override system wide settings!
+.TP 3n
+\(bu
+\fIKSirc\fR
+\-
+\fB/exec \-out infobash\fR
+.TP 3n
+\(bu
+\fIKVIrc\fR
+\-
+\fB/infobash (see below)\fR
+.sp
+First off, the best way to get infobash going is to make an alias:
+.sp
+\fB/alias (infobash) { exec ("infobash "$0\-) { say $1; } }\fR
+.sp
+Make sure that the alias is stored: go to Scripting\->Edit Aliases in the pulldown\-menu to confirm. After that, you can start infobash like so:
+.sp
+\fB/infobash\fR
+.sp
+However, if you want to pass options starting with a dash(\-), such as the verbosity level, you need to escape them like so:
+.sp
+\fB/infobash \\\-v3 13\fR
+.sp
+You need only escape the first dash. (so use \\\-v3 \-d and not \\\-v3 \\\-d)
+.sp
+.sp
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.br
+\fBNote\fR
+I found most of this out by pure chance, (the docs for this irc\-client were malfunctioning here and there and were also a little vague) so don't rely on it too much. Good luck!
+.TP 3n
+\(bu
+\fIWeechat\fR
+\-
+\fB/exec \-o infobash\fR
+.sp
+First install weechat\-plugins:
+\fBapt\-get update && apt\-get install weechat\-plugins\fR
+.sp
+Then get a hold of the
+\fIexecutor.py\fR
+plugin because weechat doesn't have /exec by default. You can download it from me because I found it hard to find on the web.
+http://rebelhomicide.demon.nl/scripts/executor.py
+.sp
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.br
+\fBWarning\fR
+I love Perl, but don't use the Perl /exec plugin in weechat\-scripts instead! It sucks!
+.sp
+Put that into ~/.weechat/python/autoload. Change to that directory and do:
+.sp
+\fBchmod 755 executor.py\fR
+.sp
+Then either restart weechat or do:
+.sp
+\fB/python load executor.py\fR
+.sp
+to activate it. After that you can run infobash just as in any other client.
+.TP 3n
+\(bu
+\fIXchat\fR
+\-
+\fB/exec \-o infobash\fR
+.SH "COLOUR SCHEMES"
+.PP
+Currently, the following colour schemes have been implemented:
+.PP
+.B Table\ 1.\ Colour schemes
+.sp -1n
+.TS
+allbox tab(:);
+lB lB lB lB.
+T{
+Number
+T}:T{
+Colour #1
+T}:T{
+Colour #2
+T}:T{
+Normal colour
+T}
+.T&
+l l l l
+l l l l
+l l l l
+l l l l
+l l l l
+l l l l
+l l l l
+l l l l
+l l l l
+l l l l
+l l l l
+l l l l
+l l l l
+l l l l
+l l l l.
+T{
+0
+T}:T{
+empty
+T}:T{
+empty
+T}:T{
+empty
+T}
+T{
+1
+T}:T{
+normal
+T}:T{
+normal
+T}:T{
+normal
+T}
+T{
+2
+T}:T{
+blue
+T}:T{
+normal
+T}:T{
+normal
+T}
+T{
+3
+T}:T{
+green
+T}:T{
+yellow
+T}:T{
+normal
+T}
+T{
+4
+T}:T{
+dark yellow
+T}:T{
+normal
+T}:T{
+normal
+T}
+T{
+5
+T}:T{
+cyan
+T}:T{
+blue
+T}:T{
+normal
+T}
+T{
+6
+T}:T{
+red
+T}:T{
+normal
+T}:T{
+normal
+T}
+T{
+7
+T}:T{
+green
+T}:T{
+normal
+T}:T{
+normal
+T}
+T{
+8
+T}:T{
+yellow
+T}:T{
+normal
+T}:T{
+normal
+T}
+T{
+9
+T}:T{
+green
+T}:T{
+dark green
+T}:T{
+normal
+T}
+T{
+10
+T}:T{
+blue
+T}:T{
+red
+T}:T{
+normal
+T}
+T{
+11
+T}:T{
+blue
+T}:T{
+normal
+T}:T{
+red
+T}
+T{
+12
+T}:T{
+yellow
+T}:T{
+white
+T}:T{
+green
+T}
+T{
+13
+T}:T{
+blue
+T}:T{
+normal
+T}:T{
+green
+T}
+T{
+14
+T}:T{
+dark cyan
+T}:T{
+normal
+T}:T{
+dark magenta
+T}
+.TE
+.sp
+.SH "CUSTOMIZING INFOBASH"
+.PP
+After invocation, infobash will attempt to read overrides of internal variables from two locations, in the order shown:
+.PP
+\fI/etc/infobash.conf\fR
+(global)
+.PP
+\fI~/.infobash\fR
+(local to user)
+.PP
+After that, if Konversation is detected, infobash will proceed to search for "konversation/scripts/infobash.conf" in the paths emitted by:
+.PP
+\fBkde\-config \-\-path data\fR
+.PP
+This will probably include:
+\fI/usr/share/apps/konversation/scripts/infobash.conf\fR
+and
+\fI~/.kde/share/apps/konversation/scripts/infobash.conf\fR
+.PP
+This means ~/.infobash overrides /etc/infobash.conf, so that users can override global config, but for konversation users any infobash settings in the konversation\-specific configfile will in turn override both. Interesting (and somewhat dangerous ;) things can be done with these override files: we'll discuss some below.
+.PP
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.br
+\fBNote\fR
+Any variables not mentioned are documented in the source.
+.PP
+Variables in config files look like this:
+.sp
+.RS 3n
+.nf
+		SHOWHOST=1
+		# Comment goes here
+		DEFSCHEME=13
+		# Another comment
+		
+.fi
+.RE
+.PP
+To
+\fIadd\fR
+something to a default stored in infobash such as DISTROS, do *not* set DISTROS like this:
+.sp
+.RS 3n
+.nf
+		DISTROS="mydistro\-release"
+		
+.fi
+.RE
+.PP
+Instead, do it this way: (spaces between elements are mandatory)
+.sp
+.RS 3n
+.nf
+		DISTROS="${DISTROS} mydistro\-release myotherdistro\-version"
+		
+.fi
+.RE
+.PP
+Now your distro version files will be added to the ones infobash alread knows about.
+.PP
+Besides normal space seperated scalar variables such as DISTROS, infobash also has array variables such as SCHEMES. To add something to an array such as SCHEMES, use the following method:
+.sp
+.RS 3n
+.nf
+		SCHEMES=(${SCHEMES[@]} GREEN,YELLOW,RED DRED,NORMAL,DMAGENTA)
+		
+.fi
+.RE
+.PP
+
+\fIList of customizable variables:\fR
+.PP
+.PP
+\fBDISTROS\fR (scalar)
+.RS 3n
+This scalar variable holds a space seperated list of files to look for under /etc/. When found, such a file can tell infobash on what kind of distro it is running. The list includes, for example,
+\fIknoppix\-version\fR
+and
+\fIslackware\-version.\fR
+If your own distro is not detected, or for example if you are creating your own distro and the filename you are using that describes the version isn't quite static yet, then this variable can help. You can also mail me a copy of a such a version file to have it included in the next version of infobash.
+.RE
+.PP
+\fBSCHEMES\fR (array)
+.RS 3n
+This variable contains the colour schemes infobash knows about; consult the table of in the colour schemes section of this manual for a list. You can add your own schema, such as GREEN,NORMAL,MAGENTA. This schema will then be available as number 15, because infobash currently counts from 0 up to scheme 14. The colors infobash knows about are:
+.sp
+DGREY BLACK RED DRED GREEN DGREEN YELLOW DYELLOW BLUE DBLUE MAGENTA DMAGENTA CYAN DCYAN WHITE GREY NORMAL EMPTY
+.sp
+EMPTY is a special variable containing no ANSI escape sequences or IRC color codes.
+.RE
+.PP
+\fBDEFSCHEME\fR (integer)
+.RS 3n
+Add a line such as DEFSCHEME=8 to an infobash config file and infobash will automatically choose that colour scheme from now on.
+.RE
+.PP
+\fBSHOWHOST\fR (integer boolean)
+.RS 3n
+SHOWHOST=0 stops infobash from printing the hostname
+.RE
+.PP
+\fBSHOWIRC\fR (integer)
+.RS 3n
+SHOWIRC=1 to avoid showing the irc\-client version number, or SHOWIRC=0 to disable client information completely.
+.RE
+.PP
+\fBNORMALBANS\fR (array)
+.RS 3n
+This array contains a list of 'buzzwords' or useless boilerplate text that infobash filters out of device names it detects. For example: 'Supertech communications technology group inc. ASX8134\-X Gigabit Ethernet" will be reduced to: 'Supertech ASX8134\-X Gigabit Ethernet'. You can add your own filter words to this array, if you want to.
+.sp
+An element of this array starting with the sequence $'\\2' is treated as a GNU awk regex, any other element is treated as a literal string. For example: $'\\2'"\\(rev ..\\)" would remove (rev 89) from a device name, but it would also remove (rev XF) or (rev a7).
+.RE
+.PP
+\fBCPUBANS\fR (array)
+.RS 3n
+This array is the same as NORMALBANS, except specifically geared towards intercepting boilerplate text in CPUID strings. See NORMALBANS for further reference.
+.RE
+.SH "EXAMPLES"
+.PP
+.PP
+Running infobash in the shell with verbosity level 2 and colour scheme 13 (Blue, Normal, Green)
+.RS 3n
+\fBinfobash \-v2 13\fR
+.RE
+.PP
+Piping the output of infobash with verbosity level 3 to a file (properly)
+.RS 3n
+\fBinfobash \-v3 0 >/path/to/file\fR
+.RE
+.PP
+Run infobash inside KVirc with verbosity level 1 and debugging enabled
+.RS 3n
+\fB/infobash \\\-v \-d\fR
+.RE
+.PP
+Run infobash from Xchat with verbosity level 3, showing crap
+.RS 3n
+\fB/exec \-o infobash \-v3 \-\-crap\fR
+.RE
+.PP
+Run infobash inside Konversation showing a oneliner
+.RS 3n
+\fB/exec infobash\fR
+.RE
+.PP
+Showing an infobash oneliner in Irssi (1) with output to the channel, and (2) without output to the channel, but with debugging
+.RS 3n
+\fB/exec \-o infobash\fR
+.sp
+\fB/exec infobash \-\-debug\fR
+.RE
+.SH "AUTHOR"
+.PP
+Infobash was written by Michiel de Boer <infobash<@>rebelhomicide.demon.nl>
+.SH "ACKNOWLEDGEMENTS"
+.PP
+slh (packaging, patches)
+.PP
+Special thanks to the developers and users of Kanotix and Sidux for their love and participation in this program.
+.SH "BUGS"
+.PP
+Probably. Infobash is a mix of Bash and Gawk. Send them to infobash<@>rebelhomicide.demon.nl
+.PP
+If your nvidia driver is broken (for example after an upgrade), GL is also broken and you can sometimes crash it by running glxinfo(mesa\-utils). Ergo Infobash will also crash X as soon as it starts glxinfo to gather OpenGL information. The solution for the problem (which is *not* caused by infobash!) is to reinstall the nvidia driver. Pity that it's so hard to debug closed source kernel drivers.
+.SH "SEE ALSO"
+.PP
+http://rebelhomicide.demon.nl/projects.cgi#infobash

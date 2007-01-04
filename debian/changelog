@@ -1,3 +1,9 @@
+infobash (2.55.2) UNRELEASED; urgency=low
+
+  * NOT RELEASED YET
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Thu,  4 Jan 2007 22:59:20 +0100
+
 infobash (2.55.1) unstable; urgency=low
 
   * generate the manpage on package build time.

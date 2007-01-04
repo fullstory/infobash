@@ -1,8 +1,9 @@
-infobash (2.55) UNRELEASED; urgency=low
+infobash (2.55) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * new upstream release.
+  * build manpage on the fly.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Tue,  2 Jan 2007 16:37:31 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Thu,  4 Jan 2007 13:12:02 +0100
 
 infobash (2.54) unstable; urgency=low
 

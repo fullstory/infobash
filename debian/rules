@@ -2,3 +2,9 @@
 
 include /usr/share/cdbs/1/rules/debhelper.mk
 
+build/infobash::
+	docbook-to-man infobash.sgml > infobash.1
+
+clean::
+	-rm -f infobash.1
+

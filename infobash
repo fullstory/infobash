@@ -456,15 +456,15 @@ for ((I=0;I<${#CPU[@]}-1;I++)); do
 done
 
 if echo "${CPU[@]}" | grep -qi 'dual\|triple\|quad'; then
-  NOCPUCOUNT=1
+	NOCPUCOUNT=1
 else
-  case $((${#CPU[@]}-1)) in 
-    2) CPU2="Dual";;
-    3) CPU2="Triple";;
-    4) CPU2="Quad";;
-    [5-9]|[1-9][0-9]) CPU2="${#CPU[@]}x";;
-    *) unset CPU2
-  esac
+	case $((${#CPU[@]}-1)) in 
+	2) CPU2="Dual";;
+	3) CPU2="Triple";;
+	4) CPU2="Quad";;
+	[5-9]|[1-9][0-9]) CPU2="${#CPU[@]}x";;
+	*) unset CPU2
+	esac
 fi
 
 IFS=","; CPUTMP=(${CPU[0]}); IFS="$OIFS"
@@ -473,7 +473,7 @@ CPU3="${CPU[${#CPU[@]}-1]}"
 CPU4="${CPUTMP[3]}"
 unset CPUFLAGS
 for I in $CPU4; do
-  [[ $I == nx || $I == lm ]] && CPUFLAGS="${CPUFLAGS}${CPUFLAGS+ }$I"
+	echo "$I" | grep -q '^nx$\|^lm$\|^sse' && CPUFLAGS="${CPUFLAGS}${CPUFLAGS+ }$I"
 done
 [[ -z $CPUFLAGS ]] && CPUFLAGS="-"
 

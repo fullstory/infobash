@@ -1,3 +1,9 @@
+infobash (2.55.3) UNRELEASED; urgency=low
+
+  * NOT RELEASED YET
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 21 Jan 2007 02:51:28 +0100
+
 infobash (2.55.2) unstable; urgency=low
 
   * import upstream changes regarding "sse,sse2,sse3 detection".

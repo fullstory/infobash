@@ -87,8 +87,8 @@
 		
 		<listitem>
 		<para>
-		level 3: -v3 is specified. A multiliner showing processor cache, processor flags such as nx(buffer overflow protection), lm(64bit extensions) and
-		sse2/3(gfx accelleration), networks cards and harddisk models is printed.
+		level 3: -v3 is specified. A multiliner showing processor cache, processor flags such as nx(buffer overflow protection), lm(64bit extensions),
+		sse/sse2/pni(gfx accelleration) and svm/vmx(virtualization extensions), networks cards and harddisk models is printed.
 		</para>
 		</listitem>
 

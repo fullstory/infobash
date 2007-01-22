@@ -472,14 +472,12 @@ CPU2="${CPU2}${CPU2+ }${CPUTMP[0]}" # clocked at [${CPU[${#CPU[@]}-1]}]"
 CPU3="${CPU[${#CPU[@]}-1]}"
 CPU4="${CPUTMP[3]}"
 unset CPUFLAGS
-for I in $CPU4; do
-	# nx = AMD stack protection extensions
-	# lm = Intel 64bit extensions
-	# sse, sse2, sse3 = gfx extensions
-	# svm = AMD pacifica virtualization extensions
-	# vmx = Intel IVT (vanderpool) virtualization extensions
-	echo "$I" | grep -q '^nx$\|^lm$\|^sse\|^svm$\|^vmx$' && CPUFLAGS="${CPUFLAGS}${CPUFLAGS+ }$I"
-done
+# nx = AMD stack protection extensions
+# lm = Intel 64bit extensions
+# sse, sse2, sse3 = gfx extensions
+# svm = AMD pacifica virtualization extensions
+# vmx = Intel IVT (vanderpool) virtualization extensions
+CPUFLAGS=$(echo $(echo "$CPU4" | grep -oE '\<(nx|lm|sse[0-9]*|pni|svm|vmx)\>' | tr '\n' ' '))
 [[ -z $CPUFLAGS ]] && CPUFLAGS="-"
 
 #[[ VBL -ge 2 ]] && BOGO=$(gawk -F': ' '/bogomips/ { if ($2 > max) { max = $2 } } 

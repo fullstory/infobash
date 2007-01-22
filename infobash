@@ -474,10 +474,10 @@ CPU4="${CPUTMP[3]}"
 unset CPUFLAGS
 # nx = AMD stack protection extensions
 # lm = Intel 64bit extensions
-# sse, sse2, sse3 = gfx extensions
+# sse, sse2, pni = sse1,2,3 gfx extensions
 # svm = AMD pacifica virtualization extensions
 # vmx = Intel IVT (vanderpool) virtualization extensions
-CPUFLAGS=$(echo $(echo "$CPU4" | grep -oE '\<(nx|lm|sse[0-9]*|pni|svm|vmx)\>' | tr '\n' ' '))
+CPUFLAGS=$(echo $(echo "$CPU4" | grep -oE '\<(nx|lm|sse[0-9]?|pni|svm|vmx)\>' | tr '\n' ' '))
 [[ -z $CPUFLAGS ]] && CPUFLAGS="-"
 
 #[[ VBL -ge 2 ]] && BOGO=$(gawk -F': ' '/bogomips/ { if ($2 > max) { max = $2 } } 

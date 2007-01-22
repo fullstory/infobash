@@ -37,7 +37,7 @@ DBI=0           # Debug Buffer Index, index into a debug buffer storing debug me
 
 SELF="Infobash"
 SELF_LC=$(echo "$SELF" | tr '[A-Z]' '[a-z]')
-MYVERSION="$SELF v2.55"
+MYVERSION="$SELF v2.56"
 LC_ALL="C"	# Make sure every program speaks English.
 export LC_ALL 
 OIFS="$IFS"	# Backup the current Internal Field Seperator

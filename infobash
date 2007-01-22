@@ -37,7 +37,7 @@ DBI=0           # Debug Buffer Index, index into a debug buffer storing debug me
 
 SELF="Infobash"
 SELF_LC=$(echo "$SELF" | tr '[A-Z]' '[a-z]')
-MYVERSION="$SELF v2.57"
+MYVERSION="$SELF v2.58"
 LC_ALL="C"	# Make sure every program speaks English.
 export LC_ALL 
 OIFS="$IFS"	# Backup the current Internal Field Seperator
@@ -473,7 +473,12 @@ CPU3="${CPU[${#CPU[@]}-1]}"
 CPU4="${CPUTMP[3]}"
 unset CPUFLAGS
 for I in $CPU4; do
-	echo "$I" | grep -q '^nx$\|^lm$\|^sse' && CPUFLAGS="${CPUFLAGS}${CPUFLAGS+ }$I"
+	# nx = AMD stack protection extensions
+	# lm = Intel 64bit extensions
+	# sse, sse2, sse3 = gfx extensions
+	# svm = AMD pacifica virtualization extensions
+	# vmx = Intel IVT (vanderpool) virtualization extensions
+	echo "$I" | grep -q '^nx$\|^lm$\|^sse\|^svm$\|^vmx$' && CPUFLAGS="${CPUFLAGS}${CPUFLAGS+ }$I"
 done
 [[ -z $CPUFLAGS ]] && CPUFLAGS="-"
 

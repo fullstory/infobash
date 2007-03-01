@@ -1,5 +1,5 @@
 Source: infobash
-Section: games
+Section: admin
 Priority: extra
 Maintainer: Stefan Lippers-Hollmann <s.l-h@gmx.de>
 Build-Depends: cdbs, debhelper (>= 5), xsltproc, docbook-xsl

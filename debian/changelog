@@ -1,9 +1,5 @@
-infobash (2.59) UNRELEASED; urgency=low
+infobash (2.59) unstable; urgency=low
 
-  [ Stefan Lippers-Hollmann ]
-  * NOT RELEASED YET
-
-  [ locsmif ]
   * Request from slh: changed free memory detection. Now free, buffers and
     cached are subtracted from total for used memory indication. /proc/meminfo
     is now used instead of free(1)

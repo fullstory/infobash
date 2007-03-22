@@ -1,8 +1,14 @@
 infobash (2.59) UNRELEASED; urgency=low
 
+  [ Stefan Lippers-Hollmann ]
   * NOT RELEASED YET
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 22 Jan 2007 17:44:30 +0100
+  [ locsmif ]
+  * Request from slh: changed free memory detection. Now free, buffers and
+    cached are subtracted from total for used memory indication. /proc/meminfo
+    is now used instead of free(1)
+
+ -- locsmif <infobash@rebelhomicide.demon.nl>  Fri, 23 Mar 2007 00:10:42 +0100
 
 infobash (2.58) unstable; urgency=low
 

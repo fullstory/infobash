@@ -540,7 +540,8 @@ else
   HDD="unknown.."
 fi
 
-MEM=$(free | gawk '/Mem:/ {printf("%s%s\n",$3/1024"/",$2/1024"MB")}')
+MEM=$(gawk '/^MemTotal:/{tot=$2}/^(MemFree|Buffers|Cached):/{notused+=$2}END{used=tot-notused;printf("%.1f/%.1fMB\n",used/1024,tot/1024)}' /proc/meminfo)
+# Old method: MEM=$(free | gawk '/Mem:/ {printf("%s%s\n",$3/1024"/",$2/1024"MB")}')
 PROC="$(($(ps aux | wc -l)-1))"
 UPT=$(uptime | gawk '{a=gensub(/^.*up *([^,]*).*$/,"\\1","g",$0);gsub(/ /,"",a);print a}')
 IFS=$'\n'; GFX=($(echo "$LSPCI" | gawk -F': ' '/VGA compatible controller/ { print $NF }')); IFS="$OIFS"

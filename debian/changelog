@@ -1,3 +1,9 @@
+infobash (2.60) UNRELEASED; urgency=low
+
+  * NOT RELEASED YET
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Fri, 23 Mar 2007 00:18:32 +0100
+
 infobash (2.59) unstable; urgency=low
 
   * Request from slh: changed free memory detection. Now free, buffers and

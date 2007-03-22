@@ -532,7 +532,20 @@ HDDCAP2=$(gawk '$2%16 == 0 {size+=$3} END {printf("%d\n",size)}' /proc/partition
 ##say "HDDCAP1=\"$HDDCAP1\"  HDDCAP2=\"$HDDCAP2"" ; exit
 HDD=0 ; for I in ${!HDDCAP*}; do [[ ${!I} -gt $HDD ]] && HDD="${!I}" ; done 
 if ((HDD)); then
-  HDDUSG=$(df | gawk '$1 ~ /^\/dev\/[hs]d[a-z][0-9]+.*$/{count+=$3} END {printf("%d\n",count)}')
+	HDDUSG=$(df | gawk '
+	p { 
+		if (/^\/dev\/(mapper\/|[hs]d[a-z][0-9]+)/) { 
+			if (NF == 1) { 
+				getline 
+				if (NF == 5) { c += $2 } 
+				else next 
+			} 
+			else if (NF == 6) { c += $3 } 
+		} 
+	} 
+	/^Filesystem/ { p++ } 
+	END { print c }
+	')
   HDDUSG="$((HDDUSG*100/HDD))%used"
   HDD="$(($HDD*1024/1000**3))GB"
 else
@@ -541,7 +554,6 @@ else
 fi
 
 MEM=$(gawk '/^MemTotal:/{tot=$2}/^(MemFree|Buffers|Cached):/{notused+=$2}END{used=tot-notused;printf("%.1f/%.1fMB\n",used/1024,tot/1024)}' /proc/meminfo)
-# Old method: MEM=$(free | gawk '/Mem:/ {printf("%s%s\n",$3/1024"/",$2/1024"MB")}')
 PROC="$(($(ps aux | wc -l)-1))"
 UPT=$(uptime | gawk '{a=gensub(/^.*up *([^,]*).*$/,"\\1","g",$0);gsub(/ /,"",a);print a}')
 IFS=$'\n'; GFX=($(echo "$LSPCI" | gawk -F': ' '/VGA compatible controller/ { print $NF }')); IFS="$OIFS"

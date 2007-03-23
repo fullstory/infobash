@@ -19,8 +19,8 @@
 # GNU General Public License for more details.
 
 #   DEPENDENCIES
-# bash >=2.05b(bash), tr;readlink;uname;df;wc(coreutils), wget(wget), 
-# hostname(hostname), free;ps;uptime(procps), lspci(pciutils), bc(bc)
+# bash >=2.05b(bash), tr;readlink;uname;df;wc(coreutils),  
+# hostname(hostname), ps;uptime(procps), lspci(pciutils), bc(bc)
 # xrandr;xdpyinfo;glxinfo(xbase-clients), grep(grep), gawk(gawk)
 # Also the proc filesystem should be present and mounted
 

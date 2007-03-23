@@ -1,10 +1,6 @@
-infobash (2.60) UNRELEASED; urgency=low
+infobash (2.60) unstable; urgency=low
 
-  [ Stefan Lippers-Hollmann ]
-  * NOT RELEASED YET
-
-  [ locsmif ]
-  * Included usage of lvm volumes in hdd usage detection (requested by slh)
+  * Included usage of lvm volumes in hdd usage detection (requested by slh).
 
  -- locsmif <infobash@rebelhomicide.demon.nl>  Fri, 23 Mar 2007 00:55:21 +0100
 

@@ -1,9 +1,5 @@
-infobash (2.61) UNRELEASED; urgency=low
+infobash (2.61) unstable; urgency=low
 
-  [ Stefan Lippers-Hollmann ]
-  * NOT RELEASED YET
-
-  [ Michiel de Boer ]
   * Changed spaces from mandatory to optional in the regex that fetches the
   resolution from xrandr, because as of X.org 1.3.0 (afaik) resolution is
   reported as '1024x768' instead of '1024 x 768'.

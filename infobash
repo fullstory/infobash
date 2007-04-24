@@ -618,10 +618,10 @@ if ((X)); then
   BEGIN { IGNORECASE=1 } 
   /opengl renderer/ { 
     if ($2 ~ /mesa/) { if ($2 ~ / r[3-9][0-9][0-9] /) { a[$2]; f++ } next }
-    a[$2] 
+    $2 && a[$2] 
   } 
-  /opengl version/ && (f || $2 !~ /mesa/) { b[$2] } 
-  /direct rendering/ { c[$2] } 
+  /opengl version/ && (f || $2 !~ /mesa/) { $2 && b[$2] } 
+  /direct rendering/ { $2 && c[$2] } 
   END { printf("%s\n%s\n%s\n",join(a,", "),join(b,", "),join(c,", ")) }
   '))
   IFS="$OIFS"

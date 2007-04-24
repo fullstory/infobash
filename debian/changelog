@@ -6,8 +6,9 @@ infobash (2.62) UNRELEASED; urgency=low
   [ Michiel de Boer ]
   * xrandr's output also changed with X.org 1.3.0, this code should get
     refresh rate from both old and new.
+  * protect against empty strings in glxinfo data with multiple displays
 
- -- Michiel de Boer <infobash@rebelhomicide.demon.nl>  Tue, 24 Apr 2007 03:23:31 +0200
+ -- Michiel de Boer <infobash@rebelhomicide.demon.nl>  Tue, 24 Apr 2007 05:04:28 +0200
 
 infobash (2.61) unstable; urgency=low
 

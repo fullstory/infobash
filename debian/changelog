@@ -1,9 +1,5 @@
-infobash (2.62) UNRELEASED; urgency=low
+infobash (2.62) unstable; urgency=low
 
-  [ Stefan Lippers-Hollmann ]
-  * NOT RELEASED YET
-
-  [ Michiel de Boer ]
   * xrandr's output also changed with X.org 1.3.0, this code should get
     refresh rate from both old and new.
   * protect against empty strings in glxinfo data with multiple displays

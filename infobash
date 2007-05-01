@@ -1,7 +1,7 @@
 #!/bin/bash
 # InfoBash, the universal, portable, system info script for irc.
 # tested with ircII,irssi,bitchX,xchat,ksirc,konversation,weechat
-# Copyright (C) 2005  locsmif <infobash@rebelhomicide.demon.nl>
+# Copyright (C) 2005-2007  locsmif <infobash@rebelhomicide.demon.nl>
 
 # Freenode:
 # Many thanks to etorix, Kano, kelmo, slh in alphabetical order 
@@ -37,7 +37,7 @@ DBI=0           # Debug Buffer Index, index into a debug buffer storing debug me
 
 SELF="Infobash"
 SELF_LC=$(echo "$SELF" | tr '[A-Z]' '[a-z]')
-MYVERSION="$SELF v2.63"
+MYVERSION="$SELF v2.64"
 LC_ALL="C"	# Make sure every program speaks English.
 export LC_ALL 
 OIFS="$IFS"	# Backup the current Internal Field Seperator
@@ -60,7 +60,7 @@ INDENT=14	# Default indentation level
 VBL=0		# Verbosity level defaults to 0, this can also be set with -v, -v2, -v3, etc as a parameter.
 IBSHELL=0	# Running in a shell? Defaults to false, and is determined later.
 NOCPUCOUNT=0	# Wether or not the string "dual" or similar is found in cpuinfo output. If so, avoid dups.
-DISTROS="kanotix-version sidux-version knoppix-version SuSE-release gentoo-release redhat-release mandrake-release slackware-version turbolinux-release zenwalk-version"
+DISTROS="kanotix-version sidux-version knoppix-version SuSE-release sabayon-release gentoo-release redhat-release mandrake-release slackware-version turbolinux-release zenwalk-version"
 FL1='-'		# These two determine seperators in single line output, to force irc clients not to break off sections
 FL2=''
 # Precede a banword with $'\2' to prevent it from being subject to automated escaping by the mkbans routine

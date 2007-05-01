@@ -37,7 +37,7 @@ DBI=0           # Debug Buffer Index, index into a debug buffer storing debug me
 
 SELF="Infobash"
 SELF_LC=$(echo "$SELF" | tr '[A-Z]' '[a-z]')
-MYVERSION="$SELF v2.64"
+MYVERSION="$SELF v2.65"
 LC_ALL="C"	# Make sure every program speaks English.
 export LC_ALL 
 OIFS="$IFS"	# Backup the current Internal Field Seperator
@@ -60,6 +60,8 @@ INDENT=14	# Default indentation level
 VBL=0		# Verbosity level defaults to 0, this can also be set with -v, -v2, -v3, etc as a parameter.
 IBSHELL=0	# Running in a shell? Defaults to false, and is determined later.
 NOCPUCOUNT=0	# Wether or not the string "dual" or similar is found in cpuinfo output. If so, avoid dups.
+# In cases of derived distros where the version file of the base distro can also be found under /etc, the derived distro's
+# version file should go first. (Such as with Sabayon / Gentoo)
 DISTROS="kanotix-version sidux-version knoppix-version SuSE-release sabayon-release gentoo-release redhat-release mandrake-release slackware-version turbolinux-release zenwalk-version"
 FL1='-'		# These two determine seperators in single line output, to force irc clients not to break off sections
 FL2=''
@@ -527,7 +529,7 @@ fi
 
 ##say "$HDDMOD" ; exit
 ((CAP)) && HDDCAP1="$((CAP/2))"
-HDDCAP2=$(gawk '$2%16 == 0 {size+=$3} END {printf("%d\n",size)}' /proc/partitions)
+HDDCAP2=$(gawk '$1 ~ /^(3|8)$/ && $2 % 16 == 0 {size+=$3} END {printf("%d\n",size)}' /proc/partitions)
 
 ##say "HDDCAP1=\"$HDDCAP1\"  HDDCAP2=\"$HDDCAP2"" ; exit
 HDD=0 ; for I in ${!HDDCAP*}; do [[ ${!I} -gt $HDD ]] && HDD="${!I}" ; done 

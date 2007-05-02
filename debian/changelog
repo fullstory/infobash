@@ -1,9 +1,5 @@
-infobash (2.63) UNRELEASED; urgency=low
+infobash (2.65) unstable; urgency=low
 
-  [ Stefan Lippers-Hollmann ]
-  * NOT RELEASED YET
-
-  [ Michiel de Boer ]
   * Attempt to fix soft/fakeraid volume size calculation bug
   * Added Sabayon Linux release info checking
   * Rewrote recently introduced new xrandr parsing code due to bug report

@@ -1,3 +1,9 @@
+infobash (2.66) UNRELEASED; urgency=low
+
+  * NOT RELEASED YET
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Wed, 02 May 2007 03:21:44 +0200
+
 infobash (2.65) unstable; urgency=low
 
   * Attempt to fix soft/fakeraid volume size calculation bug

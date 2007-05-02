@@ -1,8 +1,14 @@
 infobash (2.63) UNRELEASED; urgency=low
 
+  [ Stefan Lippers-Hollmann ]
   * NOT RELEASED YET
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Tue, 24 Apr 2007 12:41:16 +0200
+  [ Michiel de Boer ]
+  * Attempt to fix soft/fakeraid volume size calculation bug
+  * Added Sabayon Linux release info checking
+  * Rewrote recently introduced new xrandr parsing code due to bug report
+
+ -- Michiel de Boer <infobash@rebelhomicide.demon.nl>  Wed, 02 May 2007 03:10:18 +0200
 
 infobash (2.62) unstable; urgency=low
 

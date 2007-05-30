@@ -48,7 +48,7 @@
 		</para>
 
 		<para>
-	        Currently, infobash has been found to work on Irssi, Xchat, Konversation, BitchX, KSirc, ircII, Gaim, Weechat, KVIrc and Kopete. Client specific
+	        Currently, infobash has been found to work on Irssi, Xchat, Konversation, BitchX, KSirc, ircII, Gaim/Pidgin, Weechat, KVIrc and Kopete. Client specific
 		quirks and tweaks are discussed in the IRC-CLIENTS section below.
 		</para>
 	</refsection>
@@ -139,11 +139,12 @@
 		</listitem>
 
 		<listitem>
-		<para><emphasis>Gaim</emphasis> - <command>/exec -o infobash</command></para>
+		<para><emphasis>Gaim/Pidgin</emphasis> - <command>/exec -o infobash</command></para>
 		<para>
-		Sadly, Gaim doesn't support /exec out of the box. Therefore you need to download and install <emphasis>slashexec</emphasis>:
-		<link>http://gaim.guifications.org/trac/wiki/slashexec</link>. After installing <emphasis>slashexec</emphasis> infobash will not only run,
-		but also properly detect the version of Gaim used to /exec infobash.
+		Sadly, Gaim/Pidgin doesn't support /exec out of the box. Therefore you need to download and install <emphasis>slashexec</emphasis>:
+		See <link>http://plugins.guifications.org/trac/wiki/PluginPack</link> and <link>http://plugins.guifications.org/trac/wiki/slashexec</link>. 
+		After installing <emphasis>slashexec</emphasis> infobash will not only run, but also properly detect the version of Gaim/Pidgin used
+		to /exec infobash.
 		</para>
 		</listitem>
 		

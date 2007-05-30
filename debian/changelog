@@ -5,9 +5,10 @@ infobash (2.66) UNRELEASED; urgency=low
 
   [ Michiel de Boer ]
   * The Gaim project has died and is now called 'Pidgin'. Added detection for
-    that. 
+    that.
+  * Also updated the sgml documentation to reflect the existance of 'Pidgin'
 
- -- Michiel de Boer <infobash@rebelhomicide.demon.nl>  Wed, 30 May 2007 20:56:31 +0200
+ -- Michiel de Boer <infobash@rebelhomicide.demon.nl>  Wed, 30 May 2007 21:12:38 +0200
 
 infobash (2.65) unstable; urgency=low
 

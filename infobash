@@ -37,7 +37,7 @@ DBI=0           # Debug Buffer Index, index into a debug buffer storing debug me
 
 SELF="Infobash"
 SELF_LC=$(echo "$SELF" | tr '[A-Z]' '[a-z]')
-MYVERSION="$SELF v2.65"
+MYVERSION="$SELF v2.66"
 LC_ALL="C"	# Make sure every program speaks English.
 export LC_ALL 
 OIFS="$IFS"	# Backup the current Internal Field Seperator
@@ -246,6 +246,8 @@ roots () {
 				IRC="ircII" ;;		
 	*gaim*)			IRCV=" $($IRC -v | gawk 'NR == 1 { print $2 }')"
 				IRC="Gaim" ;;				
+	*pidgin*)		IRCV=" $($IRC -v | gawk 'NR == 1 { print $2 }')"
+				IRC="Pidgin" ;;
 	*weechat-curses*)	IRCV=" $($IRC -v)" 
 				IRC="Weechat" ;;
 	*kvirc*)		IRCV=" $($IRC -v 2>&1 | gawk '{ for (i=2;i<=NF;i++) { if (i==NF) print $i; else printf $i" " }; exit }')"

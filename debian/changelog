@@ -1,3 +1,9 @@
+infobash (2.67) UNRELEASED; urgency=low
+
+  * NOT RELEASED YET
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 04 Jun 2007 15:42:47 +0200
+
 infobash (2.66) unstable; urgency=low
 
   * The Gaim project has died and is now called 'Pidgin'. Added detection for

@@ -1,9 +1,5 @@
-infobash (2.66) UNRELEASED; urgency=low
+infobash (2.66) unstable; urgency=low
 
-  [ Stefan Lippers-Hollmann ]
-  * NOT RELEASED YET
-
-  [ Michiel de Boer ]
   * The Gaim project has died and is now called 'Pidgin'. Added detection for
     that.
   * Also updated the sgml documentation to reflect the existance of 'Pidgin'

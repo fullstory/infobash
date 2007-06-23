@@ -1,8 +1,12 @@
 infobash (2.67) UNRELEASED; urgency=low
 
+  [ Stefan Lippers-Hollmann ]
   * NOT RELEASED YET
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 04 Jun 2007 15:42:47 +0200
+  [ Michiel de Boer ]
+  * Small cosmetic changes to infobash.conf
+
+ -- Michiel de Boer <infobash@rebelhomicide.demon.nl>  Sat, 23 Jun 2007 21:41:03 +0200
 
 infobash (2.66) unstable; urgency=low
 

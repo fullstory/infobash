@@ -5,8 +5,11 @@ infobash (2.67) UNRELEASED; urgency=low
 
   [ Michiel de Boer ]
   * Small cosmetic changes to infobash.conf
+  * Added major numbers to parsing code of /proc/partitions for second and
+    third IDE controller
 
- -- Michiel de Boer <infobash@rebelhomicide.demon.nl>  Sat, 23 Jun 2007 21:41:03 +0200
+
+ -- Michiel de Boer <infobash@rebelhomicide.demon.nl>  Mon, 16 Jul 2007 04:13:29 +0200
 
 infobash (2.66) unstable; urgency=low
 

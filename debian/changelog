@@ -1,13 +1,8 @@
-infobash (2.67) UNRELEASED; urgency=low
+infobash (2.67) unstable; urgency=low
 
-  [ Stefan Lippers-Hollmann ]
-  * NOT RELEASED YET
-
-  [ Michiel de Boer ]
   * Small cosmetic changes to infobash.conf
   * Added major numbers to parsing code of /proc/partitions for second and
     third IDE controller
-
 
  -- Michiel de Boer <infobash@rebelhomicide.demon.nl>  Mon, 16 Jul 2007 04:13:29 +0200
 

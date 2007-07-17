@@ -1,8 +1,12 @@
 infobash (2.68) UNRELEASED; urgency=low
 
+  [ Stefan Lippers-Hollmann ]
   * NOT RELEASED YET
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Tue, 17 Jul 2007 01:10:56 +0200
+  [ Michiel de Boer ]
+  * Updated to GPLv3
+
+ -- Michiel de Boer <infobash@rebelhomicide.demon.nl>  Tue, 17 Jul 2007 05:43:57 +0200
 
 infobash (2.67) unstable; urgency=low
 

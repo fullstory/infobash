@@ -1,6 +1,7 @@
 #!/bin/bash
 # InfoBash, the universal, portable, system info script for irc.
-# tested with ircII,irssi,bitchX,xchat,ksirc,konversation,weechat
+# Tested with Irssi, Xchat, Konversation, BitchX, KSirc, ircII,
+# Gaim/Pidgin, Weechat, KVIrc and Kopete.
 # Copyright (C) 2005-2007  locsmif <infobash@rebelhomicide.demon.nl>
 
 # Freenode:
@@ -290,32 +291,47 @@ roots () {
 
 # Get the parameters
 getparams () {
-  [[ -z $1 ]] && return 1
-  while [[ -n $1 ]]; do
-    case $1 in
-      -v|-v[1-9]|--verbose) 
-        if [[ ${#1} -eq 3 ]]; then
-	  VBL="${1:2}"
-	else
-          if [[ $2 = --* || $2 = -* || -z $2 ]]; then
-	    VBL=1
-	  else
-	    shift
-	    VBL="$1" 
-	  fi
-	fi
-	echo "$VBL" | grep -q '^[1-3]$' || error 4 "$VBL" ;;
-      --crap)
-        CRAP=1 ;;
-      -d|--debug)
-        DEBUG=1
-	exec 2>&1 ;;
-      *)
-        echo "$1" | grep -q '^[0-9][0-9]\?$' || error 3 "$1"
-        ((CSCHEME)) || cscheme "$1"
-    esac
-  shift
-  done    
+	[[ -z $1 ]] && return 1
+	while [[ -n $1 ]]; do
+	case $1 in
+        --crap)
+        	CRAP=1
+	;;
+	-d|--debug)
+        	DEBUG=1
+		exec 2>&1
+	;;
+	-v|-v[1-9]|--verbose)
+		if [[ ${#1} -eq 3 ]]; then
+			VBL="${1:2}"
+		else
+			if [[ $2 = --* || $2 = -* || -z $2 ]]; then
+				VBL=1
+			else
+				shift
+				VBL="$1" 
+			fi
+		fi
+		echo "$VBL" | grep -q '^[1-3]$' || error 4 "$VBL"
+	;;
+	--version)
+		say "InfoBash, the universal, portable, system info script for irc."
+		say "Tested with Irssi, Xchat, Konversation, BitchX, KSirc, ircII,"
+		say "Gaim/Pidgin, Weechat, KVIrc and Kopete."
+		say "Copyright (C) 2005-2007  Michiel de Boer a.k.a. locsmif <infobash@rebelhomicide.demon.nl>"
+		say " "
+		say "This program is free software; you can redistribute it and/or modify"
+		say "it under the terms of the GNU General Public License as published by"
+		say "the Free Software Foundation; either version 3 of the License, or"
+		say "(at your option) any later version."
+		exit 0
+	;;
+	*)
+		echo "$1" | grep -q '^[0-9][0-9]\?$' || error 3 "$1"
+		((CSCHEME)) || cscheme "$1"
+	esac
+	shift
+	done    
 }
 
 # Enforce boilerplate and buzzword filters
@@ -398,7 +414,7 @@ unset DISTRO
 for I in $DISTROS; do
   [[ -s /etc/$I ]] && DISTRO=$(eat /etc/$I) && break
 done
-((${#DISTRO} > 80 && ! CRAP)) && DISTRO="$I corrupted, use --crap to override"
+((${#DISTRO} > 80 && ! CRAP)) && DISTRO="${RED}$I corrupted, use --crap to override${NORMAL}"
 
 if [[ -z $DISTRO ]]; then
 	ISSUE=$(eat /etc/issue)

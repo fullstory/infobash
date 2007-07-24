@@ -8,8 +8,10 @@ infobash (2.68) UNRELEASED; urgency=low
   * Added distro version file corruption detection due to possible corruptions
     by other tools or user modifications. Will reject anything larger than 80
     characters, and is overridable with --crap
+  * Added interactive license display with --version, to conform to GPLv3
+    better. Improved indenting here and there.
 
- -- Michiel de Boer <infobash@rebelhomicide.demon.nl>  Tue, 24 Jul 2007 05:00:25 +0200
+ -- Michiel de Boer <infobash@rebelhomicide.demon.nl>  Tue, 24 Jul 2007 05:17:22 +0200
 
 infobash (2.67) unstable; urgency=low
 

@@ -398,6 +398,7 @@ unset DISTRO
 for I in $DISTROS; do
   [[ -s /etc/$I ]] && DISTRO=$(eat /etc/$I) && break
 done
+((${#DISTRO} > 80 && ! CRAP)) && DISTRO="$I corrupted, use --crap to override"
 
 if [[ -z $DISTRO ]]; then
 	ISSUE=$(eat /etc/issue)

@@ -4,14 +4,19 @@ infobash (2.68) UNRELEASED; urgency=low
   * NOT RELEASED YET
 
   [ Michiel de Boer ]
+  * Version bump to 3.00
   * Updated to GPLv3
+  * Rewrite of distro detection
   * Added distro version file corruption detection due to possible corruptions
     by other tools or user modifications. Will reject anything larger than 80
     characters, and is overridable with --crap
   * Added interactive license display with --version, to conform to GPLv3
-    better. Improved indenting here and there.
+    better
+  * Complete overhaul and improvements of code style, indenting
+  * Rewrite of CPU flags detection
+  * Added runlevel detection and tty resolution detection in non-X mode
 
- -- Michiel de Boer <infobash@rebelhomicide.demon.nl>  Tue, 24 Jul 2007 05:17:22 +0200
+ -- Michiel de Boer <infobash@rebelhomicide.demon.nl>  Tue, 31 Jul 2007 03:41:37 +0200
 
 infobash (2.67) unstable; urgency=low
 

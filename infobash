@@ -538,9 +538,9 @@ fi
 
 IFS=","; CPUTMP=(${CPU[0]}); IFS="$OIFS"
 # For the short line
-CPUMODEL="${CPU2}${CPU2+ }${CPUTMP[0]}" # clocked at [${CPU[${#CPU[@]}-1]}]"	# CPU2
-CPUCLOCK="${CPU[${#CPU[@]}-1]}"							# CPU3
-CPUFLAGS="${CPUTMP[3]}"								# CPU4
+CPUMODEL="${CPU2}${CPU2+ }${CPUTMP[0]}" # clocked at [${CPU[${#CPU[@]}-1]}]"	# old CPU2
+CPUCLOCK="${CPU[${#CPU[@]}-1]}"							# old CPU3
+CPUFLAGS="${CPUTMP[3]}"								# old CPU4
 # nx = AMD stack protection extensions
 # lm = Intel 64bit extensions
 # sse, sse2, pni = sse1,2,3 gfx extensions

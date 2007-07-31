@@ -72,8 +72,9 @@ NOCPUCOUNT=0	# Wether or not the string "dual" or similar is found in cpuinfo ou
 # In cases of derived distros where the version file of the base distro can also be found under /etc, the derived distro's
 # version file should go first. (Such as with Sabayon / Gentoo)
 DIST_DERIV="sidux-version kanotix-version knoppix-version sabayon-release redhat-release turbolinux-release zenwalk-version"
-# debian_version excluded from DIST_MAIN so Debian can fall through to /etc/issue detection. Same goes for Ubuntu.
 DIST_MAIN="gentoo-release mandrake-release slackware-version redhat-release SuSE-release"
+# debian_version excluded from DIST_MAIN so Debian can fall through to /etc/issue detection. Same goes for Ubuntu.
+DIST_BLIST="debian_version ubuntu_version"
 FL1='-'		# These two determine seperators in single line output, to force irc clients not to break off sections
 FL2=''
 # Precede a banword with $'\2' to prevent it from being subject to automated escaping by the mkbans routine
@@ -436,27 +437,26 @@ HN=$(hostname)
 unset DISTRO
 shopt -s nullglob; cd /etc; DISTGLOB=(*[-_]{release,version}); cd "$OLDPWD"; shopt -u nullglob
 if ((${#DISTGLOB[@]} == 1)); then
-	DISTFILE="/etc/${DISTGLOB}"
+	DISTFILE="${DISTGLOB}"
 elif ((${#DISTGLOB[@]} > 1)); then
 	for I in $DIST_DERIV $DIST_MAIN; do
 		# Only echo works with ${var[@]}, not say() or dbg()
 		# This is a known bug, search for the word "strange" inside comments
 		# echo "I='$I' DISTGLOB[@]='${DISTGLOB[@]}'"
 		if [[ " ${DISTGLOB[@]} " == *" $I "* ]]; then
-			DISTFILE="/etc/${I}"
+			DISTFILE="${I}"
 			break
 		fi
 	done
 fi
-if [[ -s $DISTFILE ]]; then
-	DISTRO=$(eat "$DISTFILE")
-	#[[ $DISTFILE == /etc/debian_version ]] && DISTRO="Debian $DISTRO"
+if [[ -s /etc/${DISTFILE} && " $DIST_BLIST " != *" $DISTFILE "* ]]; then
+	DISTRO=$(eat "/etc/${DISTFILE}")
 else
-	# Debian pure falls through here
-	DISTFILE="/etc/issue"
-	DISTRO=$(gawk 'BEGIN { RS="" } { gsub(/\\[a-z]/,""); gsub(/ [ ]+/," "); gsub(/^ +| +$/,""); print }' "$DISTFILE")
+	# Debian pure should fall through here
+	DISTFILE="issue"
+	DISTRO=$(gawk 'BEGIN { RS="" } { gsub(/\\[a-z]/,""); gsub(/ [ ]+/," "); gsub(/^ +| +$/,""); print }' "/etc/${DISTFILE}")
 fi
-((${#DISTRO} > 80 && ! CRAP)) && DISTRO="${RED}$DISTFILE corrupted, use --crap to override${NORMAL}"
+((${#DISTRO} > 80 && ! CRAP)) && DISTRO="${RED}/etc/${DISTFILE} corrupted, use --crap to override${NORMAL}"
 : ${DISTRO:=Unknown distro o_O}
 
 OSKERN=$(uname -a | gawk '{print $1,$3,$(NF-1)}')

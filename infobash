@@ -794,7 +794,7 @@ if ((VBL)); then  # (IF VBL > 1)
 	if ((X)); then
 		LNGFX="${LNGFX}$(echo -ne "${C1}  $XVER  ${CN}[${C2} ${RES}${FREQ} ${CN}]")"
 	else
-		LNGFX="${LNGFX}$(echo -ne "${C1}  tty resolution ${CN}(${C2}${RES}${CN})")"
+		LNGFX="${LNGFX}$(echo -ne "${C1}  tty resolution ${CN}(${C2} ${RES} ${CN})")"
 	fi
 
 	say "$LNGFX"

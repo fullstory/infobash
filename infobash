@@ -72,7 +72,8 @@ NOCPUCOUNT=0	# Wether or not the string "dual" or similar is found in cpuinfo ou
 # In cases of derived distros where the version file of the base distro can also be found under /etc, the derived distro's
 # version file should go first. (Such as with Sabayon / Gentoo)
 DIST_DERIV="sidux-version kanotix-version knoppix-version sabayon-release redhat-release turbolinux-release zenwalk-version"
-DIST_MAIN="debian_version gentoo-release mandrake-release slackware-version redhat-release SuSE-release"
+# debian_version excluded from DIST_MAIN so Debian can fall through to /etc/issue detection. Same goes for Ubuntu.
+DIST_MAIN="gentoo-release mandrake-release slackware-version redhat-release SuSE-release"
 FL1='-'		# These two determine seperators in single line output, to force irc clients not to break off sections
 FL2=''
 # Precede a banword with $'\2' to prevent it from being subject to automated escaping by the mkbans routine
@@ -449,7 +450,9 @@ elif ((${#DISTGLOB[@]} > 1)); then
 fi
 if [[ -s $DISTFILE ]]; then
 	DISTRO=$(eat "$DISTFILE")
+	#[[ $DISTFILE == /etc/debian_version ]] && DISTRO="Debian $DISTRO"
 else
+	# Debian pure falls through here
 	DISTFILE="/etc/issue"
 	DISTRO=$(gawk 'BEGIN { RS="" } { gsub(/\\[a-z]/,""); gsub(/ [ ]+/," "); gsub(/^ +| +$/,""); print }' "$DISTFILE")
 fi

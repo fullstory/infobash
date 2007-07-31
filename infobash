@@ -552,7 +552,9 @@ BEGIN {
         ssel["sse"] = 1
         ssel["sse2"] = 2
         ssel["pni"] = 3
-        for (i in ssel) sses[ssel[i]] = i
+	sses[1] = "sse"
+	sses[2] = "sse2"
+	sses[3] = "sse3"
 }
 /^(nx|lm|svm|vmx)$/ {
         if (s) { s = s " " $0 }

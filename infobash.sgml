@@ -157,7 +157,7 @@
 		</listitem>
 
 		<listitem>
-		<para><emphasis>Konversation</emphasis> - <command>/exec infobash</command> (Kanotix/Sidux users should use: <command>/infobash</command>)</para>
+		<para><emphasis>Konversation</emphasis> - <command>/exec infobash</command> (Sidux/Kanotix users should use: <command>/infobash</command>)</para>
 		<para>
 		Infobash was originally written for Konversation, although that was a few years ago. Infobash has support for Konversations' DCOP functions
 		built in, to be able to actually 'speak' into a channel or query. Sadly, Konversation doesn't have an /exec command built in that resembles
@@ -207,7 +207,7 @@
 		<para>First off, the best way to get infobash going is to make an alias:</para>
 		<para><command>/alias (infobash) { exec ("infobash "$0-) { say $1; } }</command></para>
 		<para>
-		Make sure that the alias is stored: go to Scripting->Edit Aliases in the pulldown-menu to confirm.
+		Make sure that the alias is stored: go to Scripting->Edit Aliases in the pulldown menu to confirm.
 		After that, you can start infobash like so:
 		</para>
 		<para><command>/infobash</command></para>	
@@ -253,7 +253,7 @@
 	<refsection>
 		<title>Colour schemes</title>
 		<para>
-	Currently, the following colour schemes have been implemented:
+		Currently, the following colour schemes have been implemented:
 		</para>
 		<table rules="none">
 		<title>Colour schemes</title>
@@ -440,10 +440,10 @@
 				<listitem>
 					<para>
 					This scalar variable holds a space seperated list of files to look for under /etc/.
-					When found, such a file can tell infobash on what kind of distro it is running.
+					When found, such a file can tell infobash on which distro it's running.
 					The list includes, for example, <emphasis>knoppix-version</emphasis> and <emphasis>slackware-version.</emphasis>
 					If your own distro is not detected, or for example if you are creating your own distro and the filename you are using
-					that describes the version isn't quite static yet, then this variable can help. You can also mail me a copy of a such
+					that describes the version isn't widely known yet, then this variable can help. You can also mail me a copy of a such
 					a version file to have it included in the next version of infobash.
 					</para>
 				</listitem>
@@ -452,9 +452,9 @@
 				<term><envar>SCHEMES</envar> (array)</term>
 				<listitem>
 					<para>
-					This variable contains the colour schemes infobash knows about; consult the table of in the colour schemes
-					section of this manual for a list. You can add your own schema, such as GREEN,NORMAL,MAGENTA. This schema will then be
-					available as number 15, because infobash currently counts from 0 up to scheme 14. The colors infobash knows about are: 
+					This variable contains the colour schemes infobash knows about; consult the table of colour schemes elsewhere in this
+					manual for a list. You can add your own scheme, such as GREEN,NORMAL,MAGENTA. This scheme will then be available as
+					number 15, because infobash currently counts from 0 up to scheme 14. The colours infobash knows about are: 
 					</para>
 					<para>
 					DGREY BLACK RED DRED GREEN DGREEN YELLOW DYELLOW BLUE DBLUE MAGENTA DMAGENTA CYAN DCYAN WHITE GREY NORMAL EMPTY
@@ -494,7 +494,7 @@
 				<listitem>
 					<para>
 					This array contains a list of 'buzzwords' or useless boilerplate text that infobash filters out of device names
-					it detects. For example: 'Supertech communications technology group inc. ASX8134-X Gigabit Ethernet" will be reduced
+					it detects. For example: 'Supertech communications technology group inc. ASX8134-X Gigabit Ethernet' will be reduced
 					to: 'Supertech ASX8134-X Gigabit Ethernet'. You can add your own filter words to this array, if you want to.
 					</para>
 					<para>
@@ -523,12 +523,12 @@
 		<variablelist>
 		
 		<varlistentry>
-			<term>Running infobash in the shell with verbosity level 2 and colour scheme 13 (Blue, Normal, Green)</term>
+			<term>Run infobash in the shell with verbosity level 2 and colour scheme 13 (Blue, Normal, Green)</term>
 			<listitem><para><command>infobash -v2 13</command></para></listitem>
 		</varlistentry>
 		
 		<varlistentry>
-			<term>Piping the output of infobash with verbosity level 3 to a file (properly)</term>
+			<term>Pipe the output of infobash with verbosity level 3 to a file (properly)</term>
 			<listitem><para><command>infobash -v3 0 >/path/to/file</command></para></listitem>
 		</varlistentry>
 		
@@ -548,7 +548,7 @@
 		</varlistentry>
 		
 		<varlistentry>
-			<term>Showing an infobash oneliner in Irssi (1) with output to the channel, and (2) without output to the channel, but with debugging</term>
+			<term>Show an infobash oneliner in Irssi (1) with output to the channel, and (2) without output to the channel, but with debugging</term>
 			<listitem><para><command>/exec -o infobash</command></para>
 			<para><command>/exec infobash --debug</command></para></listitem>
 		</varlistentry>
@@ -559,7 +559,7 @@
 	
 	<refsection>
 		<title>Author</title>
-		<para>Infobash was written by Michiel de Boer &lt;infobash&lt;@&gt;rebelhomicide.demon.nl&gt;</para>
+		<para>Infobash was written by Michiel de Boer &lt;infobash@rebelhomicide.demon.nl&gt;</para>
 	</refsection>
 	
 	<refsection>
@@ -568,18 +568,18 @@
 		slh (packaging, patches)
 		</para>
 		<para>
-		Special thanks to the developers and users of Kanotix and Sidux for their love and participation
+		Special thanks to the developers and users of Sidux and Kanotix for their love and participation
 		in this program. 
 		</para>
 	</refsection>
 	
 	<refsection>
 		<title>Bugs</title>	
-		<para>Probably. Infobash is a mix of Bash and Gawk. Send them to infobash&lt;@&gt;rebelhomicide.demon.nl</para>
+		<para>Please send them to infobash@rebelhomicide.demon.nl if you find any.</para>
 		<para>
-		If your nvidia driver is broken (for example after an upgrade), GL is also broken and you can sometimes crash it by running glxinfo(mesa-utils).
+		If your Nvidia driver is broken (for example after an upgrade), OpenGL is also broken and you can sometimes crash it by running glxinfo(mesa-utils).
 		Ergo Infobash will also crash X as soon as it starts glxinfo to gather OpenGL information. The solution for the problem (which is *not* caused
-		by infobash!) is to reinstall the nvidia driver. Pity that it's so hard to debug closed source kernel drivers.
+		by infobash!) is to reinstall the Nvidia driver. 
 		</para>
 	</refsection>
 	

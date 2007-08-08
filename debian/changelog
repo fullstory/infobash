@@ -15,7 +15,7 @@ infobash (2.68) UNRELEASED; urgency=low
   * Complete overhaul and improvements of code style, indenting
   * Rewrite of CPU flags detection
   * Added runlevel detection and tty resolution detection in non-X mode
-  * Some changes to to the manual source
+  * Some changes to the manual
 
  -- Michiel de Boer <infobash@rebelhomicide.demon.nl>  Tue, 31 Jul 2007 03:41:37 +0200
 

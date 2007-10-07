@@ -4,8 +4,8 @@ Priority: extra
 Maintainer: Stefan Lippers-Hollmann <s.l-h@gmx.de>
 Build-Depends: cdbs, debhelper (>= 5), xsltproc, docbook-xsl
 Standards-Version: 3.7.2
-XS-Vcs-Svn: svn://svn.berlios.de/fullstory/infobash/trunk
-XS-Vcs-Browser: http://svn.berlios.de/wsvn/fullstory/infobash/trunk/
+Vcs-Svn: svn://svn.berlios.de/fullstory/infobash/trunk
+Vcs-Browser: http://svn.berlios.de/wsvn/fullstory/infobash/trunk/
 
 Package: infobash
 Architecture: all

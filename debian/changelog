@@ -1,7 +1,10 @@
 infobash (2.68) UNRELEASED; urgency=low
 
-  [ Stefan Lippers-Hollmann ]
   * NOT RELEASED YET
+
+  [ Stefan Lippers-Hollmann ]
+  * add VCS control headers.
+  * update syntax for Vcs headers in debian/control
 
   [ Michiel de Boer ]
   * Version bump to 3.00
@@ -16,10 +19,6 @@ infobash (2.68) UNRELEASED; urgency=low
   * Rewrite of CPU flags detection
   * Added runlevel detection and tty resolution detection in non-X mode
   * Some changes to the manual
-
-  [ Stefan Lippers-Hollmann ]
-  * add VCS control headers.
-  * update syntax for Vcs headers in debian/control
 
  -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 07 Oct 2007 14:42:48 +0200
 

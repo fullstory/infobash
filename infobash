@@ -671,8 +671,10 @@ if ((X)); then
 	RES=$(xrandr | gawk '
 	/\*/ { res[++m] = gensub(/^.* ([0-9]+) ?x ?([0-9]+)[_ ].* ([0-9\.]+)\*.*$/,"\\1x\\2@\\3hz","g",$0) }
 	END {
-		for (n in res) line = line ? line ", " res[n] : res[n]
-		print(line)
+		for (n in res)
+			line = line ? line ", " res[n] : res[n]
+		if (line)
+			print(line)
 	}
 	')	
 	[[ -z $RES ]] && RES=$(xdpyinfo | gawk '/dimensions/ { print $2 }')

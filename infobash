@@ -668,22 +668,15 @@ if ((X)); then
 	
 	# Added the two ?'s , because the resolution is now reported without spaces around the 'x', as in
 	# 1400x1050 instead of 1400 x 1050. Change as of X.org version 1.3.0
-	RES=$(xrandr | gawk '/\*/{print(gensub(/.* ([0-9]+) ?x ?([0-9]+) .*/,"\\1x\\2","g",$0))}') 
+	RES=$(xrandr | gawk '
+	/\*/ { res[++m] = gensub(/^.* ([0-9]+) ?x ?([0-9]+)[_ ].* ([0-9\.]+)\*.*$/,"\\1x\\2@\\3hz","g",$0) }
+	END {
+		for (n in res) line = line ? line ", " res[n] : res[n]
+		print(line)
+	}
+	')	
 	[[ -z $RES ]] && RES=$(xdpyinfo | gawk '/dimensions/ { print $2 }')
 	
-	# xrandr's output also changed with X.org 1.3.0, this code should get refresh rate from both old and new.
-	FREQ=$(xrandr | gawk '
-	/^\*[0-9]+ +[0-9]+ x [0-9]+ .*\*/ || /^ +[0-9]+x[0-9]+ .*\*/ {
-		for (i=NF;i>0;i--) { 
-			if ($i ~ /^(\*[0-9]+|[0-9]+\.[0-9]\*)$/) {
-				gsub(/\*|\.[0-9]/,"", $i)
-				print $i
-				exit 
-			} 
-		}
-	}')
-	[[ -n $FREQ ]] && FREQ=" @${FREQ}hz"
-	 
 	# X vendor and version detection.
 	XVENDOR=$(xdpyinfo | gawk -F': +' '
 	BEGIN { IGNORECASE=1 } 
@@ -795,7 +788,7 @@ if ((VBL)); then  # (IF VBL > 1)
 
 	LNGFX=$(printf "${C1}%-${INDENT}s${C2} %s" "Videocard" "${GFX[0]}")
 	if ((X)); then
-		LNGFX="${LNGFX}$(echo -ne "${C1}  $XVER  ${CN}[${C2} ${RES}${FREQ} ${CN}]")"
+		LNGFX="${LNGFX}$(echo -ne "${C1}  $XVER  ${CN}[${C2} ${RES} ${CN}]")"
 	else
 		LNGFX="${LNGFX}$(echo -ne "${C1}  tty resolution ${CN}(${C2} ${RES} ${CN})")"
 	fi

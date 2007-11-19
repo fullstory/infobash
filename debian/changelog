@@ -21,7 +21,11 @@ infobash (2.68) UNRELEASED; urgency=low
   * Added runlevel detection and tty resolution detection in non-X mode
   * Some changes to the manual
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Tue, 30 Oct 2007 23:28:50 +0100
+  [ Kel Modderman ]
+  * Discard FREQ detection and improve the xrander RES parser to display
+    refresh rates alongside resolution for every atteched screen.
+
+ -- Kel Modderman <kel@otaku42.de>  Mon, 19 Nov 2007 11:17:34 +1000
 
 infobash (2.67) unstable; urgency=low
 

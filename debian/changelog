@@ -1,8 +1,10 @@
-infobash (2.69) UNRELEASED; urgency=low
+infobash (3.00) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * don't add a bogus dependency on bc, it's just useless bloat.
+  * change debian/copyright to use GPL3.
+  * remove myself as maintainer.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Thu, 22 Nov 2007 13:38:24 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Thu, 22 Nov 2007 21:01:11 +0100
 
 infobash (2.68) unstable; urgency=low
 

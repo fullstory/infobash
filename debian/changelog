@@ -1,6 +1,4 @@
-infobash (2.68) UNRELEASED; urgency=low
-
-  * NOT RELEASED YET
+infobash (2.68) unstable; urgency=low
 
   [ Stefan Lippers-Hollmann ]
   * add VCS control headers.

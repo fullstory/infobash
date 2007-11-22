@@ -1,3 +1,9 @@
+infobash (3.01) UNRELEASED; urgency=low
+
+  * NOT RELEASED YET
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Thu, 22 Nov 2007 21:04:28 +0100
+
 infobash (3.00) unstable; urgency=low
 
   * don't add a bogus dependency on bc, it's just useless bloat.

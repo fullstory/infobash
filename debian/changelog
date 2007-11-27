@@ -1,3 +1,9 @@
+infobash (3.02) UNRELEASED; urgency=low
+
+  * NOT RELEASED YET
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Wed, 28 Nov 2007 00:19:55 +0100
+
 infobash (3.01) unstable; urgency=low
 
   * Implemented bc removal patch by slh

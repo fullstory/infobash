@@ -9,7 +9,7 @@ Vcs-Browser: http://svn.berlios.de/wsvn/fullstory/infobash/trunk/
 
 Package: infobash
 Architecture: all
-Depends: ${shlibs:Depends}, bash (>= 2.05), coreutils (>= 5.2.1-2), procps, pciutils, gawk
+Depends: ${shlibs:Depends}, bash (>= 2.05), procps, pciutils, gawk
 Suggests: xbase-clients, mesa-utils, irssi | xchat | konversation
 Description: System info script for irc
  Infobash is a system information script for IRC (Internet Relay Chat) clients.

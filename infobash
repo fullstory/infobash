@@ -46,7 +46,7 @@ shopt -u nullglob
 
 SELF="Infobash"
 SELF_LC=$(echo "$SELF" | tr '[A-Z]' '[a-z]')
-MYVERSION="$SELF v3.00"
+MYVERSION="$SELF v3.01"
 LC_ALL="C"	# Make sure every program speaks English.
 export LC_ALL 
 OIFS="$IFS"	# Backup the current Internal Field Seperator
@@ -153,8 +153,10 @@ checkdepend () {
 			type -p $I >/dev/null || { dbg "Infobash: Resuming in non X mode: $I not found in path"; X=0; break; }
 		done
 	fi
-
-	for I in bc df free gawk grep hostname lspci ps readlink runlevel tr uname uptime wc; do
+	
+	# Temporarily removing bc
+	#for I in bc df free gawk grep hostname lspci ps readlink runlevel tr uname uptime wc; do
+	for I in df free gawk grep hostname lspci ps readlink runlevel tr uname uptime wc; do
 		type -p $I >/dev/null || error 5 "$I"
 	done
 }

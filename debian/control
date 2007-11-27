@@ -2,7 +2,7 @@ Source: infobash
 Section: admin
 Priority: extra
 Maintainer: Michiel de Boer <locsmif@sidux.com>
-Build-Depends: cdbs, debhelper (>= 5), xsltproc, docbook-xsl, dpatch
+Build-Depends: cdbs, debhelper (>= 5), xsltproc, docbook-xsl
 Standards-Version: 3.7.2
 Vcs-Svn: svn://svn.berlios.de/fullstory/infobash/trunk
 Vcs-Browser: http://svn.berlios.de/wsvn/fullstory/infobash/trunk/

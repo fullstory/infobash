@@ -5,8 +5,9 @@ infobash (3.01) UNRELEASED; urgency=low
   but hopefully, bc will return in the manifest soon.
   * Took over maintainership from slh
   * Removed coreutils from dependency list, as coreutils is essential
+  * Added error handler for bc missing when konversation is used.
 
- -- Michiel de Boer <locsmif@sidux.com>  Tue, 27 Nov 2007 23:17:14 +0100
+ -- Michiel de Boer <locsmif@sidux.com>  Tue, 27 Nov 2007 23:40:06 +0100
 
 infobash (3.00) unstable; urgency=low
 

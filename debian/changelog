@@ -1,6 +1,5 @@
-infobash (3.01) UNRELEASED; urgency=low
+infobash (3.01) unstable; urgency=low
 
-  [ Michiel de Boer ]
   * Implemented bc removal patch by slh
   * Took over maintainership from slh
   * Removed coreutils from dependency list, as coreutils is essential

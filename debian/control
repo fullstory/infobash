@@ -1,7 +1,7 @@
 Source: infobash
 Section: admin
 Priority: extra
-Maintainer: nomen nominibus <nobody@127.0.0.1>
+Maintainer: Michiel de Boer <locsmif@sidux.com>
 Build-Depends: cdbs, debhelper (>= 5), xsltproc, docbook-xsl, dpatch
 Standards-Version: 3.7.2
 Vcs-Svn: svn://svn.berlios.de/fullstory/infobash/trunk

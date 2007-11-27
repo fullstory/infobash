@@ -1,13 +1,12 @@
 infobash (3.01) UNRELEASED; urgency=low
 
   [ Michiel de Boer ]
-  * Removed patches directory, infobash will be patched to not check for bc
-  but hopefully, bc will return in the manifest soon.
+  * Implemented bc removal patch by slh
   * Took over maintainership from slh
   * Removed coreutils from dependency list, as coreutils is essential
   * Added error handler for bc missing when konversation is used.
 
- -- Michiel de Boer <locsmif@sidux.com>  Tue, 27 Nov 2007 23:40:06 +0100
+ -- Michiel de Boer <locsmif@sidux.com>  Wed, 28 Nov 2007 00:03:03 +0100
 
 infobash (3.00) unstable; urgency=low
 

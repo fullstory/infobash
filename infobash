@@ -23,7 +23,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #   DEPENDENCIES
-# bash >=2.05b(bash), bc(bc), df;readlink;stty;tr;uname;wc(coreutils),  
+# bash >=2.05b(bash), df;readlink;stty;tr;uname;wc(coreutils),  
 # gawk(gawk), grep(grep), hostname(hostname), lspci(pciutils),
 # ps;uptime(procps), runlevel(sysvinit), glxinfo;xdpyinfo;xrandr(xbase-clients)
 # Also the proc filesystem should be present and mounted
@@ -119,7 +119,6 @@ error () {
 	4) say "$SELF: unknown verbosity level $2" ;;
 	5) say "$SELF: dependency not met: $2 not found in path" ;;
 	6) say "$SELF: /proc not found! Quitting..." ;;
-	7) say "$SELF: bc not found! Install it from Debian first: 'apt-get install bc'. Quitting...";;
 	*) say "$SELF: error unknown: $@"; set -- 99 ;;
 	esac
 	exit $1
@@ -155,8 +154,7 @@ checkdepend () {
 		done
 	fi
 	
-	# Temporarily removing bc
-	#for I in bc df free gawk grep hostname lspci ps readlink runlevel tr uname uptime wc; do
+	# bc removed from deps for now
 	for I in df free gawk grep hostname lspci ps readlink runlevel tr uname uptime wc; do
 		type -p $I >/dev/null || error 5 "$I"
 	done
@@ -246,8 +244,7 @@ roots () {
 			# Since Konversation 1.0, the DCOP interface has changed a bit: dcop "$DCPORT" Konversation ..etc
 			# becomes : dcop "$DCPORT" default ... or dcop "$DCPORT" irc ..etc. So we check for versions smaller
 			# than 1 and change the DCOP parameter/object accordingly.
-			type -p bc >/dev/null || error 7
-			((`echo "${T2}<1" | bc`)) && DCOPOBJ="Konversation"
+			[[ ${T2} < 1 ]] && DCOPOBJ="Konversation"
 			IRC="Konversation"
 		;; 
 		*xchat*)

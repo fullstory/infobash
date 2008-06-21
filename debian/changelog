@@ -1,8 +1,9 @@
 infobash (3.02) UNRELEASED; urgency=low
 
-  * NOT RELEASED YET
+  * Filter out unwanted content from xrandr output when detecting screen
+    resolution, not all output are equal.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Wed, 28 Nov 2007 00:19:55 +0100
+ -- Kel Modderman <kel@otaku42.de>  Sat, 21 Jun 2008 12:35:58 +1000
 
 infobash (3.01) unstable; urgency=low
 

@@ -1,4 +1,4 @@
-infobash (3.02) UNRELEASED; urgency=low
+infobash (3.02) unstable; urgency=low
 
   * Filter out unwanted content from xrandr output when detecting screen
     resolution, not all output are equal.

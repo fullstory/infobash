@@ -1,9 +1,15 @@
 infobash (3.02) UNRELEASED; urgency=low
 
+  [ Stefan Lippers-Hollmann ]
   * NOT RELEASED YET
   * packaging clean-up required.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 22 Jun 2008 00:56:54 +0200
+  [ Horst Tritremmel ]
+  * Version 3.03
+  * Bugfix for fails to show /etc/issue content in some cases. thx to h2
+  * Added a distro id, antiX. thx to h2
+
+ -- Horst Tritremmel <hjt@sidux.com>  Fri, 08 Aug 2008 09:28:32 +0200
 
 infobash (3.02) unstable; urgency=low
 

@@ -8,7 +8,10 @@ infobash (3.02) UNRELEASED; urgency=low
   * Bugfix for fails to show /etc/issue content in some cases. thx to h2
   * Added a distro id, antiX. thx to h2
 
- -- Horst Tritremmel <hjt@sidux.com>  Fri, 08 Aug 2008 09:28:32 +0200
+  [ Michael Deelwater ]
+  * Fix wrong IRC client detection since the change to /bin/dash.
+
+ -- Michael Deelwater <michael.deelwater@googlemail.com>  Fri, 24 Oct 2008 01:45:45 +0200
 
 infobash (3.02) unstable; urgency=low
 

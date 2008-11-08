@@ -694,7 +694,7 @@ if ((X)); then
 	XVENDOR=$(xdpyinfo | gawk -F': +' '
 	BEGIN { IGNORECASE=1 } 
 	/vendor string/ { 
-		gsub(/the|,|inc|foundation|project|coorperation/, "", $2)
+		gsub(/the|,|inc|foundation|project|corporation/, "", $2)
 		gsub(/^ +| +$/, "", $2); gsub(/  +/," ",$2)
 		print $2
 	} 

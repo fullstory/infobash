@@ -10,8 +10,9 @@ infobash (3.02) UNRELEASED; urgency=low
 
   [ Michael Deelwater ]
   * Fix wrong IRC client detection since the change to /bin/dash.
+  * Fix string: "cooperation" -> "corporation". Thanks to h2.
 
- -- Michael Deelwater <michael.deelwater@googlemail.com>  Fri, 24 Oct 2008 01:45:45 +0200
+ -- Michael Deelwater <michael.deelwater@googlemail.com>  Sat, 08 Nov 2008 21:58:08 +0100
 
 infobash (3.02) unstable; urgency=low
 

@@ -86,6 +86,8 @@ rm -rf $RPM_BUILD_ROOT
 /opt/kde3/share/apps/konversation/scripts/*
 
 %changelog -n infobash
+* Sun Nov 09 2008 - Stefan Lippers Hollmann <s.l-h@gmx.de>
+- updated to current version - 3.03
 * Thu Jul 18 2005 - Stefan Lippers Hollmann <s.l-h@gmx.de>
 - updated to current version - 2.01
 * Thu Jul 17 2005 - Stefan Lippers Hollmann <s.l-h@gmx.de>

@@ -24,8 +24,9 @@ infobash (3.03) UNRELEASED; urgency=low
   * switch buildsystem from customised cdbs to debhelper 7/ dh, bump compat 
     level and build-depends accordingly.
   * indent and fix debian/copyright.
+  * update RPM spec file.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 09 Nov 2008 18:22:18 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 09 Nov 2008 18:27:05 +0100
 
 infobash (3.02) unstable; urgency=low
 

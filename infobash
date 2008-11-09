@@ -2,17 +2,17 @@
 # InfoBash, the universal, portable, system info script for irc.
 # Tested with Irssi, Xchat, Konversation, BitchX, KSirc, ircII,
 # Gaim/Pidgin, Weechat, KVIrc and Kopete.
-# Copyright (C) 2005-2007  locsmif <infobash@rebelhomicide.demon.nl>
+# Copyright (C) 2005-2007  locsmif <ltown2@web.de>
 
 # Freenode:
 # Many thanks to etorix, Kano, kelmo, slh in alphabetical order 
 # and #kanotix for their suggestions and betatesting
 # Thanks to friends from #bash for their deep insight, as always.
 
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 3 of the License, or
-# (at your option) any later version.
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -71,7 +71,7 @@ IBSHELL=0	# Running in a shell? Defaults to false, and is determined later.
 NOCPUCOUNT=0	# Wether or not the string "dual" or similar is found in cpuinfo output. If so, avoid dups.
 # In cases of derived distros where the version file of the base distro can also be found under /etc, the derived distro's
 # version file should go first. (Such as with Sabayon / Gentoo)
-DIST_DERIV="antiX kanotix-version knoppix-version redhat-release sabayon-release sidux-version turbolinux-release zenwalk-version"
+DIST_DERIV="sidux-version kanotix-version knoppix-version sabayon-release redhat-release turbolinux-release zenwalk-version"
 DIST_MAIN="gentoo-release mandrake-release slackware-version redhat-release SuSE-release"
 # debian_version excluded from DIST_MAIN so Debian can fall through to /etc/issue detection. Same goes for Ubuntu.
 DIST_BLIST="debian_version ubuntu_version"
@@ -356,11 +356,11 @@ getparams () {
 			say "InfoBash, the universal, portable, system info script for irc."
 			say "Tested with Irssi, Xchat, Konversation, BitchX, KSirc, ircII,"
 			say "Gaim/Pidgin, Weechat, KVIrc and Kopete."
-			say "Copyright (C) 2005-2007  Michiel de Boer a.k.a. locsmif <infobash@rebelhomicide.demon.nl>"
+			say "Copyright (C) 2005-2007  Michiel de Boer a.k.a. locsmif <ltown2@web.de>"
 			say " "
 			say "This program is free software; you can redistribute it and/or modify"
 			say "it under the terms of the GNU General Public License as published by"
-			say "the Free Software Foundation; either version 3 of the License, or"
+			say "the Free Software Foundation; either version 2 of the License, or"
 			say "(at your option) any later version."
 			exit 0
 		;;
@@ -458,7 +458,7 @@ elif ((${#DISTGLOB[@]} > 1)); then
 		fi
 	done
 fi
-if [[ -n ${DISTFILE} && -s /etc/${DISTFILE} && " $DIST_BLIST " != *" $DISTFILE "* ]]; then
+if [[ -s /etc/${DISTFILE} && " $DIST_BLIST " != *" $DISTFILE "* ]]; then
 	DISTRO=$(eat "/etc/${DISTFILE}")
 else
 	# Debian pure should fall through here

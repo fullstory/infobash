@@ -1,18 +1,25 @@
-infobash (3.02) UNRELEASED; urgency=low
+infobash (3.03) UNRELEASED; urgency=low
 
   * NOT RELEASED YET
   * packaging clean-up required.
 
   [ Horst Tritremmel ]
   * Version 3.03
-  * Bugfix for fails to show /etc/issue content in some cases. thx to h2
-  * Added a distro id, antiX. thx to h2
 
   [ Michael Deelwater ]
   * Fix wrong IRC client detection since the change to /bin/dash.
   * Fix string: "cooperation" -> "corporation". Thanks to h2.
 
- -- Michael Deelwater <michael.deelwater@googlemail.com>  Sat, 08 Nov 2008 21:58:08 +0100
+  [ Stefan Lippers-Hollmann ]
+  * revert licensing back to "GPLv2 or later", in consent with the upstream
+    author.
+  * update locsmif's email address.
+  * change upstream location.
+  * revert (unreleased) patches contributed by other copyright holders under 
+    the pretense of GPL v3+, until they can get asked about their licensing
+    choice - even if one-liners are probably not copyrightable.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 09 Nov 2008 01:28:28 +0100
 
 infobash (3.02) unstable; urgency=low
 

@@ -230,7 +230,6 @@
 		</para>
 		<para>
 		Then get a hold of the <emphasis>executor.py</emphasis> plugin because weechat doesn't have /exec by default.
-		You can download it from me because I found it hard to find on the web. <link>http://rebelhomicide.demon.nl/scripts/executor.py</link>
 		<warning>I love Perl, but don't use the Perl /exec plugin in weechat-scripts instead! It sucks!</warning>
 		</para>
 		<para>
@@ -559,7 +558,7 @@
 	
 	<refsection>
 		<title>Author</title>
-		<para>Infobash was written by Michiel de Boer &lt;infobash@rebelhomicide.demon.nl&gt;</para>
+		<para>Infobash was written by Michiel de Boer &lt;ltown2@web.de&gt;</para>
 	</refsection>
 	
 	<refsection>
@@ -575,7 +574,7 @@
 	
 	<refsection>
 		<title>Bugs</title>	
-		<para>Please send them to infobash@rebelhomicide.demon.nl if you find any.</para>
+		<para>Please send them to ltown2@web.de if you find any.</para>
 		<para>
 		If your Nvidia driver is broken (for example after an upgrade), OpenGL is also broken and you can sometimes crash it by running glxinfo(mesa-utils).
 		Ergo Infobash will also crash X as soon as it starts glxinfo to gather OpenGL information. The solution for the problem (which is *not* caused
@@ -585,6 +584,6 @@
 	
 	<refsection>
 		<title>See also</title>
-		<para>http://rebelhomicide.demon.nl/projects.cgi#infobash</para>
+		<para>http://svn.berlios.de/svnroot/repos/fullstory/infobash/trunk/</para>
 	</refsection>
 </refentry>

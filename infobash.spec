@@ -1,11 +1,12 @@
 #
 # spec file for package infobash
 #
-# Copyright (c) 2005 Stefan Lippers-Hollmann <s.l-h@gmx.de>
+# Copyright (C) 2005-2008 Stefan Lippers-Hollmann <s.l-h@gmx.de>
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
-# Please submit bugfixes or comments via http://rebelhomicide.demon.nl/scripts/
+# Upstream location:
+# http://svn.berlios.de/svnroot/repos/fullstory/infobash/trunk/
 #
 
 # norootforbuild
@@ -14,13 +15,13 @@
 BuildRequires: cpio diffutils file gzip make man mktemp patch tar
 
 Name:         infobash
-URL:          http://rebelhomicide.demon.nl/scripts/
+URL:          http://svn.berlios.de/svnroot/repos/fullstory/infobash/trunk/
 License:      GPL
 Group:        System/Packages
 Provides:     infobash
 Requires:     bash, coreutils, net-tools, procps, pciutils, grep, gawk
 Autoreqprov:  on
-Version:      2.54
+Version:      3.03
 Release:      1
 Summary:      System info script for irc
 Source:       infobash_%{version}.tar.gz
@@ -40,7 +41,7 @@ script that runs with /exec would be most portable.
 
 Authors:
 --------
-    M.L. de Boer <infobash@rebelhomicide.demon.nl>
+    M.L. de Boer <ltown2@web.de>
 
 %prep
 %setup

@@ -25,8 +25,9 @@ infobash (3.03) UNRELEASED; urgency=low
     level and build-depends accordingly.
   * indent and fix debian/copyright.
   * update RPM spec file.
+  * update standards version to 3.8.0, no further changes necessary.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 09 Nov 2008 18:27:05 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 09 Nov 2008 18:29:31 +0100
 
 infobash (3.02) unstable; urgency=low
 

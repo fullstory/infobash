@@ -1,7 +1,4 @@
-infobash (3.03) UNRELEASED; urgency=low
-
-  * NOT RELEASED YET
-  * packaging clean-up required.
+infobash (3.03) unstable; urgency=low
 
   [ Horst Tritremmel ]
   * Version 3.03
@@ -27,7 +24,7 @@ infobash (3.03) UNRELEASED; urgency=low
   * update RPM spec file.
   * update standards version to 3.8.0, no further changes necessary.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 09 Nov 2008 18:29:31 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 09 Nov 2008 18:30:14 +0100
 
 infobash (3.02) unstable; urgency=low
 

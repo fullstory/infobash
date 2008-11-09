@@ -1,7 +1,8 @@
 Source: infobash
 Section: admin
 Priority: extra
-Maintainer: Michiel de Boer <locsmif@sidux.com>
+Maintainer: Michiel de Boer <ltown2@web.de>
+Uploaders: Stefan Lippers-Hollmann <s.l-h@gmx.de>
 Build-Depends: cdbs, debhelper (>= 5), xsltproc, docbook-xsl
 Standards-Version: 3.7.2
 Vcs-Svn: svn://svn.berlios.de/fullstory/infobash/trunk

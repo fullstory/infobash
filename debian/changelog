@@ -18,8 +18,9 @@ infobash (3.03) UNRELEASED; urgency=low
   * revert (unreleased) patches contributed by other copyright holders under 
     the pretense of GPL v3+, until they can get asked about their licensing
     choice - even if one-liners are probably not copyrightable.
+  * add myself to uploaders.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 09 Nov 2008 01:28:28 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 09 Nov 2008 18:07:58 +0100
 
 infobash (3.02) unstable; urgency=low
 

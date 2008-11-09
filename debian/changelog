@@ -21,8 +21,10 @@ infobash (3.03) UNRELEASED; urgency=low
   * add myself to uploaders.
   * drop dependency on bash >= 2.05, even woody had it.
   * xrandr has moved from xbase-clients to x11-xserver-utils.
+  * switch buildsystem from customised cdbs to debhelper 7/ dh, bump compat 
+    level and build-depends accordingly.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 09 Nov 2008 18:10:16 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 09 Nov 2008 18:17:13 +0100
 
 infobash (3.02) unstable; urgency=low
 

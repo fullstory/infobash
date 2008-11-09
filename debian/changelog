@@ -20,8 +20,9 @@ infobash (3.03) UNRELEASED; urgency=low
     choice - even if one-liners are probably not copyrightable.
   * add myself to uploaders.
   * drop dependency on bash >= 2.05, even woody had it.
+  * xrandr has moved from xbase-clients to x11-xserver-utils.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 09 Nov 2008 18:08:34 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 09 Nov 2008 18:10:16 +0100
 
 infobash (3.02) unstable; urgency=low
 

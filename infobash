@@ -219,16 +219,15 @@ roots () {
 		IBSHELL=1
 	elif [[ -n $PPID && -f /proc/$PPID/exe ]]; then
 		IRC="$(readlink /proc/$PPID/exe)"
-		IRC="$(echo $IRC | tr '[:upper:]' '[:lower:]')"
 		if [[ ${IRC##*/} =~ dash|bash|sh ]]; then
 				# We want to know who wrapped it into the shell.
 				PPPID="$(ps -p $PPID -o ppid --no-headers | sed 's/ //g')"
 				if [[ -n $PPPID && -f /proc/$PPPID/exe ]]; then
-						IRC="$(readlink /proc/$PPPID/exe | tr '[:upper:]' '[:lower:]')"
+						IRC="$(readlink /proc/$PPPID/exe)"
 				fi
 		fi
 		
-		case "$IRC" in
+		case "$(echo "${IRC}" | tr '[:upper:]' '[:lower:]')" in
 		*irssi-text*|*irssi*)
 			IRCV=" $($IRC -v | gawk 'NR == 1 { print $2 }')"
 			IRC="Irssi"

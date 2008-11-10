@@ -1,8 +1,12 @@
 infobash (3.04) UNRELEASED; urgency=low
 
+  [ Stefan Lippers-Hollmann ]
   * NOT RELEASED YET
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 09 Nov 2008 18:31:43 +0100
+  [ Michael Deelwater ]
+  * Do not convert IRC client variable to lowercase permanently.
+
+ -- Michael Deelwater <michael.deelwater@googlemail.com>  Mon, 10 Nov 2008 20:46:34 +0100
 
 infobash (3.03) unstable; urgency=low
 

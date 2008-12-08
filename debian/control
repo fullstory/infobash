@@ -3,15 +3,23 @@ Section: admin
 Priority: extra
 Maintainer: Michiel de Boer <ltown2@web.de>
 Uploaders: Stefan Lippers-Hollmann <s.l-h@gmx.de>
-Build-Depends: debhelper (>= 7), xsltproc, docbook-xsl
+Build-Depends: debhelper (>= 7),
+               xsltproc,
+               docbook-xsl
 Standards-Version: 3.8.0
 Vcs-Svn: svn://svn.berlios.de/fullstory/infobash/trunk
 Vcs-Browser: http://svn.berlios.de/wsvn/fullstory/infobash/trunk/
 
 Package: infobash
 Architecture: all
-Depends: ${shlibs:Depends}, procps, pciutils, gawk
-Suggests: x11-xserver-utils, mesa-utils, irssi | xchat | konversation
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
+         procps,
+         pciutils,
+         gawk
+Suggests: x11-xserver-utils,
+          mesa-utils,
+          irssi | xchat | konversation
 Description: System info script for irc
  Infobash is a system information script for IRC (Internet Relay Chat) clients.
  A system information script can display all kinds of things about your 

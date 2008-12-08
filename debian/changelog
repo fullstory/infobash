@@ -1,3 +1,9 @@
+infobash (3.06) UNRELEASED; urgency=low
+
+  * NOT RELEASED YET
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 08 Dec 2008 22:44:55 +0100
+
 infobash (3.05) unstable; urgency=low
 
   * make lintian happy and depend on ${misc:Depends}.

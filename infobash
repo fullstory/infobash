@@ -28,6 +28,12 @@
 # ps;uptime(procps), runlevel(sysvinit), glxinfo;xdpyinfo;xrandr(xbase-clients)
 # Also the proc filesystem should be present and mounted
 
+# NOTE: in several places, this script uses constructs like ${VAR:+foo}
+# This is different from ${VAR+foo} in that ${VAR+foo} will expand to 'foo'
+# even when $VAR equals the empty string (""), but not when $VAR is unset.
+# Therefore this script uses ${VAR:+foo} by preference until further notice.
+# Vim search string? Try: ${[A-Za-z0-9_-]\+:\?+
+
 ALLUP=0         # Infobash hasn't been 'booted' yet.
 DEBUG=0         # Set levels from 1-10
 DEBUG_FLOOD=0   # Debug flood override: toggle on to allow long debug output
@@ -46,7 +52,7 @@ shopt -u nullglob
 
 SELF="Infobash"
 SELF_LC=$(echo "$SELF" | tr '[A-Z]' '[a-z]')
-MYVERSION="$SELF v3.05"
+MYVERSION="$SELF v3.10"
 LC_ALL="C"	# Make sure every program speaks English.
 export LC_ALL 
 OIFS="$IFS"	# Backup the current Internal Field Seperator
@@ -167,10 +173,10 @@ mkbans () {
 	for BANSTR; do
 		#echo "BANSTR=\"$BANSTR\"" >&2
 		if [[ ${BANSTR:0:1} = $'\2' ]]; then
-			MKBANS="${MKBANS}${MKBANS+|}${BANSTR:1:${#BANSTR}-1}"
+			MKBANS="${MKBANS}${MKBANS:+|}${BANSTR:1:${#BANSTR}-1}"
 		else
 			# Automatically escapes [ ] ( ) . and + 
-			MKBANS="${MKBANS}${MKBANS+|}$(echo "$BANSTR" | gawk '{ gsub(/([\[\]+().])/,"\\\\&"); print }')"
+			MKBANS="${MKBANS}${MKBANS:+|}$(echo "$BANSTR" | gawk '{ gsub(/([\[\]+().])/,"\\\\&"); print }')"
 		fi
 	done
 	echo "$MKBANS"
@@ -514,7 +520,11 @@ END {
 ' /proc/cpuinfo))
 IFS="$OIFS"
 
-for ((I=0;I<${#CPU[@]}-1;I++)); do
+# Last element is frequency
+CPUFREQ="${CPU[${#CPU[@]}-1]}"
+unset CPU[${#CPU[@]}-1]
+
+for ((I=0;I<${#CPU[@]};I++)); do
 	IFS=","; CPUTMP=(${CPU[I]}); IFS="$OIFS"
 	unset CPU[I]
 	CPUTMP[0]=$(sanitize NORMALBANS "${CPUTMP[0]}")
@@ -528,30 +538,31 @@ done
 if echo "${CPU[@]}" | grep -qi 'dual\|triple\|quad'; then
 	NOCPUCOUNT=1
 else
-	case $((${#CPU[@]}-1)) in 
+	case $((${#CPU[@]})) in 
 	2)
-		CPU2="Dual"
+		CPUTUPLE="Dual"
 	;;
 	3)
-		CPU2="Triple"
+		CPUTUPLE="Triple"
 	;;
 	4)
-		CPU2="Quad"
+		CPUTUPLE="Quad"
 	;;
+	# Note: http://en.wikipedia.org/wiki/Tuple  (8 would/could be Octuple)
 	[5-9]|[1-9][0-9]) 
-		CPU2="${#CPU[@]}x"
+		CPUTUPLE="${#CPU[@]}x"
 	;;
 	*) 
-		unset CPU2
+		unset CPUTUPLE
 	;;
 	esac
 fi
 
 IFS=","; CPUTMP=(${CPU[0]}); IFS="$OIFS"
 # For the short line
-CPUMODEL="${CPU2}${CPU2+ }${CPUTMP[0]}" # clocked at [${CPU[${#CPU[@]}-1]}]"	# old CPU2
-CPUCLOCK="${CPU[${#CPU[@]}-1]}"							# old CPU3
-CPUFLAGS="${CPUTMP[3]}"								# old CPU4
+CPUMODEL="${CPUTUPLE}${CPUTUPLE:+ }${CPUTMP[0]}" 
+CPUCLOCK="$CPUFREQ"             #"${CPU[${#CPU[@]}-1]}"	
+CPUFLAGS="${CPUTMP[3]}"
 # nx = AMD stack protection extensions
 # lm = Intel 64bit extensions
 # sse, sse2, pni = sse1,2,3 gfx extensions
@@ -593,7 +604,7 @@ for I in /proc/ide/ide*/hd*; do
 			break
 		fi
 		((CAP+=$(eat $I/capacity)))
-		HDDMOD="${HDDMOD}${HDDMOD+,}$(eat $I/model)"
+		HDDMOD="${HDDMOD}${HDDMOD:+,}$(eat $I/model)"
 	fi
 done
 
@@ -621,7 +632,7 @@ if [[ -e /proc/scsi/scsi ]]; then
 	' /proc/scsi/scsi)); IFS="$OIFS"
 
 	for ((I=0;I<${#THDD[@]};I++)); do
-		HDDMOD="${HDDMOD}${HDDMOD+,}${THDD[I]}"
+		HDDMOD="${HDDMOD}${HDDMOD:+,}${THDD[I]}"
 	done
 fi
 
@@ -782,19 +793,23 @@ if ((VBL)); then  # (IF VBL > 1)
 
 	[[ -z ${CPUTMP[2]} ]] && CPUTMP[2]="unknown"
 
-	[[ ${#CPU[@]} -gt 2 ]] && CPUNUM="(1)" || unset CPUNUM  # Array CPU always has one element: max clockfreq found. Therefore -gt and not -ge
-	LNCPU=$(printf "${C1}%-${INDENT}s${C2} %s" "CPU Info" "${CPUNUM}${CPUNUM+ }${CPUTMP[0]}")
-	[[ $VBL -ge 3 ]] && LNCPU=$(printf "%s${C2} %s %s ${C1}%s${CN}%s${C2} %s ${CN}%s" "$LNCPU" "${CPUTMP[2]}" "cache" "flags" "(" "$CPUFLAGS" ")")
-	LNCPU=$(printf "%s ${C1}%s${C2} ${CN}%s${C2} %s ${CN}%s" "$LNCPU" "clocked at" "[" "${CPUTMP[1]} MHz" "]")
-	say "$LNCPU"
-	
-	for ((I=1;I<${#CPU[@]}-1;I++)); do
+	CPUNUM="${#CPU[@]}"
+		
+	for ((I=0;I<$CPUNUM;I++)); do
 		IFS=","; CPUTMP=(${CPU[I]}); IFS="$OIFS"
-		LNCPU=$(printf "${C1}%-${INDENT}s${C2} %s" " " "($((I+1))) ${CPUTMP[0]}")
+		if ((CPUNUM > 4)); then
+			CNSTR="${CPUNUM}x"
+		elif ((CPUNUM > 1)); then
+			CNSTR="($((I+1)))"
+		else
+			unset CNSTR
+		fi
+		((I)) && CTITLE=" " || CTITLE="CPU Info"
+		LNCPU=$(printf "${C1}%-${INDENT}s${C2} %s" "$CTITLE" "${CNSTR}${CNSTR:+ }${CPUTMP[0]}")
 		[[ $VBL -ge 3 ]] && LNCPU=$(printf "%s${C2} %s %s ${C1}%s${CN}%s${C2} %s ${CN}%s" "$LNCPU" "${CPUTMP[2]}" "cache" "flags" "(" "$CPUFLAGS" ")")
 		LNCPU=$(printf "%s ${C1}%s${C2} ${CN}%s${C2} %s ${CN}%s" "$LNCPU" "clocked at" "[" "${CPUTMP[1]} MHz" "]")
 		say "$LNCPU"
-		[[ $I -gt 10 ]] && break
+		((CPUNUM > 4)) && break
 	done
 
 
@@ -886,7 +901,9 @@ else # (IF VBL > 1 ... ELSE)
 		((BGBLACK)) && { for I in C1 C2 CN ; do [[ "${!I}" = "$NORMAL" ]] && declare $I="${!I}15,1" || declare $I="${!I},1" ; done ; }
 		#C1="${C1},1"; C2="${C2},1"; CN="${CN},1"
 	fi
-	LNSHORT=$(echo -ne "${C1}CPU${CN}[${C2}${CPUMODEL} clocked at ${CPUCLOCK}${CN}]  ${C1}Kernel${CN}[${C2}${OSKERN}${CN}]  ${C1}Up${CN}[${C2}${FL2}${FL1}${UPT}${FL1}${CN}]  ${C1}Mem${CN}[${C2}${FL2}${FL1}${MEM}${FL1}${CN}]  ${C1}HDD${CN}[${C2}${FL2}${FL1}${HDD}($HDDUSG)${FL1}${CN}]  ${C1}Procs${CN}[${C2}${FL2}${FL1}${PROC}${FL1}${CN}]")
+	LNSHORT=$(echo -ne "${C1}CPU${CN}[${C2}${FL2}${FL1}${CPUMODEL} clocked at ${CPUCLOCK}${FL1}${CN}]  ${C1}Kernel${CN}[${C2}${FL2}${FL1}${OSKERN}${FL1}${CN}]")
+	LNSHORT=$(echo -ne "${LNSHORT}  ${C1}Up${CN}[${C2}${FL2}${FL1}${UPT}${FL1}${CN}]  ${C1}Mem${CN}[${C2}${FL2}${FL1}${MEM}${FL1}${CN}]")
+	LNSHORT=$(echo -ne "${LNSHORT}  ${C1}HDD${CN}[${C2}${FL2}${FL1}${HDD}($HDDUSG)${FL1}${CN}]  ${C1}Procs${CN}[${C2}${FL2}${FL1}${PROC}${FL1}${CN}]")
 	((SHOWIRC)) && LNSHORT="${LNSHORT}$(echo -ne "  ${C1}Client${CN}[${C2}${IRC}${IRCV}${CN}]")"
 	((SCHEME)) && LNSHORT="${LNSHORT}$(echo -ne "$NORMAL")"
 	say "$LNSHORT"

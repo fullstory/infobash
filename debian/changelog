@@ -1,8 +1,15 @@
-infobash (3.06) UNRELEASED; urgency=low
+infobash (3.10) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * To avoid spamming, Infobash now prints a number >4 cores/CPUs
+  * This core counter didn't work properly in oneliners, introduced
+    additional dashes to prevent the number from mixing with color codes.
+  * Additional refactoring of CPU handling
+  * Changed all instances of ${VAR+foo} into {$VAR:+foo} and added
+    commentary at top of script. (There is an operational difference
+    between the two)
+  * Version bump to 3.10 to indicate importance of this fix (spam prevention)
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 08 Dec 2008 22:44:55 +0100
+ -- Michiel de Boer <locsmif@sidux.com>  Tue, 07 Apr 2009 00:06:56 +0200
 
 infobash (3.05) unstable; urgency=low
 

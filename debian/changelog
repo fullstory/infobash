@@ -1,8 +1,8 @@
-infobash (3.11) UNRELEASED; urgency=low
+infobash (3.11) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * To avoid spamming, Infobash now prints a number >2 cores/CPUs.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Tue, 07 Apr 2009 00:18:58 +0200
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Wed, 15 Apr 2009 16:26:39 +0200
 
 infobash (3.10) unstable; urgency=low
 

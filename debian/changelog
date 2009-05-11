@@ -1,8 +1,8 @@
-infobash (3.12) UNRELEASED; urgency=low
+infobash (3.12) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * add symlink for konversation v2 integration.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Wed, 15 Apr 2009 16:28:12 +0200
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 11 May 2009 14:02:46 +0200
 
 infobash (3.11) unstable; urgency=low
 

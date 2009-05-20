@@ -1,4 +1,4 @@
-infobash (3.20) UNRELEASED; urgency=low
+infobash (3.20) unstable; urgency=low
 
   * Supports Konversation >= 1.1.75, i.e. dbus infrastructure
   * Also supports Konversation < 1.1.75, i.e. dcop infrastructure, intelligent

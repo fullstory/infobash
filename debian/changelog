@@ -1,8 +1,10 @@
-infobash (3.21) UNRELEASED; urgency=low
+infobash (3.21) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * brown paper back release:
+    - fix infobash if called outside of KONVI.
+  * update copyrights.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Wed, 20 May 2009 20:45:18 +0200
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Wed, 20 May 2009 23:16:11 +0200
 
 infobash (3.20) unstable; urgency=low
 

@@ -3,7 +3,7 @@
 # InfoBash, the universal, portable, system info script for irc.
 # Tested with Irssi, Xchat, Konversation, BitchX, KSirc, ircII,
 # Gaim/Pidgin, Weechat, KVIrc and Kopete.
-# Copyright (C) 2005-2007  locsmif <ltown2@web.de>
+# Copyright (C) 2005-2009  locsmif <ltown2@web.de>
 
 # Freenode:
 # Many thanks to etorix, Kano, kelmo, slh in alphabetical order 
@@ -53,7 +53,7 @@ shopt -u nullglob
 
 SELF="Infobash"
 SELF_LC=$(echo "$SELF" | tr '[A-Z]' '[a-z]')
-MYVERSION="$SELF v3.20"
+MYVERSION="$SELF v3.21"
 LC_ALL="C"	# Make sure every program speaks English.
 export LC_ALL 
 OIFS="$IFS"	# Backup the current Internal Field Seperator
@@ -380,7 +380,7 @@ getparams () {
 			say "InfoBash, the universal, portable, system info script for irc."
 			say "Tested with Irssi, Xchat, Konversation, BitchX, KSirc, ircII,"
 			say "Gaim/Pidgin, Weechat, KVIrc and Kopete."
-			say "Copyright (C) 2005-2007  Michiel de Boer a.k.a. locsmif <ltown2@web.de>"
+			say "Copyright (C) 2005-2009  Michiel de Boer a.k.a. locsmif <ltown2@web.de>"
 			say " "
 			say "This program is free software; you can redistribute it and/or modify"
 			say "it under the terms of the GNU General Public License as published by"
@@ -445,22 +445,22 @@ LSPCI=$(lspci -v | awk '{ gsub(/\(prog-if[^)]*\)/,""); print }')
 roots "$@"
 
 case $KONVI in
-"dcop")
-	# DCOP section
-	DCOP_PORT="$1"
-	DCOP_SERVER="$2"
-	DCOP_TARGET="$3"
-	shift 3
-;;
-"dbus")
-	# Newer DBUS section
-	DBUS_SERVER="$1"
-	DBUS_TARGET="$2"
-	shift 2
-;;
-*)
-	error 7
-;;
+	"dcop")
+		# DCOP section
+		DCOP_PORT="$1"
+		DCOP_SERVER="$2"
+		DCOP_TARGET="$3"
+		shift 3
+		;;
+	"dbus")
+		# Newer DBUS section
+		DBUS_SERVER="$1"
+		DBUS_TARGET="$2"
+		shift 2
+	;;
+	*)
+		[[ -n $KONVI ]] && error 7
+	;;
 esac
 
 # "$@" passes every parameter seperately quoted, "$*" passes all parameters as one quoted parameter.

@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # InfoBash, the universal, portable, system info script for irc.
 # Tested with Irssi, Xchat, Konversation, BitchX, KSirc, ircII,
 # Gaim/Pidgin, Weechat, KVIrc and Kopete.
@@ -23,7 +24,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #   DEPENDENCIES
-# bash >=2.05b(bash), df;readlink;stty;tr;uname;wc(coreutils),  
+# bash >=2.05b(bash), df;expr;readlink;stty;tr;uname;wc(coreutils),  
 # gawk(gawk), grep(grep), hostname(hostname), lspci(pciutils),
 # ps;uptime(procps), runlevel(sysvinit), glxinfo;xdpyinfo;xrandr(xbase-clients)
 # Also the proc filesystem should be present and mounted
@@ -52,7 +53,7 @@ shopt -u nullglob
 
 SELF="Infobash"
 SELF_LC=$(echo "$SELF" | tr '[A-Z]' '[a-z]')
-MYVERSION="$SELF v3.12"
+MYVERSION="$SELF v3.20"
 LC_ALL="C"	# Make sure every program speaks English.
 export LC_ALL 
 OIFS="$IFS"	# Backup the current Internal Field Seperator
@@ -93,15 +94,10 @@ XPATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin" # Extra pat
 PARAMLIMIT=30	# This is a variable that controls how many parameters infobash will parse in a /proc/<pid>/cmdline file before stopping.
 CRAP=0		# New parameter
 FLAG=0		# A throw-away 'flag' variable intended to be used throughout infobash
-KONVICFG="konversation/scripts/$SELF_LC.conf" # relative path to $(kde-config --path data)
-DCOPOBJ="default"
+DCOP_OBJ="default"
 
 [[ -s /etc/$SELF_LC.conf ]] && source /etc/$SELF_LC.conf	# Source global config overrides
 [[ -s $HOME/.$SELF_LC ]] && source $HOME/.$SELF_LC 		# Source user config overrides
-# WARNING: In the main part below (search for 'KONVI') 
-# there's a check for Konversation-specific config files.
-# Any one of these can override the above if infobash is run 
-# from Konversation!
 
 #################################################################################
 ################################  FUNCTIONS  ####################################
@@ -109,12 +105,15 @@ DCOPOBJ="default"
 
 # Infobash speaks through here. When run by Konversation, use DCOP
 say () {
-	if ((DEBUG > 5)); then
-		((KONVI)) && dcop "$DCPORT" "$DCOPOBJ" say "$DCSERVER" "$DCTARGET" "konvi='$konvi'  saying : '$@'"\
-		|| echo "konvi='$konvi'  saying : '$@'"
+	((DEBUG > 5)) && SAYSTR="konvi='$konvi'  saying : '$*'" || SAYSTR="$1"
+	
+	if [[ $KONVI == "dcop" ]]; then
+		dcop "$DCOP_PORT" "$DCOP_OBJ" say "$DCOP_SERVER" "$DCOP_TARGET" "$SAYSTR"
+	elif [[ $KONVI = "dbus" ]]; then
+		qdbus org.kde.konversation /irc say "$DBUS_SERVER" "$DBUS_TARGET" "$SAYSTR"
+	else
+		echo -ne "$SAYSTR\n"
 	fi
-	#((KONVI)) && dcop $DCPORT Konversation say $DCSERVER "$DCTARGET" "$1" || echo -ne "$1\n"
-	((KONVI)) && dcop "$DCPORT" "$DCOPOBJ" say "$DCSERVER" "$DCTARGET" "$1" || echo -ne "$1\n"
 }
 
 # Error handling
@@ -125,6 +124,7 @@ error () {
 	4) say "$SELF: unknown verbosity level $2" ;;
 	5) say "$SELF: dependency not met: $2 not found in path" ;;
 	6) say "$SELF: /proc not found! Quitting..." ;;
+	7) say "$SELF: strange string in \$KONVI: '$KONVI'" ;;
 	*) say "$SELF: error unknown: $@"; set -- 99 ;;
 	esac
 	exit $1
@@ -176,7 +176,7 @@ mkbans () {
 			MKBANS="${MKBANS}${MKBANS:+|}${BANSTR:1:${#BANSTR}-1}"
 		else
 			# Automatically escapes [ ] ( ) . and + 
-			MKBANS="${MKBANS}${MKBANS:+|}$(echo "$BANSTR" | gawk '{ gsub(/([\[\]+().])/,"\\\\&"); print }')"
+			MKBANS="${MKBANS}${MKBANS:+|}$(gawk '{ gsub(/([\[\]+().])/,"\\\\&"); print }' <<< "$BANSTR")"
 		fi
 	done
 	echo "$MKBANS"
@@ -217,47 +217,61 @@ getcmdline () {
 	CMDLMAX=$I
 }
 
+# $1 = path to Konversation binary
+detectkonvi () { 
+	IRCV="$($1 -v | gawk '/Konversation:/ { for (i=2;i<=NF;i++) { if (i == NF) { print $i } else { printf $i" " } } exit }')"
+	T=($IRCV)
+	if [[ ${T[0]} == *+* ]]; then
+		# < Sho_> locsmif: The version numbers of SVN versions look like this: 
+		#         "<version number of last release>+ #<build number", i.e. "1.0+ #3177" ... 
+		#         for releases we remove the + and build number, i.e. "1.0" or soon "1.0.1"
+		IRCV=" CVS $IRCV"
+		T2="${T[0]/+/}"
+	else
+		IRCV=" ${T[0]}"
+		T2="${T[0]}"
+	fi
+	# Remove any dots except the first, and make sure there are no trailing zeroes, 
+	T2=$(gawk '{ sub(/\./, " "); gsub(/\./, ""); sub(/ /, "."); printf("%g\n", $0) }' <<< "$T2")
+
+	# [[ $VAR < num ]] is the only construct that compares floats. -lt does not work. (( .. )) does not work.
+	if expr "${T2}" '<' '1.175'; then
+		# DCOP
+		KONVI="dcop"
+		# Since Konversation 1.0, the DCOP interface has changed a bit: dcop "$DCPORT" Konversation ..etc
+		# becomes : dcop "$DCPORT" default ... or dcop "$DCPORT" irc ..etc. So we check for versions smaller
+		# than 1 and change the DCOP parameter/object accordingly.
+		[[ ${T2} < 1 ]] && DCOP_OBJ="Konversation"
+	elif expr "${T2}" '>=' '1.175'; then
+		# DBUS
+		KONVI="dbus"
+	fi
+}
+	
 # Determine where infobash was run from
 roots () {
+	echo "$0 $@" >/tmp/foo
 	if tty >/dev/null; then
 		IRC="Shell"
 		unset IRCV
 		IBSHELL=1
-	elif [[ -n $PPID && -f /proc/$PPID/exe ]]; then
+	elif [[ -n $PPID && -L /proc/$PPID/exe ]]; then
 		IRC="$(readlink /proc/$PPID/exe)"
-		if [[ ${IRC##*/} =~ dash|bash|sh ]]; then
+		case "$(tr '[:upper:]' '[:lower:]' <<< "${IRC##*/}")" in dash|bash|sh)
 				# We want to know who wrapped it into the shell.
-				PPPID="$(ps -p $PPID -o ppid --no-headers | sed 's/ //g')"
-				if [[ -n $PPPID && -f /proc/$PPPID/exe ]]; then
+				PPPID="$(gawk '/PPid:/ { print $2 }' /proc/$PPID/status)"
+				if [[ -n $PPPID && -L /proc/$PPPID/exe ]]; then
 						IRC="$(readlink /proc/$PPPID/exe)"
 				fi
-		fi
+		esac
 		
-		case "$(echo "${IRC}" | tr '[:upper:]' '[:lower:]')" in
+		case "$(tr '[:upper:]' '[:lower:]' <<< "${IRC}")" in
 		*irssi-text*|*irssi*)
 			IRCV=" $($IRC -v | gawk 'NR == 1 { print $2 }')"
 			IRC="Irssi"
 		;;
 		*konversation*)
-			KONVI=1
-			IRCV="$($IRC -v | gawk '/Konversation:/ { for (i=2;i<=NF;i++) { if (i == NF) { print $i } else { printf $i" " } } exit }')"
-			T=($IRCV)
-			if [[ ${T[0]} == *+* ]]; then
-				# < Sho_> locsmif: The version numbers of SVN versions look like this: 
-				#         "<version number of last release>+ #<build number", i.e. "1.0+ #3177" ... 
-				#         for releases we remove the + and build number, i.e. "1.0" or soon "1.0.1"
-				IRCV=" CVS $IRCV"
-				T2="${T[0]/+/}"
-			else
-				IRCV=" ${T[0]}"
-				T2="${T[0]}"
-			fi
-			# Remove any dots except the first, and make sure there are no trailing zeroes, 
-			T2=$(echo "$T2" | gawk '{ sub(/\./, " "); gsub(/\./, ""); sub(/ /, "."); printf("%g\n", $0) }')
-			# Since Konversation 1.0, the DCOP interface has changed a bit: dcop "$DCPORT" Konversation ..etc
-			# becomes : dcop "$DCPORT" default ... or dcop "$DCPORT" irc ..etc. So we check for versions smaller
-			# than 1 and change the DCOP parameter/object accordingly.
-			[[ ${T2} < 1 ]] && DCOPOBJ="Konversation"
+			detectkonvi "$IRC"
 			IRC="Konversation"
 		;; 
 		*xchat*)
@@ -325,7 +339,12 @@ roots () {
 			IRC="Unknown : ${IRC##*/}"
 			unset IRCV
 		esac
-		[[ $SHOWIRC -lt 2 ]] && unset IRCV    
+		[[ $SHOWIRC -lt 2 ]] && unset IRCV
+	# Try to make sure we are actually dealing with Konversation, as the new version runs infobash in a disowned process, from a $PPID
+	# that disappears after it has invocated infobash. What fun .-)    
+	elif [[ -n $PPID && ! -f /proc/$PPID/exe && $0 == *konversation* ]] && grep -q '^[0-9]\+' <<< "$1" && grep -q '^#.\+' <<< "$2"; then
+			detectkonvi "konversation"
+                        IRC="Konversation"
 	else
 		IRC="PPID=\"$PPID\" - empty?"
 		unset IRCV
@@ -355,7 +374,7 @@ getparams () {
 					VBL="$1" 
 				fi
 			fi
-			echo "$VBL" | grep -q '^[1-3]$' || error 4 "$VBL"
+			grep -q '^[1-3]$' <<< "$VBL" || error 4 "$VBL"
 		;;
 		--version)
 			say "InfoBash, the universal, portable, system info script for irc."
@@ -370,7 +389,7 @@ getparams () {
 			exit 0
 		;;
 		*)
-			echo "$1" | grep -q '^[0-9][0-9]\?$' || error 3 "$1"
+			grep -q '^[0-9][0-9]\?$' <<< "$1" || error 3 "$1"
 			((CSCHEME)) || cscheme "$1"
 		esac
 		shift
@@ -381,7 +400,7 @@ getparams () {
 sanitize () {
 	# Cannot use strong quotes to unquote a string with pipes in it! bash will interpret the |'s as usual and try to run a subshell!
 	# Using weak quotes instead, or use '"..."'
-	echo "$2" | gawk "BEGIN { IGNORECASE=1 } { gsub(/${!1}/,\"\"); gsub(/ [ ]+/,\" \"); gsub(/^ +| +$/,\"\"); print }"
+	gawk "BEGIN { IGNORECASE=1 } { gsub(/${!1}/,\"\"); gsub(/ [ ]+/,\" \"); gsub(/^ +| +$/,\"\"); print }" <<< "$2"
 }
 
 #################################################################################
@@ -422,20 +441,27 @@ LSPCI=$(lspci -v | awk '{ gsub(/\(prog-if[^)]*\)/,""); print }')
 #########################                              ############################
 ###################################################################################
 
-roots
+# New Konversation detection requires $1 and $2
+roots "$@"
 
-if ((KONVI)); then
-	DCPORT="$1"
-	DCSERVER="$2"
-	DCTARGET="$3"
+case $KONVI in
+"dcop")
+	# DCOP section
+	DCOP_PORT="$1"
+	DCOP_SERVER="$2"
+	DCOP_TARGET="$3"
 	shift 3
-	# The section below is on request of Argonel from the Konversation developer team:
-	# it sources config files like $HOME/.kde/share/apps/konversation/scripts/infobash.conf
-	IFS=":"; for I in $(kde-config --path data); do
-		if [[ -r ${I}${KONVICFG} ]]; then source "${I}${KONVICFG}"; break; fi
-	done
-	IFS="$OIFS"
-fi
+;;
+"dbus")
+	# Newer DBUS section
+	DBUS_SERVER="$1"
+	DBUS_TARGET="$2"
+	shift 2
+;;
+*)
+	error 7
+;;
+esac
 
 # "$@" passes every parameter seperately quoted, "$*" passes all parameters as one quoted parameter.
 getparams "$@"
@@ -535,7 +561,7 @@ for ((I=0;I<${#CPU[@]};I++)); do
 	done
 done
 
-if echo "${CPU[@]}" | grep -qi 'dual\|triple\|quad'; then
+if grep -qi 'dual\|triple\|quad' <<< "${CPU[@]}"; then
 	NOCPUCOUNT=1
 else
 	case $((${#CPU[@]})) in 
@@ -598,7 +624,7 @@ END {
 [[ -z $CPUFLAGS ]] && CPUFLAGS="-"
 
 for I in /proc/ide/ide*/hd*; do 
-	if [[ -e $I/media && $(eat $I/media) = disk ]]; then
+	if [[ -r $I/media && $(eat $I/media) = disk ]]; then
 		if [[ ! -e $I/capacity ]]; then  # BUGFIX: Ran into a debian sarge kernel that did not have the "capacity" file in the hd* directories
 			CAP=0
 			break
@@ -607,37 +633,19 @@ for I in /proc/ide/ide*/hd*; do
 		HDDMOD="${HDDMOD}${HDDMOD:+,}$(eat $I/model)"
 	fi
 done
+# It doesn't matter whether CAP is empty or not, if it was, it now becomes 0.
+CAP=$((CAP/2))
 
-if [[ -e /proc/scsi/scsi ]]; then
-	# Silly sata detection, will also pick up usb sticks, and it is all I will put into infobash. if you want more, infoperl is on
-	# the way :)
-	IFS=$'\n'; THDD=($(gawk '
-	BEGIN { IGNORECASE=1 }
-	/host/ {
-		getline a[$0]
-		getline b[$0]
-	}
-	END {
-		for (i in a) {
-			if (b[i] ~ / *type: *direct-access.*/) {
-				#c=gensub(/^ *vendor: (.+) +model: (.+) +rev: (.+)$/,"\\1 \\2 \\3","g",a[i])
-				c=gensub(/^ *vendor: (.+) +model: (.+) +rev:.*$/,"\\1 \\2","g",a[i])
-				gsub(/ [ ]+/, " ", c); gsub(/^ +| +$/, "", c)
-	      			#print a[i]
-				if (c ~ /\<flash\>|\<pendrive\>|memory stick|memory card/) continue
-				print c
-			}
-		}
-	}
-	' /proc/scsi/scsi)); IFS="$OIFS"
-
-	for ((I=0;I<${#THDD[@]};I++)); do
-		HDDMOD="${HDDMOD}${HDDMOD:+,}${THDD[I]}"
+if [[ -z $HDDMOD ]]; then
+	for I in /sys/block/*; do
+		(($(<"$I/removable"))) && continue
+		 # HDD_SIZE = $(($(<"$I/size")*512/1000**3))
+		[[ -r $I/device/model ]] && HDDMOD="${HDDMOD}${HDDMOD:+,}$(eat $I/device/model)"
 	done
 fi
 
 ##say "$HDDMOD" ; exit
-((CAP)) && HDDCAP1="$((CAP/2))"
+((CAP)) && HDDCAP1="$CAP"
 # See http://lanana.org/docs/device-list/devices-2.6+.txt for major numbers used below
 HDDCAP2=$(gawk '$1 ~ /^(3|22|33|8)$/ && $2 % 16 == 0 {size+=$3} END {printf("%d\n",size)}' /proc/partitions)
 
@@ -676,13 +684,13 @@ END {
 PROC="$(($(ps aux | wc -l)-1))"
 UPT=$(uptime | gawk '{ a = gensub(/^.*up *([^,]*).*$/,"\\1","g",$0); gsub(/ /,"",a); print a }')
 
-IFS=$'\n'; GFX=($(echo "$LSPCI" | gawk -F': ' '/VGA compatible controller/ { print $NF }')); IFS="$OIFS"
+IFS=$'\n'; GFX=($(gawk -F': ' '/VGA compatible controller/ { print $NF }' <<< "$LSPCI")); IFS="$OIFS"
 for ((I=0;I<${#GFX[@]};I++)); do
 	GFX[I]=$(sanitize NORMALBANS "${GFX[I]}")
 done
 
 # GFXMEM is UNUSED at the moment, because it shows AGP aperture size, which is not necessarily equal to GFX memory..
-# GFXMEM="size=[$(echo "$LSPCI" | gawk '/VGA/{while (!/^$/) {getline;if (/size=[0-9][0-9]*M/) {size2=gensub(/.*\[size=([0-9]+)M\].*/,"\\1","g",$0);if (size<size2){size=size2}}}}END{print size2}')M]"
+# GFXMEM="size=[$(gawk '/VGA/{while (!/^$/) {getline;if (/size=[0-9][0-9]*M/) {size2=gensub(/.*\[size=([0-9]+)M\].*/,"\\1","g",$0);if (size<size2){size=size2}}}}END{print size2}' <<< "$LSPCI")M]"
 if ((X)); then
 	
 	# Added the two ?'s , because the resolution is now reported without spaces around the 'x', as in
@@ -828,7 +836,7 @@ if ((VBL)); then  # (IF VBL > 1)
 	done
 
 	if [[ $VBL -ge 2 ]]; then
-		IFS=$'\n' LNNET=($(echo "$LSPCI" | gawk '
+		IFS=$'\n' LNNET=($(gawk '
 		BEGIN { IGNORECASE=1 }
 		/^[0-9a-f:.]+ (ethernet|network) (controller|bridge)/ || /^[0-9a-f:.]+ [^:]+: .*(ethernet|network).*$/ {
 			nic=gensub(/^[0-9a-f:.]+ [^:]+: (.+)$/,"\\1","g",$0)
@@ -862,7 +870,7 @@ if ((VBL)); then  # (IF VBL > 1)
 				j++
 			}
 		}
-		'))
+		' <<< "$LSPCI"))
 		IFS="$OIFS"
 
 		if [[ -n ${LNNET[@]} ]]; then

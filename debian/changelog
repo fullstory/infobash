@@ -1,8 +1,29 @@
-infobash (3.13) UNRELEASED; urgency=low
+infobash (3.20) UNRELEASED; urgency=low
 
-  * NOT RELEASED YET
+  * Supports Konversation >= 1.1.75, i.e. dbus infrastructure
+  * Also supports Konversation < 1.1.75, i.e. dcop infrastructure, intelligent
+    switching
+  * Removed stuff for Konversation-specific config file, nobody cares about that
+  * Replaced all instances of echo "$something" | somecommand with:
+    somecommand <<< "$somevar". Infobash is now >= Bash 2.05b again.
+  * Removed bashism: [[ something =~ foo|bar|baz ]] that requires > Bash 3 and
+    that Michael Deelwater introduced. Good idea to check for wrappers _before_
+    the switch block, just streamlined the implementation a little bit using Gawk
+    instead of ps and such. I don't use sed anywhere else anyway.
+  * Fixed hdd detection a bit for now: uses sysfs instead: (/sys/block/*/device/model)
+    but only if /sys/block/*/devive/removable = 0
+  * Removed silly sata detection (/proc/scsi/scsi), who needs it
+  * Version bump to 3.20 to reflect important changes
+  * NOTE: new Konversation totally blows when it comes to running scripts: it starts a
+    process that starts the script and then disappears. Infobash now can't walk the
+    process tree upwards to find out what has started it. Fix was grueling. See code
+    for comments.
+  * Had to introduce expr for extended float comparison (Bash sucks at that anyway)
+    that helps compare Konversation version numbers better.
+  * I'll say my prayers that all of it works, even though I'm not christian and I
+    generally do everything the church forbids. 
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 11 May 2009 12:07:08 +0000
+ -- Michiel de Boer <ltown2@web.de>  Wed, 20 May 2009 14:24:17 +0200
 
 infobash (3.12) unstable; urgency=low
 

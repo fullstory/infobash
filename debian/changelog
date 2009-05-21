@@ -1,9 +1,5 @@
-infobash (3.22) UNRELEASED; urgency=low
+infobash (3.22) unstable; urgency=low
 
-  [ Stefan Lippers-Hollmann ]
-  * NOT RELEASED YET
-
-  [ Michiel de Boer ]
   * Rearranged $KONVI handling a little bit, it didn't make much sense
     in the first place. Removed associated error handler for the same
     reason. Updated a comment to note dbus handling.

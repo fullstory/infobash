@@ -53,7 +53,7 @@ shopt -u nullglob
 
 SELF="Infobash"
 SELF_LC=$(echo "$SELF" | tr '[A-Z]' '[a-z]')
-MYVERSION="$SELF v3.21"
+MYVERSION="$SELF v3.22"
 LC_ALL="C"	# Make sure every program speaks English.
 export LC_ALL 
 OIFS="$IFS"	# Backup the current Internal Field Seperator
@@ -103,9 +103,9 @@ DCOP_OBJ="default"
 ################################  FUNCTIONS  ####################################
 #################################################################################
 
-# Infobash speaks through here. When run by Konversation, use DCOP
+# Infobash speaks through here. When run by Konversation, use DCOP or dbus.
 say () {
-	((DEBUG > 5)) && SAYSTR="konvi='$konvi'  saying : '$*'" || SAYSTR="$1"
+	((DEBUG > 5)) && SAYSTR="\$KONVI='$KONVI'  saying : '$*'" || SAYSTR="$1"
 	
 	if [[ $KONVI == "dcop" ]]; then
 		dcop "$DCOP_PORT" "$DCOP_OBJ" say "$DCOP_SERVER" "$DCOP_TARGET" "$SAYSTR"
@@ -124,7 +124,6 @@ error () {
 	4) say "$SELF: unknown verbosity level $2" ;;
 	5) say "$SELF: dependency not met: $2 not found in path" ;;
 	6) say "$SELF: /proc not found! Quitting..." ;;
-	7) say "$SELF: strange string in \$KONVI: '$KONVI'" ;;
 	*) say "$SELF: error unknown: $@"; set -- 99 ;;
 	esac
 	exit $1
@@ -250,7 +249,6 @@ detectkonvi () {
 	
 # Determine where infobash was run from
 roots () {
-	echo "$0 $@" >/tmp/foo
 	if tty >/dev/null; then
 		IRC="Shell"
 		unset IRCV
@@ -444,6 +442,7 @@ LSPCI=$(lspci -v | awk '{ gsub(/\(prog-if[^)]*\)/,""); print }')
 # New Konversation detection requires $1 and $2
 roots "$@"
 
+# This stuff happens here because the positional parameters of MAIN can only be shifted in MAIN.
 case $KONVI in
 	"dcop")
 		# DCOP section
@@ -451,15 +450,12 @@ case $KONVI in
 		DCOP_SERVER="$2"
 		DCOP_TARGET="$3"
 		shift 3
-		;;
+	;;
 	"dbus")
 		# Newer DBUS section
 		DBUS_SERVER="$1"
 		DBUS_TARGET="$2"
 		shift 2
-	;;
-	*)
-		[[ -n $KONVI ]] && error 7
 	;;
 esac
 

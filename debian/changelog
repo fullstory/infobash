@@ -1,3 +1,9 @@
+infobash (3.23) UNRELEASED; urgency=low
+
+  * NOT RELEASED YET
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Thu, 21 May 2009 14:38:16 +0200
+
 infobash (3.22) unstable; urgency=low
 
   * Rearranged $KONVI handling a little bit, it didn't make much sense

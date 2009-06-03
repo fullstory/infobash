@@ -17,8 +17,9 @@ infobash (3.25) unstable; urgency=low
 
   [ Stefan Lippers-Hollmann ]
   * nuke no longer required links.
+  * fix SGML syntax.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Wed, 03 Jun 2009 08:39:33 +0200
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Wed, 03 Jun 2009 21:02:24 +0200
 
 infobash (3.22) unstable; urgency=low
 

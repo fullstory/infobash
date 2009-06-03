@@ -1,6 +1,5 @@
 infobash (3.25) UNRELEASED; urgency=low
 
-  [ Stefan Lippers-Hollmann ]
   * NOT RELEASED YET
 
   [ Michiel de Boer ]
@@ -18,7 +17,10 @@ infobash (3.25) UNRELEASED; urgency=low
   * Removed Konversation stuff such as symbolic link creating from
     infobash.spec (slh could you doublecheck if what I did was correct?)
 
- -- Michiel de Boer <ltown2@web.de>  Wed, 03 Jun 2009 02:53:29 +0200
+  [ Stefan Lippers-Hollmann ]
+  * nuke no longer required links.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Wed, 03 Jun 2009 08:39:33 +0200
 
 infobash (3.22) unstable; urgency=low
 

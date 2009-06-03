@@ -14,8 +14,11 @@ infobash (3.25) UNRELEASED; urgency=low
     Konversation's /exec implementation is idiotic, their developers
     should buy a clue. A Perl wrapper is not proper /exec
     functionality.
+  * Adjusted documentation in the SGML file. Please rebuild man page.
+  * Removed Konversation stuff such as symbolic link creating from
+    infobash.spec (slh could you doublecheck if what I did was correct?)
 
- -- Michiel de Boer <ltown2@web.de>  Wed, 03 Jun 2009 02:18:56 +0200
+ -- Michiel de Boer <ltown2@web.de>  Wed, 03 Jun 2009 02:53:29 +0200
 
 infobash (3.22) unstable; urgency=low
 

@@ -159,28 +159,14 @@
 		<listitem>
 		<para><emphasis>Konversation</emphasis> - <command>/exec infobash</command> (Sidux/Kanotix users should use: <command>/infobash</command>)</para>
 		<para>
-		Infobash was originally written for Konversation, although that was a few years ago. Infobash has support for Konversations' DCOP functions
-		built in, to be able to actually 'speak' into a channel or query. Sadly, Konversation doesn't have an /exec command built in that resembles
-		true /exec functionality.
+		Sadly, Konversation doesn't have an /exec command built in that resembles true /exec functionality. Infobash does not support running
+		directly via /exec any longer, as too much obstacles caused by Konversation's abnormal /exec implementation have to be overcome.
+		Therefore you should use <command>/cmd infobash</command>. 
 		</para>
 		<para>
-			The only scripts that are allowed to run directly via /exec must be present in either
-			<emphasis>~/.kde/share/apps/konversation/scripts/</emphasis> or in <emphasis>/usr/share/apps/konversation/scripts/</emphasis>. 
-			If you want to run any command outside of that jail, you must invoke /cmd &lt;program&gt;. Cmd is a wrapper written in Perl, 
-			residing in <emphasis>/usr/share/apps/konversation/scripts/</emphasis> and it does some checks on the program being run. It will
-			refuse to run the 'yes' command for example.
+		In Settings-&gt;Configure Konversation-&gt;Behavior-&gt;Command Aliases you can create an alias "infobash" with replacement:
+		<command>/exec cmd infobash</command> if you want to be able to use the shortcut <command>/infobash</command> instead.
 		</para>
-		<para>		
-		DO NOT RUN INFOBASH WITH THIS WRAPPER! Instead, unless the Debian package has already set this up, you can do the following as normal user
-		in a terminal window:
-		</para>
-		
-		<procedure>
-			<step><para>T="/usr/share/apps/konversation/scripts"</para></step>
-			<step><para>mkdir -p "$T"</para></step>
-			<step><para>ln -sf /usr/bin/infobash "$T/infobash"</para></step>
-			<step><para>unset T</para></step>
-		</procedure>
 		</listitem>
 
 		<listitem>
@@ -384,19 +370,8 @@
 		<para><emphasis>/etc/infobash.conf</emphasis> (global)</para><para><emphasis>~/.infobash</emphasis> (local to user)</para>
 	
 		<para>
-		After that, if Konversation is detected, infobash will proceed to search for "konversation/scripts/infobash.conf" in
-		the paths emitted by: 
-		</para>
-		<para><command>kde-config --path data</command></para>
-		<para>
-			This will probably include: <emphasis>/usr/share/apps/konversation/scripts/infobash.conf</emphasis> and
-			<emphasis>~/.kde/share/apps/konversation/scripts/infobash.conf</emphasis>
-		</para>
-		
-		<para>
-		This means ~/.infobash overrides /etc/infobash.conf, so that users can override global config, but for konversation users any infobash
-		settings in the konversation-specific configfile will in turn override both. Interesting (and somewhat dangerous ;) things can be done
-		with these override files: we'll discuss some below.
+		This means ~/.infobash overrides /etc/infobash.conf, so that users can override global config. Interesting
+		(and somewhat dangerous ;) things can be done with these override files: we'll discuss some below.
 		</para>
 		<para><note>Any variables not mentioned are documented in the source.</note></para>
 		<para>
@@ -543,7 +518,7 @@
 
 		<varlistentry>
 			<term>Run infobash inside Konversation showing a oneliner</term>
-			<listitem><para><command>/exec infobash</command></para></listitem>
+			<listitem><para><command>/cmd infobash</command></para></listitem>
 		</varlistentry>
 		
 		<varlistentry>
@@ -567,8 +542,7 @@
 		slh (packaging, patches)
 		</para>
 		<para>
-		Special thanks to the developers and users of Sidux and Kanotix for their love and participation
-		in this program. 
+		Special thanks to the beta testers in the sidux developer team.
 		</para>
 	</refsection>
 	

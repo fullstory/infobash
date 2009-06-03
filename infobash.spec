@@ -62,17 +62,10 @@ install -d -m 755 $RPM_BUILD_ROOT
 install -d -m 0755 $RPM_BUILD_ROOT/etc
 install -d -m 0755 $RPM_BUILD_ROOT/usr
 install -d -m 0755 $RPM_BUILD_ROOT/usr/bin
-install -d -m 0755 $RPM_BUILD_ROOT/opt
-install -d -m 0755 $RPM_BUILD_ROOT/opt/kde3
-install -d -m 0755 $RPM_BUILD_ROOT/opt/kde3/share
-install -d -m 0755 $RPM_BUILD_ROOT/opt/kde3/share/apps
-install -d -m 0755 $RPM_BUILD_ROOT/opt/kde3/share/apps/konversation
-install -d -m 0755 $RPM_BUILD_ROOT/opt/kde3/share/apps/konversation/scripts
 
 #copy files
 install -m 0755 infobash $RPM_BUILD_ROOT/usr/bin/infobash
 install -m 0644 infobash.conf $RPM_BUILD_ROOT/etc/
-cd $RPM_BUILD_ROOT/opt/kde3/share/apps/konversation/scripts && ln -fs /usr/bin/infobash
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -83,7 +76,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 /etc/*
 /usr/bin/*
-/opt/kde3/share/apps/konversation/scripts/*
 
 %changelog -n infobash
 * Sun Nov 09 2008 - Stefan Lippers Hollmann <s.l-h@gmx.de>

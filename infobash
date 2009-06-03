@@ -24,7 +24,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #   DEPENDENCIES
-# bash >=2.05b(bash), df;expr;readlink;stty;tr;uname;wc(coreutils),  
+# bash >=2.05b(bash), df;readlink;stty;tr;uname;wc(coreutils),  
 # gawk(gawk), grep(grep), hostname(hostname), lspci(pciutils),
 # ps;uptime(procps), runlevel(sysvinit), glxinfo;xdpyinfo;xrandr(xbase-clients)
 # Also the proc filesystem should be present and mounted
@@ -35,10 +35,7 @@
 # Therefore this script uses ${VAR:+foo} by preference until further notice.
 # Vim search string? Try: ${[A-Za-z0-9_-]\+:\?+
 
-ALLUP=0         # Infobash hasn't been 'booted' yet.
-DEBUG=0         # Set levels from 1-10
-DEBUG_FLOOD=0   # Debug flood override: toggle on to allow long debug output
-DBI=0           # Debug Buffer Index, index into a debug buffer storing debug messages until infobash is 'all up'
+DEBUG=0		# Set levels from 1-10
 ((DEBUG)) || exec 2>/dev/null # Reroute all error messages to the bitbucket (if not debugging)
 #((DEBUG)) && exec 2>&1 # This is for debugging konversation
 
@@ -46,14 +43,14 @@ DBI=0           # Debug Buffer Index, index into a debug buffer storing debug me
 # type constructs. Stuff like [rev a1] is now seen as a glob expansion pattern, and fails, and
 # therefore results in nothing. Tricky as fuck.
 shopt -u nullglob
-
+ 
 #################################################################################
 #######################  UNCALCULATED VARIABLES  ################################
 #################################################################################
 
 SELF="Infobash"
 SELF_LC=$(echo "$SELF" | tr '[A-Z]' '[a-z]')
-MYVERSION="$SELF v3.22"
+MYVERSION="$SELF v3.25"
 LC_ALL="C"	# Make sure every program speaks English.
 export LC_ALL 
 OIFS="$IFS"	# Backup the current Internal Field Seperator
@@ -94,7 +91,6 @@ XPATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin" # Extra pat
 PARAMLIMIT=30	# This is a variable that controls how many parameters infobash will parse in a /proc/<pid>/cmdline file before stopping.
 CRAP=0		# New parameter
 FLAG=0		# A throw-away 'flag' variable intended to be used throughout infobash
-DCOP_OBJ="default"
 
 [[ -s /etc/$SELF_LC.conf ]] && source /etc/$SELF_LC.conf	# Source global config overrides
 [[ -s $HOME/.$SELF_LC ]] && source $HOME/.$SELF_LC 		# Source user config overrides
@@ -103,23 +99,16 @@ DCOP_OBJ="default"
 ################################  FUNCTIONS  ####################################
 #################################################################################
 
-# Infobash speaks through here. When run by Konversation, use DCOP or dbus.
+# Infobash speaks through here.
 say () {
-	((DEBUG > 5)) && SAYSTR="\$KONVI='$KONVI'  saying : '$*'" || SAYSTR="$1"
+	((DEBUG > 5)) && SAYSTR="saying : '$*'" || SAYSTR="$1"
 	
-	if [[ $KONVI == "dcop" ]]; then
-		dcop "$DCOP_PORT" "$DCOP_OBJ" say "$DCOP_SERVER" "$DCOP_TARGET" "$SAYSTR"
-	elif [[ $KONVI = "dbus" ]]; then
-		qdbus org.kde.konversation /irc say "$DBUS_SERVER" "$DBUS_TARGET" "$SAYSTR"
-	else
-		echo -ne "$SAYSTR\n"
-	fi
+	echo -ne "$SAYSTR\n"
 }
 
 # Error handling
 error () {
 	case $1 in
-	2) say "$SELF: large flood danger, debug buffer full!" ;;
 	3) say "$SELF: error in colorscheme, or unknown parameter: $2" ;;
 	4) say "$SELF: unknown verbosity level $2" ;;
 	5) say "$SELF: dependency not met: $2 not found in path" ;;
@@ -130,19 +119,7 @@ error () {
 }
 
 dbg () {
-	if ((ALLUP)); then
-		((DEBUG)) || return
-		if ((DBI)); then
-			for ((DBI=0;DBI<${#DBGBUF[@]};DBI++)); do
-				say "${DBGBUF[DBI]}"
-			done
-			DBI=0
-		fi
-		say "$@"
-	else
-		((!DEBUG_FLOOD && DBI>10)) && error 2
-		DBGBUF[DBI++]="$@"
-	fi
+	((DEBUG)) && say "$@" || return
 }
 
 eat () {
@@ -201,14 +178,14 @@ cscheme () {
 # Parse the null separated commandline under /proc/<pid passed in $1>/cmdline
 getcmdline () {
 	[[ -e /proc/$1/cmdline ]] || { echo 0; return; }
-	##say "Marker"
 	##say "\$1='$1' -=- $(< /proc/$1/cmdline)"
 	local I=0
 	unset CMDL
 	while read -d $'\0' L && [[ $I -lt 32 ]]; do 
 		CMDL[I++]="$L"
 	done </proc/$1/cmdline
-	##say "\$I='$I'"
+	
+	# Sometimes parameters aren't separated by nullbytes
 	if ! ((I)); then
 		CMDL[0]=$(< /proc/$1/cmdline)
 		[[ -n ${CMDL[0]} ]] && I=1
@@ -216,37 +193,6 @@ getcmdline () {
 	CMDLMAX=$I
 }
 
-# $1 = path to Konversation binary
-detectkonvi () { 
-	IRCV="$($1 -v | gawk '/Konversation:/ { for (i=2;i<=NF;i++) { if (i == NF) { print $i } else { printf $i" " } } exit }')"
-	T=($IRCV)
-	if [[ ${T[0]} == *+* ]]; then
-		# < Sho_> locsmif: The version numbers of SVN versions look like this: 
-		#         "<version number of last release>+ #<build number", i.e. "1.0+ #3177" ... 
-		#         for releases we remove the + and build number, i.e. "1.0" or soon "1.0.1"
-		IRCV=" CVS $IRCV"
-		T2="${T[0]/+/}"
-	else
-		IRCV=" ${T[0]}"
-		T2="${T[0]}"
-	fi
-	# Remove any dots except the first, and make sure there are no trailing zeroes, 
-	T2=$(gawk '{ sub(/\./, " "); gsub(/\./, ""); sub(/ /, "."); printf("%g\n", $0) }' <<< "$T2")
-
-	# [[ $VAR < num ]] is the only construct that compares floats. -lt does not work. (( .. )) does not work.
-	if expr "${T2}" '<' '1.175'; then
-		# DCOP
-		KONVI="dcop"
-		# Since Konversation 1.0, the DCOP interface has changed a bit: dcop "$DCPORT" Konversation ..etc
-		# becomes : dcop "$DCPORT" default ... or dcop "$DCPORT" irc ..etc. So we check for versions smaller
-		# than 1 and change the DCOP parameter/object accordingly.
-		[[ ${T2} < 1 ]] && DCOP_OBJ="Konversation"
-	elif expr "${T2}" '>=' '1.175'; then
-		# DBUS
-		KONVI="dbus"
-	fi
-}
-	
 # Determine where infobash was run from
 roots () {
 	if tty >/dev/null; then
@@ -268,10 +214,6 @@ roots () {
 			IRCV=" $($IRC -v | gawk 'NR == 1 { print $2 }')"
 			IRC="Irssi"
 		;;
-		*konversation*)
-			detectkonvi "$IRC"
-			IRC="Konversation"
-		;; 
 		*xchat*)
 			IRCV=" $($IRC -v | gawk 'NR == 1 { print $2 }')"
 			IRC="X-Chat"
@@ -310,23 +252,40 @@ roots () {
 		*perl*)
 			unset IRCV	# KSirc is one of the possibilities now. KSirc is a wrapper around dsirc, a perl client
 			getcmdline $PPID
-			for ((I=0; I<=$CMDLMAX; I++)); do
-				case ${CMDL[I]} in
-				 *dsirc*) 
-					IRC="KSirc"
-					# Dynamic runpath detection is too complex with KSirc, because KSirc is started from
-					# kdeinit. /proc/<pid of the grandparent of this process>/exe is a link to /usr/bin/kdeinit
-					# with one parameter which contains parameters separated by spaces(??), first param being KSirc.
-					# Then, KSirc runs dsirc as the perl irc script and wraps around it. When /exec is executed,
-					# dsirc is the program that runs infobash, therefore that is the parent process that we see.
-					# You can imagine how hosed I am if I try to make infobash find out dynamically with which path
-					# KSirc was run by browsing up the process tree in /proc. That alone is straightjacket material.
-					# (KSirc sucks anyway ;)
-					IRCV=" $(ksirc -v | gawk '/KSirc:/ { print $2; exit }')"
-					break
-				;;
-				esac
-			done 
+			dbg "PPID: \${CMDL[@]}='${CMDL[*]}'"
+		
+			# Test for Konversation	
+			if grep -qi '^perl .*konversation/scripts/cmd\( konversation\)\? [0-9]\+ #[^ ]\+ infobash' <<< "${CMDL[*]}"; then
+				IRCV="$(konversation -v | gawk '/Konversation:/ { for (i=2;i<=NF;i++) { if (i == NF) { print $i } else { printf $i" " } } exit }')"
+				T=($IRCV)
+				if [[ ${T[0]} == *+* ]]; then
+					# < Sho_> locsmif: The version numbers of SVN versions look like this: 
+					#         "<version number of last release>+ #<build number", i.e. "1.0+ #3177" ... 
+					#         for releases we remove the + and build number, i.e. "1.0" or soon "1.0.1"
+					IRCV=" CVS $IRCV"
+				else
+					IRCV=" ${T[0]}"
+				fi
+				IRC="Konversation"
+			else
+				for ((I=0; I<=$CMDLMAX; I++)); do
+					case ${CMDL[I]} in
+					 *dsirc*) 
+						IRC="KSirc"
+						# Dynamic runpath detection is too complex with KSirc, because KSirc is started from
+						# kdeinit. /proc/<pid of the grandparent of this process>/exe is a link to /usr/bin/kdeinit
+						# with one parameter which contains parameters separated by spaces(??), first param being KSirc.
+						# Then, KSirc runs dsirc as the perl irc script and wraps around it. When /exec is executed,
+						# dsirc is the program that runs infobash, therefore that is the parent process that we see.
+						# You can imagine how hosed I am if I try to make infobash find out dynamically with which path
+						# KSirc was run by browsing up the process tree in /proc. That alone is straightjacket material.
+						# (KSirc sucks anyway ;)
+						IRCV=" $(ksirc -v | gawk '/KSirc:/ { print $2; exit }')"
+						break
+					;;
+					esac
+				done
+			fi
 			[[ -z $IRCV ]] && IRC="Unknown Perl client"
 		;;
 		*bash*|*sh*)
@@ -338,12 +297,8 @@ roots () {
 			unset IRCV
 		esac
 		[[ $SHOWIRC -lt 2 ]] && unset IRCV
-	# Try to make sure we are actually dealing with Konversation, as the new version runs infobash in a disowned process, from a $PPID
-	# that disappears after it has invocated infobash. What fun .-)    
-	elif [[ -n $PPID && ! -f /proc/$PPID/exe && $0 == *konversation* ]] && grep -q '^[0-9]\+' <<< "$1" && grep -q '^#.\+' <<< "$2"; then
-			detectkonvi "konversation"
-                        IRC="Konversation"
 	else
+		dbg "No client detected"
 		IRC="PPID=\"$PPID\" - empty?"
 		unset IRCV
 	fi
@@ -439,34 +394,13 @@ LSPCI=$(lspci -v | awk '{ gsub(/\(prog-if[^)]*\)/,""); print }')
 #########################                              ############################
 ###################################################################################
 
-# New Konversation detection requires $1 and $2
-roots "$@"
-
-# This stuff happens here because the positional parameters of MAIN can only be shifted in MAIN.
-case $KONVI in
-	"dcop")
-		# DCOP section
-		DCOP_PORT="$1"
-		DCOP_SERVER="$2"
-		DCOP_TARGET="$3"
-		shift 3
-	;;
-	"dbus")
-		# Newer DBUS section
-		DBUS_SERVER="$1"
-		DBUS_TARGET="$2"
-		shift 2
-	;;
-esac
+roots
 
 # "$@" passes every parameter seperately quoted, "$*" passes all parameters as one quoted parameter.
 getparams "$@"
 
 # If no colorscheme was set in the parameter handling routine, then set the default scheme
 ((CSCHEME)) || cscheme "$DEFSCHEME"
-
-ALLUP=1
-dbg "ALLUP=1 : Infobash up and running.."
 
 HN=$(hostname)
 

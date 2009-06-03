@@ -1,8 +1,21 @@
-infobash (3.23) UNRELEASED; urgency=low
+infobash (3.25) UNRELEASED; urgency=low
 
+  [ Stefan Lippers-Hollmann ]
   * NOT RELEASED YET
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Thu, 21 May 2009 14:38:16 +0200
+  [ Michiel de Boer ]
+  * Supporting Konversation's /exec mechanism is too much trouble.
+    I give up. Infobash works via /cmd now. Removed all the cruft
+    accumulated over the years that enabled talking to Konversation
+    via DCOP and Dbus. The previous mechanism introduced a race
+    condition where $PPID would be set to 1 (init) and the roots()
+    function would end up believing it was an unknown client, and
+    both parameter handling and output to Konversation would fail.
+    Konversation's /exec implementation is idiotic, their developers
+    should buy a clue. A Perl wrapper is not proper /exec
+    functionality.
+
+ -- Michiel de Boer <ltown2@web.de>  Wed, 03 Jun 2009 02:18:56 +0200
 
 infobash (3.22) unstable; urgency=low
 

@@ -1,6 +1,4 @@
-infobash (3.25) UNRELEASED; urgency=low
-
-  * NOT RELEASED YET
+infobash (3.25) unstable; urgency=low
 
   [ Michiel de Boer ]
   * Supporting Konversation's /exec mechanism is too much trouble.

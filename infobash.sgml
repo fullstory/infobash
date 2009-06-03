@@ -157,7 +157,7 @@
 		</listitem>
 
 		<listitem>
-		<para><emphasis>Konversation</emphasis> - <command>/exec infobash</command> (Sidux/Kanotix users should use: <command>/infobash</command>)</para>
+		<para><emphasis>Konversation</emphasis> - <command>/cmd infobash</command> 
 		<para>
 		Sadly, Konversation doesn't have an /exec command built in that resembles true /exec functionality. Infobash does not support running
 		directly via /exec any longer, as too much obstacles caused by Konversation's abnormal /exec implementation have to be overcome.

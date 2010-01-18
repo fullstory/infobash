@@ -1,8 +1,11 @@
-infobash (3.26) UNRELEASED; urgency=low
+infobash (3.26) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * assume maintenance ipso facto.
+  * add support for detecting hyper threading CPUs.
+  * bump standards version to 3.8.3, no changes necessary.
+  * re-indent dependency folding in debian/control.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Wed, 03 Jun 2009 21:03:31 +0200
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 18 Jan 2010 22:13:52 +0100
 
 infobash (3.25) unstable; urgency=low
 

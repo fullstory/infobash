@@ -519,6 +519,7 @@ IFS=","; CPUTMP=(${CPU[0]}); IFS="$OIFS"
 CPUMODEL="${CPUTUPLE}${CPUTUPLE:+ }${CPUTMP[0]}" 
 CPUCLOCK="$CPUFREQ"             #"${CPU[${#CPU[@]}-1]}"	
 CPUFLAGS="${CPUTMP[3]}"
+# ht = Intel Hyper-Threading
 # nx = AMD stack protection extensions
 # lm = Intel 64bit extensions
 # sse, sse2, pni = sse1,2,3 gfx extensions
@@ -534,7 +535,7 @@ BEGIN {
 	sses[2] = "sse2"
 	sses[3] = "sse3"
 }
-/^(nx|lm|svm|vmx)$/ {
+/^(ht|nx|lm|svm|vmx)$/ {
         if (s) { s = s " " $0 }
         else { s = $0 }
 }
@@ -550,7 +551,7 @@ END {
 }
 ')
 
-#grep -oE '\<(nx|lm|sse[0-9]?|pni|svm|vmx)\>' | tr '\n' ' '))
+#grep -oE '\<(ht|nx|lm|sse[0-9]?|pni|svm|vmx)\>' | tr '\n' ' '))
 [[ -z $CPUFLAGS ]] && CPUFLAGS="-"
 
 for I in /proc/ide/ide*/hd*; do 

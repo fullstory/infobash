@@ -1,7 +1,7 @@
 #
 # spec file for package infobash
 #
-# Copyright (C) 2005-2008 Stefan Lippers-Hollmann <s.l-h@gmx.de>
+# Copyright (C) 2005-2010 Stefan Lippers-Hollmann <s.l-h@gmx.de>
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -21,7 +21,7 @@ Group:        System/Packages
 Provides:     infobash
 Requires:     bash, coreutils, net-tools, procps, pciutils, grep, gawk
 Autoreqprov:  on
-Version:      3.22
+Version:      3.26
 Release:      1
 Summary:      System info script for irc
 Source:       infobash_%{version}.tar.gz
@@ -78,6 +78,8 @@ rm -rf $RPM_BUILD_ROOT
 /usr/bin/*
 
 %changelog -n infobash
+* Mon Jan 18 2010 - Stefan Lippers Hollmann <s.l-h@gmx.de>
+- updated to current version - 3.26
 * Sun Nov 09 2008 - Stefan Lippers Hollmann <s.l-h@gmx.de>
 - updated to current version - 3.03
 * Thu Jul 18 2005 - Stefan Lippers Hollmann <s.l-h@gmx.de>

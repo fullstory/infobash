@@ -396,7 +396,7 @@
 		<para>Now your distro version files will be added to the ones infobash alread knows about.</para>
 		
 		<para>
-		Besides normal space seperated scalar variables such as DISTROS, infobash also has array variables such as SCHEMES.
+		Besides normal space separated scalar variables such as DISTROS, infobash also has array variables such as SCHEMES.
 		To add something to an array such as SCHEMES, use the following method:
 		</para>
 		<programlisting>
@@ -413,7 +413,7 @@
 				<term><envar>DISTROS</envar> (scalar)</term>
 				<listitem>
 					<para>
-					This scalar variable holds a space seperated list of files to look for under /etc/.
+					This scalar variable holds a space separated list of files to look for under /etc/.
 					When found, such a file can tell infobash on which distro it's running.
 					The list includes, for example, <emphasis>knoppix-version</emphasis> and <emphasis>slackware-version.</emphasis>
 					If your own distro is not detected, or for example if you are creating your own distro and the filename you are using

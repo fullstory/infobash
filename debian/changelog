@@ -1,3 +1,9 @@
+infobash (3.27) unstable; urgency=low
+
+  * fix manpage spelling error, s/seperated/separated/.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 18 Jan 2010 22:17:28 +0100
+
 infobash (3.26) unstable; urgency=low
 
   * assume maintenance ipso facto.

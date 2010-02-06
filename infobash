@@ -50,7 +50,7 @@ shopt -u nullglob
 
 SELF="Infobash"
 SELF_LC=$(echo "$SELF" | tr '[A-Z]' '[a-z]')
-MYVERSION="$SELF v3.25"
+MYVERSION="$SELF v3.29"
 LC_ALL="C"	# Make sure every program speaks English.
 export LC_ALL 
 OIFS="$IFS"	# Backup the current Internal Field Seperator
@@ -767,41 +767,47 @@ if ((VBL)); then  # (IF VBL > 1)
 	done
 
 	if [[ $VBL -ge 2 ]]; then
-		IFS=$'\n' LNNET=($(gawk '
-		BEGIN { IGNORECASE=1 }
-		/^[0-9a-f:.]+ (ethernet|network) (controller|bridge)/ || /^[0-9a-f:.]+ [^:]+: .*(ethernet|network).*$/ {
-			nic=gensub(/^[0-9a-f:.]+ [^:]+: (.+)$/,"\\1","g",$0)
-			gsub(/realtek semiconductor/, "Realtek", nic)
-			gsub(/davicom semiconductor/, "Davicom", nic)
-			gsub(/,/," ", nic)
-			gsub(/'"$NORMALBANS"'/, "", nic); gsub(/ [ ]+/," ", nic); gsub(/^ +| +$/,"", nic) 
-			# The doublequotes above are necessary because of the pipes in the variable.
-			eth[nic]++
-			while (getline && !/^$/) {
-				if (/I\/O/) ports[nic]=ports[nic]$4" "
-			}
-		}
-		
-		END {
-			j=0
-			for (i in eth) {
-				if (eth[i]>1) {
-					a[j]=eth[i]"x "i
-					if (ports[i] != "") a[j]=a[j]", at ports: "ports[i]
+		if [[ -x $(which nicinfo) ]]; then
+			# doesn't count and accumulate identical NICs yet, nor
+			# does it apply the global banlists yet.
+			IFS=$'\n' LNNET="$(nicinfo | cut -d\, -f6 | sed -e 2~1s/^.*/\\t\\t\&/)"
+		else
+			IFS=$'\n' LNNET=($(gawk '
+			BEGIN { IGNORECASE=1 }
+			/^[0-9a-f:.]+ (ethernet|network) (controller|bridge)/ || /^[0-9a-f:.]+ [^:]+: .*(ethernet|network).*$/ {
+				nic=gensub(/^[0-9a-f:.]+ [^:]+: (.+)$/,"\\1","g",$0)
+				gsub(/realtek semiconductor/, "Realtek", nic)
+				gsub(/davicom semiconductor/, "Davicom", nic)
+				gsub(/,/," ", nic)
+				gsub(/'"$NORMALBANS"'/, "", nic); gsub(/ [ ]+/," ", nic); gsub(/^ +| +$/,"", nic) 
+				# The doublequotes above are necessary because of the pipes in the variable.
+				eth[nic]++
+				while (getline && !/^$/) {
+					if (/I\/O/) ports[nic]=ports[nic]$4" "
 				}
-				else {
-					a[j]=i
-					if (ports[i] != "") a[j]=a[j]", at port: "ports[i];
+			}
+			
+			END {
+				j=0
+				for (i in eth) {
+					if (eth[i]>1) {
+						a[j]=eth[i]"x "i
+						if (ports[i] != "") a[j]=a[j]", at ports: "ports[i]
+					}
+					else {
+						a[j]=i
+						if (ports[i] != "") a[j]=a[j]", at port: "ports[i];
+					}
+					j++
 				}
-				j++
+				j=0
+				while (a[j]) {
+					print a[j]
+					j++
+				}
 			}
-			j=0
-			while (a[j]) {
-				print a[j]
-				j++
-			}
-		}
-		' <<< "$LSPCI"))
+			' <<< "$LSPCI"))
+		fi
 		IFS="$OIFS"
 
 		if [[ -n ${LNNET[@]} ]]; then

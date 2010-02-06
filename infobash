@@ -50,7 +50,7 @@ shopt -u nullglob
 
 SELF="Infobash"
 SELF_LC=$(echo "$SELF" | tr '[A-Z]' '[a-z]')
-MYVERSION="$SELF v3.29"
+MYVERSION="$SELF v3.30"
 LC_ALL="C"	# Make sure every program speaks English.
 export LC_ALL 
 OIFS="$IFS"	# Backup the current Internal Field Seperator
@@ -772,6 +772,7 @@ if ((VBL)); then  # (IF VBL > 1)
 			# does it apply the global banlists yet.
 			IFS=$'\n' LNNET="$(nicinfo | cut -d\, -f6 | sed -e 2~1s/^.*/\\t\\t\&/)"
 		else
+			# fallback to custom nic probing, only detects PCI devices.
 			IFS=$'\n' LNNET=($(gawk '
 			BEGIN { IGNORECASE=1 }
 			/^[0-9a-f:.]+ (ethernet|network) (controller|bridge)/ || /^[0-9a-f:.]+ [^:]+: .*(ethernet|network).*$/ {

@@ -16,7 +16,8 @@ Depends: ${misc:Depends},
  procps,
  pciutils,
  gawk
-Suggests: x11-xserver-utils,
+Suggests: ceni,
+ x11-xserver-utils,
  mesa-utils,
  irssi | xchat | konversation
 Description: System info script for irc

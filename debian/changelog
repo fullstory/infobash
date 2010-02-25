@@ -1,3 +1,9 @@
+infobash (3.31) UNRELEASED; urgency=low
+
+  * NOT RELEASED YET
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Thu, 25 Feb 2010 14:00:26 +0100
+
 infobash (3.30) unstable; urgency=low
 
   * add quassel client support 

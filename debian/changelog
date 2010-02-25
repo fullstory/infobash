@@ -1,8 +1,13 @@
 infobash (3.30) UNRELEASED; urgency=low
 
+  [ Stefan Lippers-Hollmann ]
   * NOT RELEASED YET
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sat, 06 Feb 2010 03:38:25 +0100
+  [ Bernard Gray ]
+  * add quassel client support 
+   - requires infobash (or symlink) in ~/.config/quassel-irc.org/scripts/
+
+ -- Bernard Gray <bernard.gray@gmail.com>  Thu, 25 Feb 2010 16:12:45 +1100
 
 infobash (3.29) unstable; urgency=low
 

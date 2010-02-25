@@ -288,6 +288,18 @@ roots () {
 			fi
 			[[ -z $IRCV ]] && IRC="Unknown Perl client"
 		;;
+		*quasselclient*)
+			# client only, connecting to remote core
+			# note: version string pre 0.4x is different, however there is no /exec support back then
+			IRCV=" $($IRC -v | gawk 'NR == 1 { print $3 }')"
+			IRC="Quassel"
+		;;
+		*quassel)
+			# monolithic, client and core in one
+			# note: version string pre 0.4x is different, however there is no /exec support back then
+			IRCV=" $($IRC -v | gawk 'NR == 1 { print $3 }')"
+			IRC="Quassel [M]"
+		;;
 		*bash*|*sh*)
 			unset IRCV
 			IRC="Shell wrapper"

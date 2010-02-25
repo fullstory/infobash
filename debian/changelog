@@ -1,9 +1,5 @@
-infobash (3.30) UNRELEASED; urgency=low
+infobash (3.30) unstable; urgency=low
 
-  [ Stefan Lippers-Hollmann ]
-  * NOT RELEASED YET
-
-  [ Bernard Gray ]
   * add quassel client support 
    - requires infobash (or symlink) in ~/.config/quassel-irc.org/scripts/
 

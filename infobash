@@ -3,7 +3,8 @@
 # InfoBash, the universal, portable, system info script for irc.
 # Tested with Irssi, Xchat, Konversation, BitchX, KSirc, ircII,
 # Gaim/Pidgin, Weechat, KVIrc and Kopete.
-# Copyright (C) 2005-2009  locsmif <ltown2@web.de>
+# Copyright (C) 2005-2009 locsmif <ltown2@web.de>
+# Copyright (C) 2008-2010 Stefan Lippers-Hollmann <s.l-h@gmx.de>
 
 # Freenode:
 # Many thanks to etorix, Kano, kelmo, slh in alphabetical order 
@@ -782,7 +783,7 @@ if ((VBL)); then  # (IF VBL > 1)
 		if [[ -x $(which nicinfo) ]]; then
 			# doesn't count and accumulate identical NICs yet, nor
 			# does it apply the global banlists yet.
-			IFS=$'\n' LNNET="$(nicinfo | cut -d\, -f6 | sed -e 2~1s/^.*/\\t\\t\&/)"
+			IFS=$'\n' LNNET="$(nicinfo | cut -d\, -f6 | sed -e 2~1s/^.*/$(printf "${C1}%-${INDENT}s${C2}")\ \&/)"
 		else
 			# fallback to custom nic probing, only detects PCI devices.
 			IFS=$'\n' LNNET=($(gawk '

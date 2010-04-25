@@ -1,8 +1,11 @@
-infobash (3.31) UNRELEASED; urgency=low
+infobash (3.31) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * update years in copyrights.
+  * bump standards version to 3.8.4, no changes necessary.
+  * switch to dpkg-source 3.0 (native) format.
+  * fix indenting for nicinfo.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Thu, 25 Feb 2010 14:00:26 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 26 Apr 2010 00:25:33 +0200
 
 infobash (3.30) unstable; urgency=low
 

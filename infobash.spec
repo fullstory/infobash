@@ -78,6 +78,8 @@ rm -rf $RPM_BUILD_ROOT
 /usr/bin/*
 
 %changelog -n infobash
+* Mon Apr 26 2010 - Stefan Lippers Hollmann <s.l-h@gmx.de>
+- updated to current version, use nicinfo if available - 3.31
 * Sat Feb 6 2010 - Stefan Lippers Hollmann <s.l-h@gmx.de>
 - updated to current version, use nicinfo if available - 3.29
 * Mon Jan 18 2010 - Stefan Lippers Hollmann <s.l-h@gmx.de>

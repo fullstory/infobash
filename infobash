@@ -51,7 +51,7 @@ shopt -u nullglob
 
 SELF="Infobash"
 SELF_LC=$(echo "$SELF" | tr '[A-Z]' '[a-z]')
-MYVERSION="$SELF v3.33"
+MYVERSION="$SELF v3.34"
 LC_ALL="C"	# Make sure every program speaks English.
 export LC_ALL 
 OIFS="$IFS"	# Backup the current Internal Field Seperator
@@ -76,7 +76,7 @@ IBSHELL=0	# Running in a shell? Defaults to false, and is determined later.
 NOCPUCOUNT=0	# Wether or not the string "dual" or similar is found in cpuinfo output. If so, avoid dups.
 # In cases of derived distros where the version file of the base distro can also be found under /etc, the derived distro's
 # version file should go first. (Such as with Sabayon / Gentoo)
-DIST_DERIV="sidux-version kanotix-version knoppix-version sabayon-release redhat-release turbolinux-release zenwalk-version"
+DIST_DERIV="aptosid-version sidux-version kanotix-version knoppix-version sabayon-release redhat-release turbolinux-release zenwalk-version"
 DIST_MAIN="gentoo-release mandrake-release slackware-version redhat-release SuSE-release"
 # debian_version excluded from DIST_MAIN so Debian can fall through to /etc/issue detection. Same goes for Ubuntu.
 DIST_BLIST="debian_version ubuntu_version"

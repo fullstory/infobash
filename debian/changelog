@@ -1,8 +1,8 @@
-infobash (3.34) UNRELEASED; urgency=low
+infobash (3.34) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * adapt for aptosid
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 08 Aug 2010 04:32:03 +0200
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Thu, 26 Aug 2010 02:12:46 +0200
 
 infobash (3.33) unstable; urgency=low
 

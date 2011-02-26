@@ -4,7 +4,7 @@
 # Tested with Irssi, Xchat, Konversation, BitchX, KSirc, ircII,
 # Gaim/Pidgin, Weechat, KVIrc and Kopete.
 # Copyright (C) 2005-2009 locsmif <ltown2@web.de>
-# Copyright (C) 2008-2010 Stefan Lippers-Hollmann <s.l-h@gmx.de>
+# Copyright (C) 2008-2011 Stefan Lippers-Hollmann <s.l-h@gmx.de>
 
 # Freenode:
 # Many thanks to etorix, Kano, kelmo, slh in alphabetical order 
@@ -51,7 +51,7 @@ shopt -u nullglob
 
 SELF="Infobash"
 SELF_LC=$(echo "$SELF" | tr '[A-Z]' '[a-z]')
-MYVERSION="$SELF v3.34"
+MYVERSION="$SELF v3.35"
 LC_ALL="C"	# Make sure every program speaks English.
 export LC_ALL 
 OIFS="$IFS"	# Backup the current Internal Field Seperator
@@ -749,10 +749,8 @@ if ((VBL)); then  # (IF VBL > 1)
 		
 	for ((I=0;I<$CPUNUM;I++)); do
 		IFS=","; CPUTMP=(${CPU[I]}); IFS="$OIFS"
-		if ((CPUNUM > 2)); then
+		if ((CPUNUM > 1)); then
 			CNSTR="${CPUNUM}x"
-		elif ((CPUNUM > 1)); then
-			CNSTR="($((I+1)))"
 		else
 			unset CNSTR
 		fi
@@ -761,7 +759,7 @@ if ((VBL)); then  # (IF VBL > 1)
 		[[ $VBL -ge 3 ]] && LNCPU=$(printf "%s${C2} %s %s ${C1}%s${CN}%s${C2} %s ${CN}%s" "$LNCPU" "${CPUTMP[2]}" "cache" "flags" "(" "$CPUFLAGS" ")")
 		LNCPU=$(printf "%s ${C1}%s${C2} ${CN}%s${C2} %s ${CN}%s" "$LNCPU" "clocked at" "[" "${CPUTMP[1]} MHz" "]")
 		say "$LNCPU"
-		((CPUNUM > 2)) && break
+		((CPUNUM > 1)) && break
 	done
 
 

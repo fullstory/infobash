@@ -21,7 +21,7 @@ Group:        System/Packages
 Provides:     infobash
 Requires:     bash, coreutils, net-tools, procps, pciutils, grep, gawk
 Autoreqprov:  on
-Version:      3.34
+Version:      3.35
 Release:      1
 Summary:      System info script for irc
 Source:       infobash_%{version}.tar.gz
@@ -78,6 +78,9 @@ rm -rf $RPM_BUILD_ROOT
 /usr/bin/*
 
 %changelog -n infobash
+* Sun Feb 27 2010 - Stefan Lippers Hollmann <s.l-h@gmx.de>
+- adapt to aptosid - 3.35
+- collate core info for multi-core CPUs.
 * Thu Aug 26 2010 - Stefan Lippers Hollmann <s.l-h@gmx.de>
 - adapt to aptosid - 3.34
 * Mon Apr 26 2010 - Stefan Lippers Hollmann <s.l-h@gmx.de>

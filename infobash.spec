@@ -21,7 +21,7 @@ Group:        System/Packages
 Provides:     infobash
 Requires:     bash, coreutils, net-tools, procps, pciutils, grep, gawk
 Autoreqprov:  on
-Version:      3.35
+Version:      3.36
 Release:      1
 Summary:      System info script for irc
 Source:       infobash_%{version}.tar.gz

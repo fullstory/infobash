@@ -2,10 +2,10 @@ Source: infobash
 Section: admin
 Priority: extra
 Maintainer: Stefan Lippers-Hollmann <s.l-h@gmx.de>
-Build-Depends: debhelper (>= 7.9.3),
+Build-Depends: debhelper (>= 8),
  xsltproc,
  docbook-xsl
-Standards-Version: 3.9.1
+Standards-Version: 3.9.2
 Vcs-Svn: svn://svn.berlios.de/fullstory/infobash/trunk
 Vcs-Browser: http://svn.berlios.de/wsvn/fullstory/infobash/trunk/
 

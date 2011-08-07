@@ -1,8 +1,8 @@
-infobash (3.37) UNRELEASED; urgency=low
+infobash (3.37) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * add simple UEFI detection.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Fri, 29 Apr 2011 04:33:30 +0200
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 08 Aug 2011 00:14:56 +0200
 
 infobash (3.36) unstable; urgency=low
 

@@ -51,7 +51,7 @@ shopt -u nullglob
 
 SELF="Infobash"
 SELF_LC=$(echo "$SELF" | tr '[A-Z]' '[a-z]')
-MYVERSION="$SELF v3.36"
+MYVERSION="$SELF v3.37"
 LC_ALL="C"	# Make sure every program speaks English.
 export LC_ALL 
 OIFS="$IFS"	# Backup the current Internal Field Seperator
@@ -444,6 +444,12 @@ fi
 
 OSKERN=$(uname -a | gawk '{print $1,$3,$(NF-1)}')
 
+if [ -d /sys/firmware/efi ]; then
+	FIRMWARE="UEFI "
+else
+	FIRMWARE=""
+fi
+
 IFS=$'\n'
 CPU=($(gawk -F': ' '
 # TAKE NOTE: \t+ will work for /proc/cpuinfo, but SOME ARBITRARY FILE used for TESTING might contain SPACES!
@@ -731,7 +737,7 @@ if ((VBL)); then  # (IF VBL > 1)
 	else
 		LNINTRO=$(printf "${C1}%-${INDENT}s${C2} " "OS/Kernel")
 	fi
-	LNINTRO="$LNINTRO$(echo -ne "${C2}$OSKERN ${CN}[ ${C1}$DISTRO ${CN}]")"
+	LNINTRO="$LNINTRO$(echo -ne "${C2}$OSKERN $FIRMWARE${CN}[ ${C1}$DISTRO ${CN}]")"
 	say "$LNINTRO"
 
 	##say "CPU[0]=\"${CPU[0]}\""

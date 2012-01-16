@@ -1,8 +1,8 @@
-infobash (3.38) UNRELEASED; urgency=low
+infobash (3.38) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * switch to compat level 9.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 08 Aug 2011 00:18:58 +0200
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 16 Jan 2012 01:37:53 +0100
 
 infobash (3.37) unstable; urgency=low
 

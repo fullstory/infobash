@@ -1,3 +1,9 @@
+infobash (3.41) UNRELEASED; urgency=low
+
+  * NOT RELEASED YET
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Fri, 20 Jan 2012 15:04:36 +0100
+
 infobash (3.40) unstable; urgency=low
 
   * add cpuinfo parsing for:

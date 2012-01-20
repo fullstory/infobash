@@ -1,8 +1,10 @@
-infobash (3.40) UNRELEASED; urgency=low
+infobash (3.40) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * add cpuinfo parsing for:
+    - armel, thanks to DonKult (untested)
+  * fix CPU parsing regression on x86.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Fri, 20 Jan 2012 14:34:53 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Fri, 20 Jan 2012 15:03:37 +0100
 
 infobash (3.39) unstable; urgency=low
 

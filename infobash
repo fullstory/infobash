@@ -456,7 +456,7 @@ CPU=($(gawk -F': ' '
 # Therefore PATCH to use [ \t]+ when TESTING!
 /^processor\t+:/ { nr = $NF }
 
-/^model name|^cpu model|^cpu/ { cpu[nr, "model"] = $NF }
+/^model name|^cpu model\t|^cpu\t|^Processor/ { cpu[nr, "model"] = $NF }
 
 /^cpu MHz|^clock|^BogoMIPS/    {
 	if (!min) { 

@@ -1,8 +1,11 @@
-infobash (3.39) UNRELEASED; urgency=low
+infobash (3.39) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * add cpuinfo parsing for:
+    - mips (tested)
+    - sparc (untested)
+    - ppc (untested)
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 16 Jan 2012 01:38:11 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Fri, 20 Jan 2012 14:34:08 +0100
 
 infobash (3.38) unstable; urgency=low
 

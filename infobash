@@ -51,7 +51,7 @@ shopt -u nullglob
 
 SELF="Infobash"
 SELF_LC=$(echo "$SELF" | tr '[A-Z]' '[a-z]')
-MYVERSION="$SELF v3.38"
+MYVERSION="$SELF v3.39"
 LC_ALL="C"	# Make sure every program speaks English.
 export LC_ALL 
 OIFS="$IFS"	# Backup the current Internal Field Seperator
@@ -456,9 +456,9 @@ CPU=($(gawk -F': ' '
 # Therefore PATCH to use [ \t]+ when TESTING!
 /^processor\t+:/ { nr = $NF }
 
-/^model name/ { cpu[nr, "model"] = $NF }
+/^model name|^cpu model|^cpu/ { cpu[nr, "model"] = $NF }
 
-/^cpu MHz/    {
+/^cpu MHz|^clock|^BogoMIPS/    {
 	if (!min) { 
 		min = $NF
 	} 

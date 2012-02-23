@@ -5,7 +5,7 @@ Maintainer: Stefan Lippers-Hollmann <s.l-h@gmx.de>
 Build-Depends: debhelper (>= 9.20120115),
  xsltproc,
  docbook-xsl
-Standards-Version: 3.9.2
+Standards-Version: 3.9.3
 Vcs-Svn: svn://svn.berlios.de/fullstory/infobash/trunk
 Vcs-Browser: http://svn.berlios.de/wsvn/fullstory/infobash/trunk/
 

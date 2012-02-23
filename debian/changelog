@@ -1,8 +1,8 @@
-infobash (3.42) UNRELEASED; urgency=low
+infobash (3.42) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * bump standards version to 3.9.3, no changes necessary.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sat, 21 Jan 2012 23:38:45 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Thu, 23 Feb 2012 16:40:47 +0100
 
 infobash (3.41) unstable; urgency=low
 

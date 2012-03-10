@@ -46,7 +46,7 @@ DEBUG=0		# Set levels from 1-10
 
 SELF="Infobash"
 SELF_LC=$(echo "$SELF" | tr '[A-Z]' '[a-z]')
-MYVERSION="$SELF v3.44"
+MYVERSION="$SELF v3.45"
 LC_ALL="C"	# Make sure every program speaks English.
 export LC_ALL 
 OIFS="$IFS"	# Backup the current Internal Field Seperator
@@ -310,6 +310,7 @@ roots () {
 		IRC="PPID=\"$PPID\" - empty?"
 		unset IRCV
 	fi
+	STTYPPID="${PPPID:-$PPID}"
 }
 
 # Get the parameters
@@ -722,7 +723,7 @@ if ((X)); then
 	[[ -z $GLXR || -z $GLXV ]] && MESA=1
 	AGPMOD=$(gawk '/agp/ && !/agpgart/ && $3 > 0 { print(gensub(/(.*)_agp.*/,"\\1","g",$1)) }' /proc/modules)
 else
-	RES=$(stty -F $(readlink /proc/$PPID/fd/0) size | gawk '{ print $2"x"$1 }')
+	RES=$(stty -F $(readlink /proc/$STTYPPID/fd/0) size | gawk '{ print $2"x"$1 }')
 	RUNLVL=$(runlevel | gawk '{ print $2 }')
 fi
 

@@ -1,8 +1,8 @@
-infobash (3.45) UNRELEASED; urgency=low
+infobash (3.45) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * detect IRC client more reliably, thanks to locsmif.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sat, 10 Mar 2012 22:07:13 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sat, 10 Mar 2012 22:30:10 +0100
 
 infobash (3.44) unstable; urgency=low
 

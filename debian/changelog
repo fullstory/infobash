@@ -1,8 +1,8 @@
-infobash (3.43) UNRELEASED; urgency=low
+infobash (3.43) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * drop nullglob clearing to avoid wrong output, thanks to locsmif.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Thu, 23 Feb 2012 16:41:34 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sat, 10 Mar 2012 18:43:52 +0100
 
 infobash (3.42) unstable; urgency=low
 

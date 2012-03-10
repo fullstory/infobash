@@ -40,18 +40,13 @@ DEBUG=0		# Set levels from 1-10
 ((DEBUG)) || exec 2>/dev/null # Reroute all error messages to the bitbucket (if not debugging)
 #((DEBUG)) && exec 2>&1 # This is for debugging konversation
 
-# Clear nullglob, because it creates unpredictable situations with IFS=$'\n' ARR=($VAR) IFS="$OIFS"
-# type constructs. Stuff like [rev a1] is now seen as a glob expansion pattern, and fails, and
-# therefore results in nothing. Tricky as fuck.
-shopt -u nullglob
- 
 #################################################################################
 #######################  UNCALCULATED VARIABLES  ################################
 #################################################################################
 
 SELF="Infobash"
 SELF_LC=$(echo "$SELF" | tr '[A-Z]' '[a-z]')
-MYVERSION="$SELF v3.42"
+MYVERSION="$SELF v3.43"
 LC_ALL="C"	# Make sure every program speaks English.
 export LC_ALL 
 OIFS="$IFS"	# Backup the current Internal Field Seperator

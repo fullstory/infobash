@@ -3,7 +3,7 @@
 # InfoBash, the universal, portable, system info script for irc.
 # Tested with Irssi, Xchat, Konversation, BitchX, KSirc, ircII,
 # Gaim/Pidgin, Weechat, KVIrc and Kopete.
-# Copyright (C) 2005-2009 locsmif <ltown2@web.de>
+# Copyright (C) 2005-2012 locsmif <ltown2@web.de>
 # Copyright (C) 2008-2012 Stefan Lippers-Hollmann <s.l-h@gmx.de>
 
 # Freenode:
@@ -46,7 +46,7 @@ DEBUG=0		# Set levels from 1-10
 
 SELF="Infobash"
 SELF_LC=$(echo "$SELF" | tr '[A-Z]' '[a-z]')
-MYVERSION="$SELF v3.43"
+MYVERSION="$SELF v3.44"
 LC_ALL="C"	# Make sure every program speaks English.
 export LC_ALL 
 OIFS="$IFS"	# Backup the current Internal Field Seperator
@@ -413,7 +413,7 @@ getparams "$@"
 HN=$(hostname)
 
 unset DISTRO
-shopt -s nullglob; cd /etc; DISTGLOB=(*[-_]{release,version}); cd "$OLDPWD"; shopt -u nullglob
+cd /etc; DISTGLOB=(*[-_]{release,version}); cd "$OLDPWD"
 if ((${#DISTGLOB[@]} == 1)); then
 	DISTFILE="${DISTGLOB}"
 elif ((${#DISTGLOB[@]} > 1)); then
@@ -427,7 +427,7 @@ elif ((${#DISTGLOB[@]} > 1)); then
 		fi
 	done
 fi
-if [[ -s /etc/${DISTFILE} && " $DIST_BLIST " != *" $DISTFILE "* ]]; then
+if [[ -n ${DISTFILE} && -s /etc/${DISTFILE} && " $DIST_BLIST " != *" $DISTFILE "* ]]; then
 	DISTRO=$(eat "/etc/${DISTFILE}")
 else
 	# Debian pure should fall through here

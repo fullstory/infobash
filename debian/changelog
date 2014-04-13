@@ -1,8 +1,9 @@
-infobash (3.47) UNRELEASED; urgency=low
+infobash (3.47) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * bump standards version to 3.9.5, no changes necessary.
+  * debian/control: switch Vcs tags to github.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sat, 12 Jan 2013 03:05:37 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 13 Apr 2014 22:59:54 +0200
 
 infobash (3.46) unstable; urgency=low
 

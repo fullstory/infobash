@@ -1,11 +1,13 @@
 #!/usr/bin/make -f
 
-build:
+%:
+	dh ${@} --parallel
+
+override_dh_auto_build:
 	xsltproc -o infobash.1 /usr/share/xml/docbook/stylesheet/nwalsh/manpages/docbook.xsl infobash.sgml
 	test -s infobash.1
+	dh_auto_build
 
-clean:
+override_dh_auto_clean:
 	rm -f infobash.1
-
-%:
-	dh $@
+	dh_auto_clean

@@ -1,6 +1,7 @@
 infobash (3.48) UNRELEASED; urgency=medium
 
   * NOT RELEASED YET
+  * use a slightly more standard DH9 debian/rules.
 
  -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 13 Apr 2014 23:03:40 +0200
 

@@ -1,3 +1,9 @@
+infobash (3.50) UNRELEASED; urgency=medium
+
+  * NOT RELEASED YET
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 12 Jan 2015 20:42:53 +0100
+
 infobash (3.49) unstable; urgency=medium
 
   * report fw_platform_size for UEFI, if available.

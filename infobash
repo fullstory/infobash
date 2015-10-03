@@ -46,7 +46,7 @@ DEBUG=0		# Set levels from 1-10
 
 SELF="Infobash"
 SELF_LC=$(echo "$SELF" | tr '[A-Z]' '[a-z]')
-MYVERSION="$SELF v3.49"
+MYVERSION="$SELF v3.50"
 LC_ALL="C"	# Make sure every program speaks English.
 export LC_ALL 
 OIFS="$IFS"	# Backup the current Internal Field Seperator
@@ -433,7 +433,7 @@ if [[ -n ${DISTFILE} && -s /etc/${DISTFILE} && " $DIST_BLIST " != *" $DISTFILE "
 else
 	# Debian pure should fall through here
 	DISTFILE="issue"
-	DISTRO=$(gawk 'BEGIN { RS="" } { gsub(/\\[a-z]/,""); gsub(/ [ ]+/," "); gsub(/^ +| +$/,""); print }' "/etc/${DISTFILE}")
+	DISTRO=$(gawk '{ gsub(/\\[a-z]/,""); gsub(/ [ ]+/," "); gsub(/^ +| +$/,""); print ; exit }' "/etc/${DISTFILE}")
 fi
 ((${#DISTRO} > 80 && ! CRAP)) && DISTRO="${RED}/etc/${DISTFILE} corrupted, use --crap to override${NORMAL}"
 : ${DISTRO:=Unknown distro o_O}

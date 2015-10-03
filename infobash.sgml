@@ -113,7 +113,7 @@
 		<term>--crap</term>
 		<listitem>
 		<para>
-		Anything that is considered to be redundant information, or information that only serves a 'fun' purpose, such as Bogomips or wether or 
+		Anything that is considered to be redundant information, or information that only serves a 'fun' purpose, such as Bogomips or whether or
 		not direct rendering is active, is enabled with this option. Example: for direct rendering, you'd normally be able to conclude from the
 		glxinfo section if it's active or not. However, if you still want to see something like: ".. | Direct Rendering: yes | .." in your output,
 		then use --crap.
@@ -142,7 +142,7 @@
 		<para><emphasis>Gaim/Pidgin</emphasis> - <command>/exec -o infobash</command></para>
 		<para>
 		Sadly, Gaim/Pidgin doesn't support /exec out of the box. Therefore you need to download and install <emphasis>slashexec</emphasis>:
-		See <link>http://plugins.guifications.org/trac/wiki/PluginPack</link> and <link>http://plugins.guifications.org/trac/wiki/slashexec</link>. 
+		See <link>http://plugins.guifications.org/trac/wiki/PluginPack</link> and <link>http://plugins.guifications.org/trac/wiki/slashexec</link>.
 		After installing <emphasis>slashexec</emphasis> infobash will not only run, but also properly detect the version of Gaim/Pidgin used
 		to /exec infobash.
 		</para>
@@ -161,7 +161,7 @@
 		<para>
 		Sadly, Konversation doesn't have an /exec command built in that resembles true /exec functionality. Infobash does not support running
 		directly via /exec any longer, as too much obstacles caused by Konversation's abnormal /exec implementation have to be overcome.
-		Therefore you should use <command>/cmd infobash</command>. 
+		Therefore you should use <command>/cmd infobash</command>.
 		</para>
 		<para>
 		In Settings-&gt;Configure Konversation-&gt;Behavior-&gt;Command Aliases you can create an alias "infobash" with replacement:
@@ -172,8 +172,8 @@
 		<listitem>
 		<para><emphasis>Kopete</emphasis> - <command>/exec -o infobash</command></para>
 		<para>
-		Run /exec -o infobash [options] and it will work. It looks chaotic to you inside Kopete if you use colours, but it will look good to 
-		others that see it. That's because Kopete doesn't convert the mIRC style colour codes on its own display like other clients do, so 
+		Run /exec -o infobash [options] and it will work. It looks chaotic to you inside Kopete if you use colours, but it will look good to
+		others that see it. That's because Kopete doesn't convert the mIRC style colour codes on its own display like other clients do, so
 		only others see it properly, not you.
 		</para>
 		<para>
@@ -428,7 +428,7 @@
 					<para>
 					This variable contains the colour schemes infobash knows about; consult the table of colour schemes elsewhere in this
 					manual for a list. You can add your own scheme, such as GREEN,NORMAL,MAGENTA. This scheme will then be available as
-					number 15, because infobash currently counts from 0 up to scheme 14. The colours infobash knows about are: 
+					number 15, because infobash currently counts from 0 up to scheme 14. The colours infobash knows about are:
 					</para>
 					<para>
 					DGREY BLACK RED DRED GREEN DGREEN YELLOW DYELLOW BLUE DBLUE MAGENTA DMAGENTA CYAN DCYAN WHITE GREY NORMAL EMPTY
@@ -552,12 +552,12 @@
 		<para>
 		If your Nvidia driver is broken (for example after an upgrade), OpenGL is also broken and you can sometimes crash it by running glxinfo(mesa-utils).
 		Ergo Infobash will also crash X as soon as it starts glxinfo to gather OpenGL information. The solution for the problem (which is *not* caused
-		by infobash!) is to reinstall the Nvidia driver. 
+		by infobash!) is to reinstall the Nvidia driver.
 		</para>
 	</refsection>
 	
 	<refsection>
 		<title>See also</title>
-		<para>http://svn.berlios.de/svnroot/repos/fullstory/infobash/trunk/</para>
+		<para>https://github.com/fullstory/infobash/</para>
 	</refsection>
 </refentry>

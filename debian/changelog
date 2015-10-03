@@ -1,8 +1,11 @@
-infobash (3.50) UNRELEASED; urgency=medium
+infobash (3.50) unstable; urgency=medium
 
-  * NOT RELEASED YET
+  * make sure to parse only the first line of /etc/issue, thanks to bfree.
+  * infobash.sgml: fix spelling for "whether".
+  * infobash.sgml: remove trailing whitespace.
+  * infobash.sgml: move upstream URL to github.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 12 Jan 2015 20:42:53 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sat, 03 Oct 2015 22:41:07 +0200
 
 infobash (3.49) unstable; urgency=medium
 

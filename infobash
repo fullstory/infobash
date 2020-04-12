@@ -4,7 +4,7 @@
 # Tested with Irssi, Xchat, Konversation, BitchX, KSirc, ircII,
 # Gaim/Pidgin, Weechat, KVIrc and Kopete.
 # Copyright (C) 2005-2012 locsmif <ltown2@web.de>
-# Copyright (C) 2008-2015 Stefan Lippers-Hollmann <s.l-h@gmx.de>
+# Copyright (C) 2008-2020 Stefan Lippers-Hollmann <s.l-h@gmx.de>
 
 # Freenode:
 # Many thanks to etorix, Kano, kelmo, slh in alphabetical order 
@@ -81,7 +81,7 @@ FL2=''
 # $'\1' gets weird results :
 # user@host $ ARR=($'\x01'"one two" three four); echo ${ARR[0]} | hd -v
 # 00000000  01 01 6f 6e 65 20 74 77  6f 0a                    |..one two.|
-NORMALBANS=(corporation communications technologies technology group $'\2'"\<ltd\>" ltd. $'\2'"\<inc\>" inc. $'\2'\<co\> co. "(tm)" "(r)" $'\2'"\(rev ..\)")
+NORMALBANS=(corporation communications technologies technology group and subsidiaries $'\2'"\<ltd\>" ltd. $'\2'"\<inc\>" inc. $'\2'\<co\> co. "(tm)" "(r)" $'\2'"\(rev ..\)")
 CPUBANS=(cpu processor $'\2'"[0-9.]+ *[MmGg][Hh][Zz]")
 XPATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin" # Extra path variable to make execute failures less likely, merged below
 PARAMLIMIT=30	# This is a variable that controls how many parameters infobash will parse in a /proc/<pid>/cmdline file before stopping.
@@ -783,48 +783,41 @@ if ((VBL)); then  # (IF VBL > 1)
 	done
 
 	if [[ $VBL -ge 2 ]]; then
-		if [[ -x $(which nicinfo) ]]; then
-			# doesn't count and accumulate identical NICs yet, nor
-			# does it apply the global banlists yet.
-			IFS=$'\n' LNNET="$(nicinfo | cut -d\, -f6 | sed -e 2~1s/^.*/$(printf "${C1}%-${INDENT}s${C2}")\ \&/)"
-		else
-			# fallback to custom nic probing, only detects PCI devices.
-			IFS=$'\n' LNNET=($(gawk '
-			BEGIN { IGNORECASE=1 }
-			/^[0-9a-f:.]+ (ethernet|network) (controller|bridge)/ || /^[0-9a-f:.]+ [^:]+: .*(ethernet|network).*$/ {
-				nic=gensub(/^[0-9a-f:.]+ [^:]+: (.+)$/,"\\1","g",$0)
-				gsub(/realtek semiconductor/, "Realtek", nic)
-				gsub(/davicom semiconductor/, "Davicom", nic)
-				gsub(/,/," ", nic)
-				gsub(/'"$NORMALBANS"'/, "", nic); gsub(/ [ ]+/," ", nic); gsub(/^ +| +$/,"", nic) 
-				# The doublequotes above are necessary because of the pipes in the variable.
-				eth[nic]++
-				while (getline && !/^$/) {
-					if (/I\/O/) ports[nic]=ports[nic]$4" "
-				}
+		IFS=$'\n' LNNET=($(gawk '
+		BEGIN { IGNORECASE=1 }
+		/^[0-9a-f:.]+ (ethernet|network) (controller|bridge)/ || /^[0-9a-f:.]+ [^:]+: .*(ethernet|network).*$/ {
+			nic=gensub(/^[0-9a-f:.]+ [^:]+: (.+)$/,"\\1","g",$0)
+			gsub(/realtek semiconductor/, "Realtek", nic)
+			gsub(/davicom semiconductor/, "Davicom", nic)
+			gsub(/,/," ", nic)
+			gsub(/'"$NORMALBANS"'/, "", nic); gsub(/ [ ]+/," ", nic); gsub(/^ +| +$/,"", nic) 
+			# The doublequotes above are necessary because of the pipes in the variable.
+			eth[nic]++
+			while (getline && !/^$/) {
+				if (/I\/O/) ports[nic]=ports[nic]$4" "
 			}
-			
-			END {
-				j=0
-				for (i in eth) {
-					if (eth[i]>1) {
-						a[j]=eth[i]"x "i
-						if (ports[i] != "") a[j]=a[j]", at ports: "ports[i]
-					}
-					else {
-						a[j]=i
-						if (ports[i] != "") a[j]=a[j]", at port: "ports[i];
-					}
-					j++
+		}
+		
+		END {
+			j=0
+			for (i in eth) {
+				if (eth[i]>1) {
+					a[j]=eth[i]"x "i
+					if (ports[i] != "") a[j]=a[j]", at ports: "ports[i]
 				}
-				j=0
-				while (a[j]) {
-					print a[j]
-					j++
+				else {
+					a[j]=i
+					if (ports[i] != "") a[j]=a[j]", at port: "ports[i];
 				}
+				j++
 			}
-			' <<< "$LSPCI"))
-		fi
+			j=0
+			while (a[j]) {
+				print a[j]
+				j++
+			}
+		}
+		' <<< "$LSPCI"))
 		IFS="$OIFS"
 
 		if [[ -n ${LNNET[@]} ]]; then

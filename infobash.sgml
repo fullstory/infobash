@@ -1,8 +1,10 @@
 <!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 <refentry id="infobash">
 	<refmeta>
-		<refentrytitle>infobash</refentrytitle>
+		<refentrytitle><productname>infobash</productname></refentrytitle>
 		<manvolnum>1</manvolnum>
+		<refmiscinfo class="software">infobash</refmiscinfo>
+		<refmiscinfo class="manual">Commands</refmiscinfo>
 	</refmeta>
 	
 	<refnamediv>

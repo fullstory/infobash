@@ -1,11 +1,18 @@
 #!/usr/bin/make -f
 
 %:
-	dh ${@} --parallel
+	dh ${@}
 
 override_dh_auto_build:
-	xsltproc -o infobash.1 /usr/share/xml/docbook/stylesheet/nwalsh/manpages/docbook.xsl infobash.sgml
+	# support the nodoc build profile
+ifneq ($(filter nodocs,$(DEB_BUILD_PROFILES)),)
+	printf "\nnodoc build profile enabled, therefor not building docs.\n"
+else
+	xsltproc -o infobash.1 \
+		/usr/share/xml/docbook/stylesheet/nwalsh/manpages/docbook.xsl \
+			infobash.sgml
 	test -s infobash.1
+endif
 	dh_auto_build
 
 override_dh_auto_clean:

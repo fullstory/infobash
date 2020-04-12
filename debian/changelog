@@ -1,10 +1,26 @@
-infobash (3.51) UNRELEASED; urgency=medium
+infobash (3.51) unstable; urgency=medium
 
-  * NOT RELEASED YET
   * drop support for Ceni's nicinfo, it's broken in Debian's Ceni.
   * no longer suggest various IRC clients, that's just a bit too optional.
+  * bump standards version to 4.5.0:
+    - switch to https where possible.
+    - support DEB_BUILD_OPTIONS="nodoc".
+  * switch to compat level 12.
+  * allow R³=no.
+  * no longer hardcode "dh ${@} --parallel".
+  * switch priority from extra to optional.
+  * fix SGML warnings:
+    - no *info/productname or alternative
+    - no refentry/refmeta/refmiscinfo@class=source
+    - no *info/productnumber or alternative
+    - no refentry/refmeta/refmiscinfo@class=version
+    - no fallback for source, so inserted a fixme
+    - no titled ancestor of refentry
+    - no refentry/refmeta/refmiscinfo@class=manual
+    - no fallback for manual, so inserted a fixme
+  * update shipped RPM spec file.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sat, 03 Oct 2015 22:47:38 +0200
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 12 Apr 2020 23:17:50 +0200
 
 infobash (3.50) unstable; urgency=medium
 
@@ -611,4 +627,3 @@ infobash (2.00b11-1) unstable; urgency=low
   * Initial Release.
 
  -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Wed,  2 Feb 2005 16:40:46 +0100
-

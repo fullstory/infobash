@@ -15,13 +15,13 @@
 BuildRequires: cpio diffutils file gzip make man mktemp patch tar
 
 Name:         infobash
-URL:          http://svn.berlios.de/svnroot/repos/fullstory/infobash/trunk/
+URL:          https://github.com/fullstory/infobash.git
 License:      GPL
 Group:        System/Packages
 Provides:     infobash
 Requires:     bash, coreutils, net-tools, procps, pciutils, grep, gawk
 Autoreqprov:  on
-Version:      3.50
+Version:      3.51
 Release:      1
 Summary:      System info script for irc
 Source:       infobash_%{version}.tar.gz

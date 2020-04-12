@@ -17,8 +17,7 @@ Depends: ${misc:Depends},
  pciutils,
  gawk
 Suggests: x11-xserver-utils,
- mesa-utils,
- irssi | xchat | konversation
+ mesa-utils
 Description: System info script for irc
  Infobash is a system information script for IRC (Internet Relay Chat) clients.
  A system information script can display all kinds of things about your 

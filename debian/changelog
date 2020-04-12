@@ -1,3 +1,9 @@
+infobash (3.52) UNRELEASED; urgency=medium
+
+  * NOT RELEASED YET
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 12 Apr 2020 23:18:07 +0200
+
 infobash (3.51) unstable; urgency=medium
 
   * drop support for Ceni's nicinfo, it's broken in Debian's Ceni.

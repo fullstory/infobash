@@ -5,8 +5,9 @@ infobash (3.52) UNRELEASED; urgency=medium
     - recognize /etc/openwrt_release
     - drop hard dependency on hostname, fall back to /proc/sys/kernel/hostname,
       if available, set SHOWHOST=0 if not.
-    - disable DEFSCHEME and SHOWIRC
+    - disable DEFSCHEME and SHOWIRC on OpenWrt.
     - support busybox ps (no parameters) as a fallback.
+    - don't depend on runlevel, its absence is non-fatal anyways.
 
  -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 12 Apr 2020 23:18:07 +0200
 

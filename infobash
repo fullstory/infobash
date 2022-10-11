@@ -27,7 +27,7 @@
 #   DEPENDENCIES
 # bash >=2.05b(bash), df;readlink;stty;tr;uname;wc(coreutils),  
 # gawk(gawk), grep(grep), lspci(pciutils),
-# ps;uptime(procps), runlevel(sysvinit), glxinfo;xdpyinfo;xrandr(xbase-clients)
+# ps;uptime(procps), glxinfo;xdpyinfo;xrandr(xbase-clients)
 # Also the proc filesystem should be present and mounted
 
 # NOTE: in several places, this script uses constructs like ${VAR:+foo}
@@ -139,7 +139,7 @@ checkdepend () {
 	fi
 	
 	# bc removed from deps for now
-	for I in df free gawk grep lspci ps readlink runlevel tr uname uptime wc; do
+	for I in df free gawk grep lspci ps readlink tr uname uptime wc; do
 		type -p $I >/dev/null || error 5 "$I"
 	done
 }

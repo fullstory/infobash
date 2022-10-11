@@ -643,7 +643,8 @@ END {
 	printf("%.1f/%.1fMB\n", used/1024, tot/1024)
 }' /proc/meminfo)
 
-PROC="$(($(ps aux | wc -l)-1))"
+PROC="$(($(ps aux 2>/dev/null | wc -l)-1))"
+[[ $PROC -eq -1 ]] && PROC="$(($(ps 2>/dev/null | wc -l)-1))" || :
 UPT=$(uptime | gawk '{ a = gensub(/^.*up *([^,]*).*$/,"\\1","g",$0); gsub(/ /,"",a); print a }')
 
 IFS=$'\n'; GFX=($(gawk -F': ' '/VGA compatible controller/ { print $NF }' <<< "$LSPCI")); IFS="$OIFS"

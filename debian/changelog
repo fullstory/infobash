@@ -1,3 +1,9 @@
+infobash (3.61) UNRELEASED; urgency=medium
+
+  * NOT RELEASED YET
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Wed, 12 Oct 2022 00:24:05 +0200
+
 infobash (3.60) unstable; urgency=medium
 
   * OpenWrt support:

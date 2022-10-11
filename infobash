@@ -420,7 +420,7 @@ getparams "$@"
 if type -p hostname >/dev/null; then
 	HN=$(hostname)
 else
-	[ -r /proc/sys/kernel/hostname ] && HN=$() || SHOWHOST=0
+	[ -r /proc/sys/kernel/hostname ] && HN=$(</proc/sys/kernel/hostname) || SHOWHOST=0
 fi
 
 unset DISTRO

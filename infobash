@@ -4,7 +4,7 @@
 # Tested with Irssi, Xchat, Konversation, BitchX, KSirc, ircII,
 # Gaim/Pidgin, Weechat, KVIrc and Kopete.
 # Copyright (C) 2005-2012 locsmif <ltown2@web.de>
-# Copyright (C) 2008-2020 Stefan Lippers-Hollmann <s.l-h@gmx.de>
+# Copyright (C) 2008-2022 Stefan Lippers-Hollmann <s.l-h@gmx.de>
 
 # Freenode:
 # Many thanks to etorix, Kano, kelmo, slh in alphabetical order 
@@ -46,7 +46,7 @@ DEBUG=0		# Set levels from 1-10
 
 SELF="Infobash"
 SELF_LC=$(echo "$SELF" | tr '[A-Z]' '[a-z]')
-MYVERSION="$SELF v3.51"
+MYVERSION="$SELF v3.60"
 LC_ALL="C"	# Make sure every program speaks English.
 export LC_ALL 
 OIFS="$IFS"	# Backup the current Internal Field Seperator

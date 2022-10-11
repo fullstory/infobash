@@ -2,6 +2,7 @@ infobash (3.52) UNRELEASED; urgency=medium
 
   * NOT RELEASED YET
   * OpenWrt support:
+    - recognize /etc/openwrt_release
     - drop hard dependency on hostname, fall back to /proc/sys/kernel/hostname,
       if available, set SHOWHOST=0 if not.
 

@@ -26,7 +26,7 @@
 
 #   DEPENDENCIES
 # bash >=2.05b(bash), df;readlink;stty;tr;uname;wc(coreutils),  
-# gawk(gawk), grep(grep), hostname(hostname), lspci(pciutils),
+# gawk(gawk), grep(grep), lspci(pciutils),
 # ps;uptime(procps), runlevel(sysvinit), glxinfo;xdpyinfo;xrandr(xbase-clients)
 # Also the proc filesystem should be present and mounted
 
@@ -133,7 +133,7 @@ checkdepend () {
 	fi
 	
 	# bc removed from deps for now
-	for I in df free gawk grep hostname lspci ps readlink runlevel tr uname uptime wc; do
+	for I in df free gawk grep lspci ps readlink runlevel tr uname uptime wc; do
 		type -p $I >/dev/null || error 5 "$I"
 	done
 }
@@ -411,7 +411,11 @@ getparams "$@"
 # If no colorscheme was set in the parameter handling routine, then set the default scheme
 ((CSCHEME)) || cscheme "$DEFSCHEME"
 
-HN=$(hostname)
+if type -p hostname >/dev/null; then
+	HN=$(hostname)
+else
+	[ -r /proc/sys/kernel/hostname ] && HN=$() || SHOWHOST=0
+fi
 
 unset DISTRO
 cd /etc; DISTGLOB=(*[-_]{release,version}); cd "$OLDPWD"

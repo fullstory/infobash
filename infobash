@@ -66,7 +66,7 @@ DEFSCHEME=2	# Defaults to 2, make this 1 for normal, 0 for no colorcodes at all.
 SHOWHOST=1	# Set this to 0 to avoid printing the hostname 
 SHOWIRC=2	# SHOWIRC=1 to avoid showing the irc client version number, or SHOWIRC=0 to disable client information completely.
 INDENT=14	# Default indentation level
-VBL=0		# Verbosity level defaults to 0, this can also be set with -v, -v2, -v3, etc as a parameter.
+VBL=0		# Verbosity level defaults to 0, this can also be set with -v, -v2, -v3, -v4, etc as a parameter.
 IBSHELL=0	# Running in a shell? Defaults to false, and is determined later.
 NOCPUCOUNT=0	# Wether or not the string "dual" or similar is found in cpuinfo output. If so, avoid dups.
 # In cases of derived distros where the version file of the base distro can also be found under /etc, the derived distro's
@@ -193,6 +193,57 @@ getcmdline () {
 		[[ -n ${CMDL[0]} ]] && I=1
 	fi
 	CMDLMAX=$I
+}
+
+do_sysinfo_x86 () {
+	local vendor product file
+
+	for file in sys_vendor board_vendor; do
+		vendor="$(cat /sys/devices/virtual/dmi/id/$file 2>/dev/null)"
+		case "$vendor" in
+		empty | \
+		System\ manufacturer | \
+		To\ [bB]e\ [fF]illed\ [bB]y\ O\.E\.M\.)
+			continue
+			;;
+		esac
+		[ -n "$vendor" ] && break
+	done
+
+	for file in product_name board_name; do
+		product="$(cat /sys/devices/virtual/dmi/id/$file 2>/dev/null)"
+		case "$vendor:$product" in
+		?*:empty | \
+		?*:System\ Product\ Name | \
+		?*:To\ [bB]e\ [fF]illed\ [bB]y\ O\.E\.M\.)
+			continue
+			;;
+		"PC Engines:APU")
+			product="apu1"
+			break
+			;;
+		"Sophos:SG"|"Sophos:XG")
+			local product_version
+			product_version="$(cat /sys/devices/virtual/dmi/id/product_version 2>/dev/null)"
+			case "$product_version" in
+			105*|115*|125*|135*)
+				product="${product}-${product_version}"
+				break
+				;;
+			esac
+			;;
+		"Supermicro:Super Server")
+			continue
+			;;
+		?*:?*)
+			break
+			;;
+		esac
+	done
+
+	[ -n "$vendor" -a -n "$product" ] || return
+
+	echo "$vendor $product"
 }
 
 # Determine where infobash was run from
@@ -342,7 +393,7 @@ getparams () {
 					VBL="$1" 
 				fi
 			fi
-			grep -q '^[1-3]$' <<< "$VBL" || error 4 "$VBL"
+			grep -q '^[1-4]$' <<< "$VBL" || error 4 "$VBL"
 		;;
 		--version)
 			say "InfoBash, the universal, portable, system info script for irc."
@@ -752,6 +803,11 @@ if ((VBL)); then  # (IF VBL > 1)
 	fi
 	LNINTRO="$LNINTRO$(echo -ne "${C2}$OSKERN $FIRMWARE${CN}[ ${C1}$DISTRO ${CN}]")"
 	say "$LNINTRO"
+
+	if [[ $VBL -ge 4 ]]; then
+		LNSYSTEM=$(printf "${C1}%-${INDENT}s${C2} %s" "System" "$(do_sysinfo_x86)")
+		say "$LNSYSTEM"
+	fi # (IF VBL >= 4)
 
 	##say "CPU[0]=\"${CPU[0]}\""
 	IFS=","; CPUTMP=(${CPU[0]}); IFS="$OIFS" 

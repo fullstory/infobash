@@ -3,11 +3,11 @@ Section: admin
 Priority: optional
 Maintainer: Stefan Lippers-Hollmann <s.l-h@gmx.de>
 Rules-Requires-Root: no
-Build-Depends: debhelper-compat (= 12),
+Build-Depends: debhelper-compat (= 13),
  xsltproc <!nodoc>,
  docbook-xsl <!nodoc>
-Standards-Version: 4.5.0
-Vcs-git: https://github.com/fullstory/infobash.git
+Standards-Version: 4.6.1
+Vcs-Git: https://github.com/fullstory/infobash.git
 Vcs-Browser: https://github.com/fullstory/infobash
 
 Package: infobash

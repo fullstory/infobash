@@ -91,6 +91,12 @@ FLAG=0		# A throw-away 'flag' variable intended to be used throughout infobash
 [[ -s /etc/$SELF_LC.conf ]] && source /etc/$SELF_LC.conf	# Source global config overrides
 [[ -s $HOME/.$SELF_LC ]] && source $HOME/.$SELF_LC 		# Source user config overrides
 
+# OpenWrt provides only a very limited environment, override problematic settings
+if [ -r /etc/openwrt_release ]; then
+	DEFSCHEME=0
+	SHOWIRC=0
+fi
+
 #################################################################################
 ################################  FUNCTIONS  ####################################
 #################################################################################

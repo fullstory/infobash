@@ -1,8 +1,9 @@
-infobash (3.61) UNRELEASED; urgency=medium
+infobash (3.61) unstable; urgency=medium
 
-  * NOT RELEASED YET
+  * either vendor- or product identification suffices for system detection,
+    in case only one of them is given.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Wed, 12 Oct 2022 00:24:05 +0200
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 19 Mar 2023 05:22:31 +0100
 
 infobash (3.60) unstable; urgency=medium
 

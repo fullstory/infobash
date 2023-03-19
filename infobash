@@ -241,9 +241,19 @@ do_sysinfo_x86 () {
 		esac
 	done
 
-	[ -n "$vendor" -a -n "$product" ] || return
-
-	echo "$vendor $product"
+	if [ -n "$vendor" ]; then
+		if [ -n "$product" ]; then
+			echo "$vendor $product"
+		else
+			echo "$vendor"
+		fi
+	else
+		if [ -n "$product" ]; then
+			echo "$product"
+		else
+			return
+		fi
+	fi
 }
 
 # Determine where infobash was run from

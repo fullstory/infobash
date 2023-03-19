@@ -6,7 +6,7 @@ Rules-Requires-Root: no
 Build-Depends: debhelper-compat (= 13),
  xsltproc <!nodoc>,
  docbook-xsl <!nodoc>
-Standards-Version: 4.6.1
+Standards-Version: 4.6.2
 Vcs-Git: https://github.com/fullstory/infobash.git
 Vcs-Browser: https://github.com/fullstory/infobash
 

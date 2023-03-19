@@ -2,8 +2,9 @@ infobash (3.61) unstable; urgency=medium
 
   * either vendor- or product identification suffices for system detection,
     in case only one of them is given.
+  * bump standards version to 4.6.2, no changes necessary.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 19 Mar 2023 05:22:31 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 19 Mar 2023 05:26:37 +0100
 
 infobash (3.60) unstable; urgency=medium
 

@@ -1,8 +1,8 @@
-infobash (3.62) UNRELEASED; urgency=medium
+infobash (3.62) unstable; urgency=medium
 
-  * NOT RELEASED YET
+  * add quassel-client integration.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 19 Mar 2023 05:27:00 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 23 Jul 2023 00:36:30 +0200
 
 infobash (3.61) unstable; urgency=medium
 

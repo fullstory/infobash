@@ -1,8 +1,8 @@
-infobash (3.63) UNRELEASED; urgency=medium
+infobash (3.63) unstable; urgency=medium
 
-  * NOT RELEASED YET
+  * recognize NVMe storage (major=259) for HDD size calculations.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 23 Jul 2023 00:39:07 +0200
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 13 Aug 2023 10:03:42 +0200
 
 infobash (3.62) unstable; urgency=medium
 

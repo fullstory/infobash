@@ -677,7 +677,7 @@ HDD=0 ; for I in ${!HDDCAP*}; do [[ ${!I} -gt $HDD ]] && HDD="${!I}" ; done
 if ((HDD)); then
 	HDDUSG=$(df | gawk '
 	p { 
-		if (/^\/dev\/(mapper\/|[hs]d[a-z][0-9]+)|nvme[0-9]+n[0-9]+p[0-9]/) { 
+		if (/^\/dev\/(mapper\/|[hs]d[a-z][0-9]+)|nvme[0-9]+n[0-9]+p[0-9]+/) { 
 			if (NF == 1) { 
 				getline 
 				if (NF == 5) { c += $2 } 

@@ -46,7 +46,7 @@ DEBUG=0		# Set levels from 1-10
 
 SELF="Infobash"
 SELF_LC=$(echo "$SELF" | tr '[A-Z]' '[a-z]')
-MYVERSION="$SELF v3.63"
+MYVERSION="$SELF v3.64"
 LC_ALL="C"	# Make sure every program speaks English.
 export LC_ALL 
 OIFS="$IFS"	# Backup the current Internal Field Seperator
@@ -677,7 +677,7 @@ HDD=0 ; for I in ${!HDDCAP*}; do [[ ${!I} -gt $HDD ]] && HDD="${!I}" ; done
 if ((HDD)); then
 	HDDUSG=$(df | gawk '
 	p { 
-		if (/^\/dev\/(mapper\/|[hs]d[a-z][0-9]+)/) { 
+		if (/^\/dev\/(mapper\/|[hs]d[a-z][0-9]+)|nvme[0-9]+n[0-9]+p[0-9]/) { 
 			if (NF == 1) { 
 				getline 
 				if (NF == 5) { c += $2 } 

@@ -1,8 +1,8 @@
-infobash (3.64) UNRELEASED; urgency=medium
+infobash (3.64) unstable; urgency=medium
 
-  * NOT RELEASED YET
+  * also calculate used storage correctly for NVMe.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 13 Aug 2023 10:03:50 +0200
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 13 Aug 2023 10:48:32 +0200
 
 infobash (3.63) unstable; urgency=medium
 

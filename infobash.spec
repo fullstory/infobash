@@ -1,12 +1,12 @@
 #
 # spec file for package infobash
 #
-# Copyright (C) 2005-2023 Stefan Lippers-Hollmann <s.l-h@gmx.de>
+# Copyright (C) 2005-2024 Stefan Lippers-Hollmann <s.l-h@gmx.de>
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
 # Upstream location:
-# http://svn.berlios.de/svnroot/repos/fullstory/infobash/trunk/
+# https://github.com/fullstory/infobash
 #
 
 # norootforbuild

@@ -1,6 +1,7 @@
-infobash (3.64.2) UNRELEASED; urgency=medium
+infobash (3.65) UNRELEASED; urgency=medium
 
   * NOT RELEASED YET
+  * update RPM spec file to work with Fedora 40, update to xz tarballs.
 
  -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 13 Aug 2023 11:57:27 +0200
 

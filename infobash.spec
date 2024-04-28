@@ -12,7 +12,7 @@
 # norootforbuild
 # neededforbuild
 
-BuildRequires: cpio diffutils file gzip make man mktemp patch tar
+BuildRequires: cpio diffutils file xz make man patch tar
 
 Name:         infobash
 URL:          https://github.com/fullstory/infobash.git
@@ -21,10 +21,10 @@ Group:        System/Packages
 Provides:     infobash
 Requires:     bash, coreutils, net-tools, procps, pciutils, grep, gawk
 Autoreqprov:  on
-Version:      3.64
+Version:      3.65
 Release:      1
 Summary:      System info script for irc
-Source:       infobash_%{version}.tar.gz
+Source:       infobash_%{version}.tar.xz
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 BuildArch:    noarch
 
@@ -45,7 +45,7 @@ Authors:
 
 %prep
 %setup
-#gzip -d -c infobash_%{version}.tar.gz | tar xf -
+#xz -d -c infobash_%{version}.tar.xz | tar xf -
 
 %build
 
@@ -78,7 +78,9 @@ rm -rf $RPM_BUILD_ROOT
 /usr/bin/*
 
 %changelog -n infobash
-* Sun Feb 27 2010 - Stefan Lippers Hollmann <s.l-h@gmx.de>
+* Sat Apr 27 2024 - Stefan Lippers Hollmann <s.l-h@gmx.de>
+- adapt for Fedora 40
+* Sat Feb 27 2010 - Stefan Lippers Hollmann <s.l-h@gmx.de>
 - adapt to aptosid - 3.35
 - collate core info for multi-core CPUs.
 * Thu Aug 26 2010 - Stefan Lippers Hollmann <s.l-h@gmx.de>

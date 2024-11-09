@@ -386,7 +386,7 @@ infobash (3.02) unstable; urgency=low
   * Filter out unwanted content from xrandr output when detecting screen
     resolution, not all output are equal.
 
- -- Kel Modderman <kel@otaku42.de>  Sat, 21 Jun 2008 12:35:58 +1000
+ -- Kel Modderman <kelvmod@gmail.com>  Sat, 21 Jun 2008 12:35:58 +1000
 
 infobash (3.01) unstable; urgency=low
 
@@ -430,7 +430,7 @@ infobash (2.68) unstable; urgency=low
   * Discard FREQ detection and improve the xrander RES parser to display
     refresh rates alongside resolution for every atteched screen.
 
- -- Kel Modderman <kel@otaku42.de>  Mon, 19 Nov 2007 11:17:34 +1000
+ -- Kel Modderman <kelvmod@gmail.com>  Mon, 19 Nov 2007 11:17:34 +1000
 
 infobash (2.67) unstable; urgency=low
 

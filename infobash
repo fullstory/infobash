@@ -4,7 +4,7 @@
 # Tested with Irssi, Xchat, Konversation, BitchX, KSirc, ircII,
 # Gaim/Pidgin, Weechat, KVIrc and Kopete.
 # Copyright (C) 2005-2012 locsmif <ltown2@web.de>
-# Copyright (C) 2008-2025 Stefan Lippers-Hollmann <s.l-h@gmx.de>
+# Copyright (C) 2008-2024 Stefan Lippers-Hollmann <s.l-h@gmx.de>
 
 # Freenode:
 # Many thanks to etorix, Kano, kelmo, slh in alphabetical order 
@@ -501,6 +501,8 @@ elif ((${#DISTGLOB[@]} > 1)); then
 fi
 if [[ -n ${DISTFILE} && -s /etc/${DISTFILE} && " $DIST_BLIST " != *" $DISTFILE "* ]]; then
 	DISTRO=$(eat "/etc/${DISTFILE}")
+elif [[ -n /etc/os-release && -s /etc/os-release && " $DIST_BLIST " != *" $DISTFILE "* ]]; then
+	DISTRO=$(grep ^PRETTY_NAME= /etc/os-release | sed -e s/^PRETTY_NAME=// -e s/^\"// -e s/\"$//)
 else
 	# Debian pure should fall through here
 	DISTFILE="issue"

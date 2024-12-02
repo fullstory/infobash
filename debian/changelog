@@ -1,9 +1,10 @@
-infobash (3.65) UNRELEASED; urgency=medium
+infobash (3.65) unstable; urgency=medium
 
-  * NOT RELEASED YET
   * update RPM spec file to work with Fedora 40, update to xz tarballs.
+  * read from PRETTY_NAME from /etc/os-release, if known DIST_FILES are missing
+    (needed for e.g. OpenSUSE).
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 13 Aug 2023 11:57:27 +0200
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 02 Dec 2024 02:00:54 +0100
 
 infobash (3.64.1) unstable; urgency=medium
 

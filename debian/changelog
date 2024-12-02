@@ -1,3 +1,9 @@
+infobash (3.66) UNRELEASED; urgency=medium
+
+  * NOT RELEASED YET
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 02 Dec 2024 02:02:46 +0100
+
 infobash (3.65) unstable; urgency=medium
 
   * update RPM spec file to work with Fedora 40, update to xz tarballs.
